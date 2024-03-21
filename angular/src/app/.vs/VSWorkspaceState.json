@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\salaries",
+    "\\salaries\\salary",
+    "\\salaries\\salary\\components",
+    "\\salaries\\salary\\providers",
+    "\\salaries\\salary\\services",
+    "\\schedules",
+    "\\schedules\\schedule",
+    "\\schedules\\schedule\\providers",
+    "\\schedules\\schedule\\services"
+  ],
+  "SelectedNode": "\\salaries\\salary\\components\\salary.component.html",
+  "PreviewInSolutionExplorer": false
+}
