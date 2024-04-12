@@ -1,3 +1,4 @@
+import { ChatConfigModule } from '@volo/abp.ng.chat/config';
 import { FileManagementConfigModule } from '@volo/abp.ng.file-management/config';
 import { CoreModule } from '@abp/ng.core';
 import { GdprConfigModule } from '@volo/abp.ng.gdpr/config';
@@ -35,6 +36,7 @@ import { STAFFS_STAFF_ROUTE_PROVIDER } from './staffs/staff/providers/staff-rout
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    ChatConfigModule.forRoot(),
     FileManagementConfigModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,

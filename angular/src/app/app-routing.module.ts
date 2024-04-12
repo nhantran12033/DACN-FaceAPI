@@ -4,6 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'chat',
+    loadChildren: () => import('@volo/abp.ng.chat').then(m => m.ChatModule.forLazy()),
+  },
+  {
     path: 'filemanagement',
     loadChildren: () => import('@volo/abp.ng.file-management').then(m => m.FileManagementModule.forLazy()),
   },
