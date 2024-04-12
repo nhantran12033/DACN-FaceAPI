@@ -26,6 +26,7 @@
     "@angular/platform-browser": "~17.3.4",
     "@angular/platform-browser-dynamic": "~17.3.4",
     "@angular/router": "~17.3.4",
+    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@volo/abp.commercial.ng.ui": "~8.1.0",
     "@volo/abp.ng.account": "~8.1.0",
     "@volo/abp.ng.audit-logging": "~8.1.0",
@@ -38,6 +39,7 @@
     "@volo/abp.ng.saas": "~8.1.0",
     "@volo/abp.ng.text-template-management": "~8.1.0",
     "@volosoft/abp.ng.theme.lepton-x": "~2.4.0",
+    "bootstrap": "^5.3.3",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.14.4"
