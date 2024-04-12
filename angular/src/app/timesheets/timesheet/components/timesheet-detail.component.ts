@@ -4,7 +4,7 @@ import { CommercialUiModule } from '@volo/abp.commercial.ng.ui';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbDateAdapter, NgbDatepickerModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { DateAdapter } from '@abp/ng.theme.shared';
+import { DateAdapter } from '@abp/ng.theme.shared/extensions';
 import { TimesheetDetailViewService } from '../services/timesheet-detail.service';
 
 @Component({

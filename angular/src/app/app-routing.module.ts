@@ -4,6 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'filemanagement',
+    loadChildren: () => import('@volo/abp.ng.file-management').then(m => m.FileManagementModule.forLazy()),
+  },
+  {
     path: '',
     pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
