@@ -69,4 +69,30 @@ public static class FaceAPIPermissions
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class Timesheets
+    {
+        public const string Default = GroupName + ".Timesheets";
+        public const string Edit = Default + ".Edit";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+    }
+
+    public static class Staffs
+    {
+        public const string Default = GroupName + ".Staffs";
+        public const string Edit = Default + ".Edit";
+        public const string GetId = Default + ".GetId";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+        public const string Get = Default + ".Get";
+    }
+
+    public static class ScheduleFormats
+    {
+        public const string Default = GroupName + ".ScheduleFormats";
+        public const string Edit = Default + ".Edit";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
+    }
 }

@@ -43,4 +43,7 @@ export abstract class AbstractSalaryComponent implements OnInit {
   exportToExcel() {
     this.service.exportToExcel();
   }
+  getSalaryData(id: string) {
+    this.service.getSalary(id);
+  }
 }

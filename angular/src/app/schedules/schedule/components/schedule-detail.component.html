@@ -119,14 +119,14 @@
                 </textarea>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="schedule-department-id">
-                  {{ '::Department' | abpLocalization }}
+                <label class="form-label" for="schedule-staff-id">
+                  {{ '::Staff' | abpLocalization }} *
                 </label>
 
                 <abp-lookup-select
-                  cid="schedule-department-id"
-                  formControlName="departmentId"
-                  [getFn]="service.getDepartmentLookup"
+                  cid="schedule-staff-id"
+                  formControlName="staffId"
+                  [getFn]="service.getStaffLookup"
                 ></abp-lookup-select>
               </div>
             </div>

@@ -19,6 +19,7 @@ namespace FaceAPI.Salaries
         public double? TotalMin { get; set; }
         public double? TotalMax { get; set; }
         public Guid? DepartmentId { get; set; }
+        public Guid? TitleId { get; set; }
 
         public SalaryExcelDownloadDtoBase()
         {

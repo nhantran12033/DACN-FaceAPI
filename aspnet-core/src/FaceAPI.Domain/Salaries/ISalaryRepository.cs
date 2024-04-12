@@ -9,7 +9,8 @@ namespace FaceAPI.Salaries
     public partial interface ISalaryRepository : IRepository<Salary, Guid>
     {
         Task<SalaryWithNavigationProperties> GetWithNavigationPropertiesAsync(
-    Guid id,
+    Guid departmentId, 
+    Guid titleId,
     CancellationToken cancellationToken = default
 );
 
@@ -25,6 +26,7 @@ namespace FaceAPI.Salaries
             double? totalMin = null,
             double? totalMax = null,
             Guid? departmentId = null,
+            Guid? titleId = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
@@ -60,6 +62,7 @@ namespace FaceAPI.Salaries
             double? totalMin = null,
             double? totalMax = null,
             Guid? departmentId = null,
+            Guid? titleId = null,
             CancellationToken cancellationToken = default);
     }
 }

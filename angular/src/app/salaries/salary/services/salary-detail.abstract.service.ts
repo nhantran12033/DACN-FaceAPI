@@ -12,22 +12,25 @@ export abstract class AbstractSalaryDetailViewService {
 
   public readonly getDepartmentLookup = this.proxyService.getDepartmentLookup;
 
+  public readonly getTitleLookup = this.proxyService.getTitleLookup;
+
   isBusy = false;
   isVisible = false;
   selected = {} as any;
   form: FormGroup | undefined;
 
   buildForm() {
-    const { code, allowance, basic, bonus, total } = this.selected?.salary || {};
-
-    const { departments = [] } = this.selected || {};
+    const { code, allowance, basic, bonus, total, departmentId, titleId } =
+      this.selected?.salary || {};
 
     this.form = this.fb.group({
       code: [code ?? null, []],
       allowance: [allowance ?? null, []],
       basic: [basic ?? null, []],
       bonus: [bonus ?? null, []],
-      departmentIds: [departments.map(({ id }) => id), []],
+      total: [total ?? null, []],
+      departmentId: [departmentId ?? null, []],
+      titleId: [titleId ?? null, []],
     });
   }
 
@@ -42,10 +45,8 @@ export abstract class AbstractSalaryDetailViewService {
   }
 
   update(record: SalaryWithNavigationPropertiesDto) {
-    this.proxyService.getWithNavigationProperties(record.salary.id).subscribe(data => {
-      this.selected = data;
-      this.showForm();
-    });
+    this.selected = record;
+    this.showForm();
   }
 
   hideForm() {

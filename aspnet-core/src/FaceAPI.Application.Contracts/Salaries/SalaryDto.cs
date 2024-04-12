@@ -11,6 +11,8 @@ namespace FaceAPI.Salaries
         public double Basic { get; set; }
         public double Bonus { get; set; }
         public double Total { get; set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? TitleId { get; set; }
 
         public string ConcurrencyStamp { get; set; } = null!;
     }

@@ -37,6 +37,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Chat;
 
 namespace FaceAPI;
 
@@ -52,7 +53,8 @@ namespace FaceAPI;
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule)
     )]
-public class FaceAPIHttpApiHostModule : AbpModule
+[DependsOn(typeof(ChatSignalRModule))]
+    public class FaceAPIHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

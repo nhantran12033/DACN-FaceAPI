@@ -8,11 +8,12 @@ namespace FaceAPI.ScheduleDetails
         public string? FilterText { get; set; }
 
         public string? Name { get; set; }
-        public DateTime? FromMin { get; set; }
-        public DateTime? FromMax { get; set; }
-        public DateTime? ToMin { get; set; }
-        public DateTime? ToMax { get; set; }
+        public DateTime? FromDateMin { get; set; }
+        public DateTime? FromDateMax { get; set; }
+        public DateTime? ToDateMin { get; set; }
+        public DateTime? ToDateMax { get; set; }
         public string? Note { get; set; }
+        public Guid? ScheduleFormatId { get; set; }
 
         public GetScheduleDetailsInputBase()
         {

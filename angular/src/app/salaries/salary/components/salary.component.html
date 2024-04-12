@@ -7,15 +7,6 @@
       <!--</suite-custom-code-block-1>-->
 
       <button
-        class="btn btn-primary btn-sm mx-2"
-        type="button"
-        [disabled]="service.isExportToExcelBusy"
-        (click)="exportToExcel()"
-      >
-        {{ '::ExportToExcel' | abpLocalization }}
-      </button>
-
-      <button
         *abpPermission="'FaceAPI.Salaries.Create'"
         class="btn btn-primary btn-sm"
         type="button"
@@ -175,16 +166,28 @@
           </div>
           <div class="col-12 col-sm-auto">
             <div class="mb-3">
-              <label class="form-label" for="departmentsFilter">
+              <label class="form-label" for="departmentIdFilter">
                 {{ '::Department' | abpLocalization }}
               </label>
-              <abp-lookup-typeahead
-                cid="departmentsFilter"
-                displayNameProp="name"
+              <abp-lookup-select
+                cid="departmentIdFilter"
                 [getFn]="serviceDetail.getDepartmentLookup"
                 [(ngModel)]="filters.departmentId"
                 [ngModelOptions]="{ standalone: true }"
-              ></abp-lookup-typeahead>
+              ></abp-lookup-select>
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="titleIdFilter">
+                {{ '::Title' | abpLocalization }}
+              </label>
+              <abp-lookup-select
+                cid="titleIdFilter"
+                [getFn]="serviceDetail.getTitleLookup"
+                [(ngModel)]="filters.titleId"
+                [ngModelOptions]="{ standalone: true }"
+              ></abp-lookup-select>
             </div>
           </div>
 
@@ -216,46 +219,36 @@
     <div class="card-body">
       <!--<suite-custom-code-block-7>-->
       <!--</suite-custom-code-block-7>-->
-      <ngx-datatable
-        [rows]="service.data.items"
-        [count]="service.data.totalCount"
-        [list]="list"
-        default
-      >
+      <ngx-datatable [rows]="service.data.items"
+                     [count]="service.data.totalCount"
+                     [list]="list"
+                     default>
         <!--<suite-custom-code-block-8>-->
         <!--</suite-custom-code-block-8>-->
-        <ngx-datatable-column
-          [name]="'AbpUi::Actions' | abpLocalization"
-          [maxWidth]="150"
-          [width]="150"
-          [sortable]="false"
-        >
+        <ngx-datatable-column [name]="'AbpUi::Actions' | abpLocalization"
+                              [maxWidth]="150"
+                              [width]="150"
+                              [sortable]="false">
           <ng-template let-row="row" let-i="rowIndex" ngx-datatable-cell-template>
             <div ngbDropdown container="body" class="d-inline-block">
-              <button
-                class="btn btn-primary btn-sm dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                ngbDropdownToggle
-              >
+              <button class="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      ngbDropdownToggle>
                 <i class="fa fa-cog me-1" aria-hidden="true"></i>
                 {{ 'AbpUi::Actions' | abpLocalization }}
               </button>
 
               <div ngbDropdownMenu>
-                <button
-                  ngbDropdownItem
-                  *abpPermission="'FaceAPI.Salaries.Edit'"
-                  (click)="update(row)"
-                >
+                <button ngbDropdownItem
+                        *abpPermission="'FaceAPI.Salaries.Edit'"
+                        (click)="update(row)">
                   {{ 'AbpUi::Edit' | abpLocalization }}
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  *abpPermission="'FaceAPI.Salaries.Delete'"
-                  (click)="delete(row)"
-                >
+                <button ngbDropdownItem
+                        *abpPermission="'FaceAPI.Salaries.Delete'"
+                        (click)="delete(row)">
                   {{ 'AbpUi::Delete' | abpLocalization }}
                 </button>
               </div>
@@ -264,29 +257,27 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Code' | abpLocalization }}" prop="salary.code">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.salary.code }}
+            <a (click)="getSalaryData(row.salary.id)" style="color: greenyellow">{{ row.salary.code }}</a>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Allowance' | abpLocalization }}" prop="salary.allowance">
+        <ngx-datatable-column name="{{ '::Department' | abpLocalization }}" prop="department.name">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.salary.allowance | currency:'':'':'1.0-0' }}
+            {{ row.department?.name }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Basic' | abpLocalization }}" prop="salary.basic">
+
+        <ngx-datatable-column name="{{ '::Title' | abpLocalization }}" prop="title.name">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.salary.basic | currency:'':'':'1.0-0' }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Bonus' | abpLocalization }}" prop="salary.bonus">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.salary.bonus | currency:'':'':'1.0-0' }}
+            {{ row.title?.name }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Total' | abpLocalization }}" prop="salary.total">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.salary.total | currency:'':'':'1.0-0' }}
+            {{ row.salary.total | number:'1.0-0' }}
           </ng-template>
         </ngx-datatable-column>
+
+
         <!--<suite-custom-code-block-9>-->
         <!--</suite-custom-code-block-9>-->
       </ngx-datatable>
@@ -300,3 +291,61 @@
 <!--<suite-custom-code-block-12>-->
 <!--</suite-custom-code-block-12>-->
 <app-salary-detail> </app-salary-detail>
+<abp-modal [options]="{ size: 'xl' }" [(visible)]="service.isOpenDetail">
+  <ng-template #abpHeader>
+    <div style="display: flex; width: 100%; justify-content: space-between; align-items: center">
+      <div>Code: {{service.dataDto?.code}}</div>
+      <div>Total: {{service.dataDto?.total | number:'1.0-0'}}</div>
+    </div>
+  </ng-template>
+  <ng-template #abpBody>
+    <div style="display: flex; color: white; justify-content:center; align-content:center">
+      <div style="display: block; margin-left: 30px">
+        <div class="mb-3" style="display:flex; justify-content:center; align-items:center; margin-bottom: 10px">
+          <label class="form-label" style="width:200px">
+            {{ '::Code' | abpLocalization }}
+          </label>
+
+          <input value="{{service.dataDto?.code}}" class="form-control" autofocus disabled />
+        </div>
+        <div class="mb-3" style="display:flex; justify-content:center; align-items:center; margin-bottom: 10px">
+          <label class="form-label" style="width:200px">
+            {{ '::Allowance' | abpLocalization }}
+          </label>
+
+          <input value="{{service.dataDto?.allowance | number:'1.0-0'}}" class="form-control" autofocus disabled />
+        </div>
+        <div class="mb-3" style="display:flex; justify-content:center; align-items:center; margin-bottom: 10px">
+          <label class="form-label" style="width:200px">
+            {{ '::Basic' | abpLocalization }}
+          </label>
+
+          <input value="{{service.dataDto?.basic | number:'1.0-0'}}" class="form-control" autofocus disabled />
+        </div>
+        <div class="mb-3" style="display:flex; justify-content:center; align-items:center; margin-bottom: 10px">
+          <label class="form-label" style="width:200px">
+            {{ '::Bonus' | abpLocalization }}
+          </label>
+
+          <input value="{{service.dataDto?.bonus | number:'1.0-0'}}" class="form-control" autofocus disabled />
+        </div>
+      </div>
+      <div style="display: block; margin-left:30px">
+        <div class="mb-3" style="display:flex; justify-content:center; align-items:center; margin-bottom: 10px">
+          <label class="form-label" style="width: 200px">
+            {{ '::Department' | abpLocalization }}
+          </label>
+
+          <input value="{{service.dataDetailDepartment?.name}}" class="form-control" autofocus disabled />
+        </div>
+        <div class="mb-3" style="display:flex; justify-content:center; align-items:center; margin-bottom: 10px">
+          <label class="form-label" style="width:200px">
+            {{ '::Title' | abpLocalization }}
+          </label>
+          <input value="{{service.dataDetailTitle?.name}}" class="form-control" autofocus disabled />
+        </div>
+       
+      </div>
+    </div>
+  </ng-template>
+</abp-modal>

@@ -1,7 +1,6 @@
 import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
-export interface GetTitlesInput extends GetTitlesInputBase {
-}
+export interface GetTitlesInput extends GetTitlesInputBase {}
 
 export interface GetTitlesInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -10,8 +9,7 @@ export interface GetTitlesInputBase extends PagedAndSortedResultRequestDto {
   note?: string;
 }
 
-export interface TitleCreateDto extends TitleCreateDtoBase {
-}
+export interface TitleCreateDto extends TitleCreateDtoBase {}
 
 export interface TitleCreateDtoBase {
   code?: string;
@@ -19,8 +17,7 @@ export interface TitleCreateDtoBase {
   note?: string;
 }
 
-export interface TitleDto extends TitleDtoBase {
-}
+export interface TitleDto extends TitleDtoBase {}
 
 export interface TitleDtoBase extends FullAuditedEntityDto<string> {
   code?: string;
@@ -29,8 +26,7 @@ export interface TitleDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface TitleUpdateDto extends TitleUpdateDtoBase {
-}
+export interface TitleUpdateDto extends TitleUpdateDtoBase {}
 
 export interface TitleUpdateDtoBase {
   code?: string;

@@ -1,4 +1,5 @@
 using FaceAPI.Shared;
+using FaceAPI.Titles;
 using FaceAPI.Departments;
 using System;
 using System.IO;
@@ -30,18 +31,20 @@ namespace FaceAPI.Salaries
         protected ISalaryRepository _salaryRepository;
         protected SalaryManager _salaryManager;
         protected IRepository<Department, Guid> _departmentRepository;
+        protected IRepository<Title, Guid> _titleRepository;
 
-        public SalariesAppServiceBase(ISalaryRepository salaryRepository, SalaryManager salaryManager, IDistributedCache<SalaryExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IRepository<Department, Guid> departmentRepository)
+        public SalariesAppServiceBase(ISalaryRepository salaryRepository, SalaryManager salaryManager, IDistributedCache<SalaryExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IRepository<Department, Guid> departmentRepository, IRepository<Title, Guid> titleRepository)
         {
             _excelDownloadTokenCache = excelDownloadTokenCache;
             _salaryRepository = salaryRepository;
             _salaryManager = salaryManager; _departmentRepository = departmentRepository;
+            _titleRepository = titleRepository;
         }
 
         public virtual async Task<PagedResultDto<SalaryWithNavigationPropertiesDto>> GetListAsync(GetSalariesInput input)
         {
-            var totalCount = await _salaryRepository.GetCountAsync(input.FilterText, input.Code, input.AllowanceMin, input.AllowanceMax, input.BasicMin, input.BasicMax, input.BonusMin, input.BonusMax, input.TotalMin, input.TotalMax, input.DepartmentId);
-            var items = await _salaryRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Code, input.AllowanceMin, input.AllowanceMax, input.BasicMin, input.BasicMax, input.BonusMin, input.BonusMax, input.TotalMin, input.TotalMax, input.DepartmentId, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await _salaryRepository.GetCountAsync(input.FilterText, input.Code, input.AllowanceMin, input.AllowanceMax, input.BasicMin, input.BasicMax, input.BonusMin, input.BonusMax, input.TotalMin, input.TotalMax, input.DepartmentId, input.TitleId);
+            var items = await _salaryRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Code, input.AllowanceMin, input.AllowanceMax, input.BasicMin, input.BasicMax, input.BonusMin, input.BonusMax, input.TotalMin, input.TotalMax, input.DepartmentId, input.TitleId, input.Sorting, input.MaxResultCount, input.SkipCount);
 
             return new PagedResultDto<SalaryWithNavigationPropertiesDto>
             {
@@ -50,10 +53,10 @@ namespace FaceAPI.Salaries
             };
         }
 
-        public virtual async Task<SalaryWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        public virtual async Task<SalaryWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid departmentId, Guid titleId)
         {
             return ObjectMapper.Map<SalaryWithNavigationProperties, SalaryWithNavigationPropertiesDto>
-                (await _salaryRepository.GetWithNavigationPropertiesAsync(id));
+                (await _salaryRepository.GetWithNavigationPropertiesAsync(departmentId, titleId));
         }
 
         public virtual async Task<SalaryDto> GetAsync(Guid id)
@@ -77,6 +80,22 @@ namespace FaceAPI.Salaries
             };
         }
 
+        public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetTitleLookupAsync(LookupRequestDto input)
+        {
+            var query = (await _titleRepository.GetQueryableAsync())
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+                    x => x.Name != null &&
+                         x.Name.Contains(input.Filter));
+
+            var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Title>();
+            var totalCount = query.Count();
+            return new PagedResultDto<LookupDto<Guid>>
+            {
+                TotalCount = totalCount,
+                Items = ObjectMapper.Map<List<Title>, List<LookupDto<Guid>>>(lookupData)
+            };
+        }
+
         [Authorize(FaceAPIPermissions.Salaries.Delete)]
         public virtual async Task DeleteAsync(Guid id)
         {
@@ -88,7 +107,7 @@ namespace FaceAPI.Salaries
         {
 
             var salary = await _salaryManager.CreateAsync(
-            input.DepartmentIds, input.Allowance, input.Basic, input.Bonus, input.Code
+            input.DepartmentId, input.TitleId, input.Allowance, input.Basic, input.Bonus, input.Code
             );
 
             return ObjectMapper.Map<Salary, SalaryDto>(salary);
@@ -100,7 +119,7 @@ namespace FaceAPI.Salaries
 
             var salary = await _salaryManager.UpdateAsync(
             id,
-            input.DepartmentIds, input.Allowance, input.Basic, input.Bonus, input.Code, input.ConcurrencyStamp
+            input.DepartmentId, input.TitleId, input.Allowance, input.Basic, input.Bonus, input.Code, input.ConcurrencyStamp
             );
 
             return ObjectMapper.Map<Salary, SalaryDto>(salary);
@@ -123,6 +142,9 @@ namespace FaceAPI.Salaries
                 Basic = item.Salary.Basic,
                 Bonus = item.Salary.Bonus,
                 Total = item.Salary.Total,
+
+                Department = item.Department?.Name,
+                Title = item.Title?.Name,
 
             });
 

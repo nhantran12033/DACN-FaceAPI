@@ -222,6 +222,9 @@ namespace FaceAPI.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ExtraProperties")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -241,30 +244,20 @@ namespace FaceAPI.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
+                    b.Property<Guid?>("TitleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double>("Total")
                         .HasColumnType("float")
                         .HasColumnName("Total");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppSalaries", (string)null);
-                });
-
-            modelBuilder.Entity("FaceAPI.Salaries.SalaryDepartment", b =>
-                {
-                    b.Property<Guid>("SalaryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("SalaryId", "DepartmentId");
-
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("SalaryId", "DepartmentId");
+                    b.HasIndex("TitleId");
 
-                    b.ToTable("AppSalaryDepartment", (string)null);
+                    b.ToTable("AppSalaries", (string)null);
                 });
 
             modelBuilder.Entity("FaceAPI.ScheduleDetails.ScheduleDetail", b =>
@@ -300,9 +293,9 @@ namespace FaceAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<DateTime>("From")
+                    b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("From");
+                        .HasColumnName("FromDate");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -326,13 +319,102 @@ namespace FaceAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Note");
 
-                    b.Property<DateTime>("To")
+                    b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("To");
+                        .HasColumnName("ToDate");
 
                     b.HasKey("Id");
 
                     b.ToTable("AppScheduleDetails", (string)null);
+                });
+
+            modelBuilder.Entity("FaceAPI.ScheduleDetails.ScheduleDetailScheduleFormat", b =>
+                {
+                    b.Property<Guid>("ScheduleDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScheduleFormatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ScheduleDetailId", "ScheduleFormatId");
+
+                    b.HasIndex("ScheduleFormatId");
+
+                    b.HasIndex("ScheduleDetailId", "ScheduleFormatId");
+
+                    b.ToTable("AppScheduleDetailScheduleFormat", (string)null);
+                });
+
+            modelBuilder.Entity("FaceAPI.ScheduleFormats.ScheduleFormat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("FromHours")
+                        .HasColumnType("int")
+                        .HasColumnName("FromHours");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Note");
+
+                    b.Property<int>("ToHours")
+                        .HasColumnType("int")
+                        .HasColumnName("ToHours");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppScheduleFormats", (string)null);
                 });
 
             modelBuilder.Entity("FaceAPI.Schedules.Schedule", b =>
@@ -375,9 +457,6 @@ namespace FaceAPI.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<Guid?>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ExtraProperties")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -405,9 +484,12 @@ namespace FaceAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Note");
 
+                    b.Property<Guid>("StaffId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("StaffId");
 
                     b.ToTable("AppSchedules", (string)null);
                 });
@@ -427,6 +509,216 @@ namespace FaceAPI.Migrations
                     b.HasIndex("ScheduleId", "ScheduleDetailId");
 
                     b.ToTable("AppScheduleScheduleDetail", (string)null);
+                });
+
+            modelBuilder.Entity("FaceAPI.Staffs.Staff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Address");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Birthday");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Code");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<int>("Debt")
+                        .HasColumnType("int")
+                        .HasColumnName("Debt");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Email");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Image");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Note");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Phone");
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Sex");
+
+                    b.Property<DateTime>("StartWork")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("StartWork");
+
+                    b.Property<Guid?>("TitleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("TitleId");
+
+                    b.ToTable("AppStaffs", (string)null);
+                });
+
+            modelBuilder.Entity("FaceAPI.Staffs.StaffTimesheet", b =>
+                {
+                    b.Property<Guid>("StaffId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TimesheetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("StaffId", "TimesheetId");
+
+                    b.HasIndex("TimesheetId");
+
+                    b.HasIndex("StaffId", "TimesheetId");
+
+                    b.ToTable("AppStaffTimesheet", (string)null);
+                });
+
+            modelBuilder.Entity("FaceAPI.Timesheets.Timesheet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Code");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("HoursWork")
+                        .HasColumnType("int")
+                        .HasColumnName("HoursWork");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Note");
+
+                    b.Property<Guid?>("ScheduleDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ScheduleFormatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ScheduleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("TimeIn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("TimeIn");
+
+                    b.Property<DateTime>("TimeOut")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("TimeOut");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleDetailId");
+
+                    b.HasIndex("ScheduleFormatId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("AppTimesheets", (string)null);
                 });
 
             modelBuilder.Entity("FaceAPI.Titles.Title", b =>
@@ -2648,6 +2940,331 @@ namespace FaceAPI.Migrations
                     b.ToTable("AbpTextTemplateDefinitionRecords", (string)null);
                 });
 
+            modelBuilder.Entity("Volo.Chat.Conversations.Conversation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastMessage")
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("LastMessage");
+
+                    b.Property<DateTime>("LastMessageDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastMessageDate");
+
+                    b.Property<byte>("LastMessageSide")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("LastMessageSide");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TargetUserId");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<int>("UnreadMessageCount")
+                        .HasColumnType("int")
+                        .HasColumnName("UnreadMessageCount");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChatConversations", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.Chat.Messages.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsAllRead")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsAllRead");
+
+                    b.Property<DateTime?>("ReadTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ReadTime");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.Chat.Messages.UserMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChatMessageId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ChatMessageId");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsRead");
+
+                    b.Property<DateTime?>("ReadTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ReadTime");
+
+                    b.Property<byte>("Side")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("Side");
+
+                    b.Property<Guid?>("TargetUserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TargetUserId");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatMessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId", "TargetUserId");
+
+                    b.ToTable("ChatUserMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.Chat.Users.ChatUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("Email");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("EmailConfirmed");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsActive");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)")
+                        .HasColumnName("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("PhoneNumberConfirmed");
+
+                    b.Property<string>("Surname")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("Surname");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.FileManagement.Directories.DirectoryDescriptor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("TenantId", "ParentId", "Name");
+
+                    b.ToTable("FmDirectoryDescriptors", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.FileManagement.Files.FileDescriptor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DirectoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Size")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DirectoryId");
+
+                    b.HasIndex("TenantId", "DirectoryId", "Name");
+
+                    b.ToTable("FmFileDescriptors", (string)null);
+                });
+
             modelBuilder.Entity("Volo.Saas.Editions.Edition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2833,27 +3450,41 @@ namespace FaceAPI.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
                 });
 
-            modelBuilder.Entity("FaceAPI.Salaries.SalaryDepartment", b =>
+            modelBuilder.Entity("FaceAPI.Salaries.Salary", b =>
                 {
                     b.HasOne("FaceAPI.Departments.Department", null)
                         .WithMany()
                         .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FaceAPI.Titles.Title", null)
+                        .WithMany()
+                        .HasForeignKey("TitleId")
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
+
+            modelBuilder.Entity("FaceAPI.ScheduleDetails.ScheduleDetailScheduleFormat", b =>
+                {
+                    b.HasOne("FaceAPI.ScheduleDetails.ScheduleDetail", null)
+                        .WithMany("ScheduleFormats")
+                        .HasForeignKey("ScheduleDetailId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("FaceAPI.Salaries.Salary", null)
-                        .WithMany("Departments")
-                        .HasForeignKey("SalaryId")
+                    b.HasOne("FaceAPI.ScheduleFormats.ScheduleFormat", null)
+                        .WithMany()
+                        .HasForeignKey("ScheduleFormatId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("FaceAPI.Schedules.Schedule", b =>
                 {
-                    b.HasOne("FaceAPI.Departments.Department", null)
+                    b.HasOne("FaceAPI.Staffs.Staff", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FaceAPI.Schedules.ScheduleScheduleDetail", b =>
@@ -2869,6 +3500,52 @@ namespace FaceAPI.Migrations
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FaceAPI.Staffs.Staff", b =>
+                {
+                    b.HasOne("FaceAPI.Departments.Department", null)
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FaceAPI.Titles.Title", null)
+                        .WithMany()
+                        .HasForeignKey("TitleId")
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
+
+            modelBuilder.Entity("FaceAPI.Staffs.StaffTimesheet", b =>
+                {
+                    b.HasOne("FaceAPI.Staffs.Staff", null)
+                        .WithMany("Timesheets")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FaceAPI.Timesheets.Timesheet", null)
+                        .WithMany()
+                        .HasForeignKey("TimesheetId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FaceAPI.Timesheets.Timesheet", b =>
+                {
+                    b.HasOne("FaceAPI.ScheduleDetails.ScheduleDetail", null)
+                        .WithMany()
+                        .HasForeignKey("ScheduleDetailId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FaceAPI.ScheduleFormats.ScheduleFormat", null)
+                        .WithMany()
+                        .HasForeignKey("ScheduleFormatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FaceAPI.Schedules.Schedule", null)
+                        .WithMany()
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -3031,6 +3708,29 @@ namespace FaceAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Volo.Chat.Messages.UserMessage", b =>
+                {
+                    b.HasOne("Volo.Chat.Messages.Message", null)
+                        .WithMany()
+                        .HasForeignKey("ChatMessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Volo.FileManagement.Directories.DirectoryDescriptor", b =>
+                {
+                    b.HasOne("Volo.FileManagement.Directories.DirectoryDescriptor", null)
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Volo.FileManagement.Files.FileDescriptor", b =>
+                {
+                    b.HasOne("Volo.FileManagement.Directories.DirectoryDescriptor", null)
+                        .WithMany()
+                        .HasForeignKey("DirectoryId");
+                });
+
             modelBuilder.Entity("Volo.Saas.Tenants.TenantConnectionString", b =>
                 {
                     b.HasOne("Volo.Saas.Tenants.Tenant", null)
@@ -3045,14 +3745,19 @@ namespace FaceAPI.Migrations
                     b.Navigation("Titles");
                 });
 
-            modelBuilder.Entity("FaceAPI.Salaries.Salary", b =>
+            modelBuilder.Entity("FaceAPI.ScheduleDetails.ScheduleDetail", b =>
                 {
-                    b.Navigation("Departments");
+                    b.Navigation("ScheduleFormats");
                 });
 
             modelBuilder.Entity("FaceAPI.Schedules.Schedule", b =>
                 {
                     b.Navigation("ScheduleDetails");
+                });
+
+            modelBuilder.Entity("FaceAPI.Staffs.Staff", b =>
+                {
+                    b.Navigation("Timesheets");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

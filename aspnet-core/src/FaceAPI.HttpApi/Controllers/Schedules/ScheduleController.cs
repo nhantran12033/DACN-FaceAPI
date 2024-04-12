@@ -46,10 +46,10 @@ namespace FaceAPI.Controllers.Schedules
         }
 
         [HttpGet]
-        [Route("department-lookup")]
-        public virtual Task<PagedResultDto<LookupDto<Guid>>> GetDepartmentLookupAsync(LookupRequestDto input)
+        [Route("staff-lookup")]
+        public virtual Task<PagedResultDto<LookupDto<Guid>>> GetStaffLookupAsync(LookupRequestDto input)
         {
-            return _schedulesAppService.GetDepartmentLookupAsync(input);
+            return _schedulesAppService.GetStaffLookupAsync(input);
         }
 
         [HttpGet]

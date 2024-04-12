@@ -11,12 +11,12 @@
   "PreserveCustomCode": true,
   "IsMultiTenant": false,
   "CheckConcurrency": true,
-  "ShouldCreateUserInterface": true,
+  "ShouldCreateUserInterface": false,
   "ShouldCreateBackend": true,
   "ShouldExportExcel": false,
   "ShouldAddMigration": true,
   "ShouldUpdateDatabase": true,
-  "CreateTests": false,
+  "CreateTests": true,
   "Properties": [
     {
       "Id": "10ad0c24-fa66-4107-9334-2f1a82cfbe79",

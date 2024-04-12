@@ -1,3 +1,6 @@
+using FaceAPI.ScheduleFormats;
+using FaceAPI.Staffs;
+using FaceAPI.Timesheets;
 using FaceAPI.Titles;
 using FaceAPI.ScheduleDetails;
 using FaceAPI.Schedules;
@@ -22,6 +25,8 @@ using Volo.Saas.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
+using Volo.FileManagement.EntityFrameworkCore;
+using Volo.Chat.EntityFrameworkCore;
 
 namespace FaceAPI.EntityFrameworkCore;
 
@@ -41,7 +46,9 @@ namespace FaceAPI.EntityFrameworkCore;
     typeof(AbpGdprEntityFrameworkCoreModule),
     typeof(BlobStoringDatabaseEntityFrameworkCoreModule)
     )]
-public class FaceAPIEntityFrameworkCoreModule : AbpModule
+[DependsOn(typeof(FileManagementEntityFrameworkCoreModule))]
+[DependsOn(typeof(ChatEntityFrameworkCoreModule))]
+    public class FaceAPIEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
@@ -65,8 +72,13 @@ public class FaceAPIEntityFrameworkCoreModule : AbpModule
 
             options.AddRepository<ScheduleDetail, ScheduleDetails.EfCoreScheduleDetailRepository>();
 
-
             options.AddRepository<Title, Titles.EfCoreTitleRepository>();
+
+            options.AddRepository<Timesheet, Timesheets.EfCoreTimesheetRepository>();
+
+            options.AddRepository<Staff, Staffs.EfCoreStaffRepository>();
+
+            options.AddRepository<ScheduleFormat, ScheduleFormats.EfCoreScheduleFormatRepository>();
 
         });
 

@@ -1,9 +1,8 @@
 import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import type { DepartmentDto } from '../departments/models';
+import type { StaffDto } from '../staffs/models';
 import type { ScheduleDetailDto } from '../schedule-details/models';
 
-export interface GetSchedulesInput extends GetSchedulesInputBase {
-}
+export interface GetSchedulesInput extends GetSchedulesInputBase {}
 
 export interface GetSchedulesInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -14,12 +13,11 @@ export interface GetSchedulesInputBase extends PagedAndSortedResultRequestDto {
   dateToMin?: string;
   dateToMax?: string;
   note?: string;
-  departmentId?: string;
+  staffId?: string;
   scheduleDetailId?: string;
 }
 
-export interface ScheduleCreateDto extends ScheduleCreateDtoBase {
-}
+export interface ScheduleCreateDto extends ScheduleCreateDtoBase {}
 
 export interface ScheduleCreateDtoBase {
   code?: string;
@@ -27,12 +25,11 @@ export interface ScheduleCreateDtoBase {
   dateFrom?: string;
   dateTo?: string;
   note?: string;
-  departmentId?: string;
+  staffId?: string;
   scheduleDetailIds: string[];
 }
 
-export interface ScheduleDto extends ScheduleDtoBase {
-}
+export interface ScheduleDto extends ScheduleDtoBase {}
 
 export interface ScheduleDtoBase extends FullAuditedEntityDto<string> {
   code?: string;
@@ -40,12 +37,11 @@ export interface ScheduleDtoBase extends FullAuditedEntityDto<string> {
   dateFrom?: string;
   dateTo?: string;
   note?: string;
-  departmentId?: string;
+  staffId?: string;
   concurrencyStamp?: string;
 }
 
-export interface ScheduleExcelDownloadDto extends ScheduleExcelDownloadDtoBase {
-}
+export interface ScheduleExcelDownloadDto extends ScheduleExcelDownloadDtoBase {}
 
 export interface ScheduleExcelDownloadDtoBase {
   downloadToken?: string;
@@ -57,12 +53,11 @@ export interface ScheduleExcelDownloadDtoBase {
   dateToMin?: string;
   dateToMax?: string;
   note?: string;
-  departmentId?: string;
+  staffId?: string;
   scheduleDetailId?: string;
 }
 
-export interface ScheduleUpdateDto extends ScheduleUpdateDtoBase {
-}
+export interface ScheduleUpdateDto extends ScheduleUpdateDtoBase {}
 
 export interface ScheduleUpdateDtoBase {
   code?: string;
@@ -70,16 +65,16 @@ export interface ScheduleUpdateDtoBase {
   dateFrom?: string;
   dateTo?: string;
   note?: string;
-  departmentId?: string;
+  staffId?: string;
   scheduleDetailIds: string[];
   concurrencyStamp?: string;
 }
 
-export interface ScheduleWithNavigationPropertiesDto extends ScheduleWithNavigationPropertiesDtoBase {
-}
+export interface ScheduleWithNavigationPropertiesDto
+  extends ScheduleWithNavigationPropertiesDtoBase {}
 
 export interface ScheduleWithNavigationPropertiesDtoBase {
   schedule: ScheduleDto;
-  department: DepartmentDto;
+  staff: StaffDto;
   scheduleDetails: ScheduleDetailDto[];
 }

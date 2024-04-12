@@ -1,3 +1,4 @@
+using FaceAPI.Shared;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,16 @@ namespace FaceAPI.Controllers.ScheduleDetails
         }
 
         [HttpGet]
-        public virtual Task<PagedResultDto<ScheduleDetailDto>> GetListAsync(GetScheduleDetailsInput input)
+        public virtual Task<PagedResultDto<ScheduleDetailWithNavigationPropertiesDto>> GetListAsync(GetScheduleDetailsInput input)
         {
             return _scheduleDetailsAppService.GetListAsync(input);
+        }
+
+        [HttpGet]
+        [Route("with-navigation-properties/{id}")]
+        public virtual Task<ScheduleDetailWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        {
+            return _scheduleDetailsAppService.GetWithNavigationPropertiesAsync(id);
         }
 
         [HttpGet]
@@ -33,6 +41,13 @@ namespace FaceAPI.Controllers.ScheduleDetails
         public virtual Task<ScheduleDetailDto> GetAsync(Guid id)
         {
             return _scheduleDetailsAppService.GetAsync(id);
+        }
+
+        [HttpGet]
+        [Route("schedule-format-lookup")]
+        public virtual Task<PagedResultDto<LookupDto<Guid>>> GetScheduleFormatLookupAsync(LookupRequestDto input)
+        {
+            return _scheduleDetailsAppService.GetScheduleFormatLookupAsync(input);
         }
 
         [HttpPost]

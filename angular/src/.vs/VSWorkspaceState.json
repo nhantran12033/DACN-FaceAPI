@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\proxy\\timesheets",
+    "\\app\\salaries\\salary",
+    "\\app\\salaries\\salary\\components",
+    "\\app\\salaries\\salary\\providers",
+    "\\app\\salaries\\salary\\services",
+    "\\app\\timesheets",
+    "\\app\\timesheets\\timesheet",
+    "\\app\\timesheets\\timesheet\\components"
+  ],
+  "SelectedNode": "\\app\\timesheets\\timesheet\\components\\timesheet-detail.component.html",
+  "PreviewInSolutionExplorer": false
+}

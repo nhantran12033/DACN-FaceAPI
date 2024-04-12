@@ -20,80 +20,62 @@
       <!--<suite-custom-code-block-5>-->
       <!--</suite-custom-code-block-5>-->
 
-      <ul ngbNav #nav="ngbNav" class="nav-tabs">
-        <li ngbNavItem>
-          <a ngbNavLink>
-            {{ 'Salary' | abpLocalization }}
-          </a>
-          <ng-template ngbNavContent>
-            <div class="mt-2 fade-in-top">
-              <div class="mb-3">
-                <label class="form-label" for="salary-code">
-                  {{ '::Code' | abpLocalization }}
-                </label>
+      <div class="mt-2 fade-in-top">
+        <div class="mb-3">
+          <label class="form-label" for="salary-code">
+            {{ '::Code' | abpLocalization }}
+          </label>
 
-                <input id="salary-code" formControlName="code" class="form-control" autofocus />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="salary-allowance">
-                  {{ '::Allowance' | abpLocalization }}
-                </label>
+          <input id="salary-code" formControlName="code" class="form-control" autofocus />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="salary-allowance">
+            {{ '::Allowance' | abpLocalization }}
+          </label>
 
-                <input
-                  type="number"
-                  id="salary-allowance"
-                  formControlName="allowance"
-                  class="form-control"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="salary-basic">
-                  {{ '::Basic' | abpLocalization }}
-                </label>
+          <input
+            type="number"
+            id="salary-allowance"
+            formControlName="allowance"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="salary-basic">
+            {{ '::Basic' | abpLocalization }}
+          </label>
 
-                <input
-                  type="number"
-                  id="salary-basic"
-                  formControlName="basic"
-                  class="form-control"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="salary-bonus">
-                  {{ '::Bonus' | abpLocalization }}
-                </label>
+          <input type="number" id="salary-basic" formControlName="basic" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="salary-bonus">
+            {{ '::Bonus' | abpLocalization }}
+          </label>
 
-                <input
-                  type="number"
-                  id="salary-bonus"
-                  formControlName="bonus"
-                  class="form-control"
-                />
-              </div>
-            </div>
-          </ng-template>
-        </li>
+          <input type="number" id="salary-bonus" formControlName="bonus" class="form-control" />
+        </div>
+       
+        <div class="mb-3">
+          <label class="form-label" for="salary-department-id">
+            {{ '::Department' | abpLocalization }}
+          </label>
 
-        <li ngbNavItem>
-          <a ngbNavLink>
-            {{ 'Departments' | abpLocalization }}
-            <span *ngIf="this.service.form.controls['departmentIds']">
-              ({{ this.service.form.controls['departmentIds'].value?.length }})
-            </span>
-          </a>
-          <ng-template ngbNavContent>
-            <abp-lookup-typeahead-mtm
-              cid="salary-departments"
-              formControlName="departmentIds"
-              displayNameProp="name"
-              lookupNameProp="displayName"
-              [getFn]="service.getDepartmentLookup"
-              [editingData]="service.selected?.departments"
-            ></abp-lookup-typeahead-mtm>
-          </ng-template>
-        </li>
-      </ul>
-      <div [ngbNavOutlet]="nav"></div>
+          <abp-lookup-select
+            cid="salary-department-id"
+            formControlName="departmentId"
+            [getFn]="service.getDepartmentLookup"
+            (change)="service.getDataTitleName()"
+          ></abp-lookup-select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="salary-title-id">
+            {{ '::Title' | abpLocalization }}
+          </label>
+          <select class="form-control" formControlName="titleId">
+            <option *ngFor="let title of service.dataTitleDto" [value]="title.id">{{title.name}}</option>
+          </select>
+        </div>
+      </div>
 
       <!--<suite-custom-code-block-6>-->
       <!--</suite-custom-code-block-6>-->

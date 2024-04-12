@@ -11,7 +11,7 @@ namespace FaceAPI.Schedules
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public string? Note { get; set; }
-        public Guid? DepartmentId { get; set; }
+        public Guid StaffId { get; set; }
         public List<Guid> ScheduleDetailIds { get; set; }
     }
 }

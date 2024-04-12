@@ -25,14 +25,15 @@ namespace FaceAPI.Schedules
 
         public virtual async Task<Schedule> CreateAsync(
         List<Guid> scheduleDetailIds,
-        Guid? departmentId, DateTime dateFrom, DateTime dateTo, string? code = null, string? name = null, string? note = null)
+        Guid staffId, DateTime dateFrom, DateTime dateTo, string? code = null, string? name = null, string? note = null)
         {
+            Check.NotNull(staffId, nameof(staffId));
             Check.NotNull(dateFrom, nameof(dateFrom));
             Check.NotNull(dateTo, nameof(dateTo));
 
             var schedule = new Schedule(
              GuidGenerator.Create(),
-             departmentId, dateFrom, dateTo, code, name, note
+             staffId, dateFrom, dateTo, code, name, note
              );
 
             await SetScheduleDetailsAsync(schedule, scheduleDetailIds);
@@ -43,9 +44,10 @@ namespace FaceAPI.Schedules
         public virtual async Task<Schedule> UpdateAsync(
             Guid id,
             List<Guid> scheduleDetailIds,
-        Guid? departmentId, DateTime dateFrom, DateTime dateTo, string? code = null, string? name = null, string? note = null, [CanBeNull] string? concurrencyStamp = null
+        Guid staffId, DateTime dateFrom, DateTime dateTo, string? code = null, string? name = null, string? note = null, [CanBeNull] string? concurrencyStamp = null
         )
         {
+            Check.NotNull(staffId, nameof(staffId));
             Check.NotNull(dateFrom, nameof(dateFrom));
             Check.NotNull(dateTo, nameof(dateTo));
 
@@ -54,7 +56,7 @@ namespace FaceAPI.Schedules
 
             var schedule = await AsyncExecuter.FirstOrDefaultAsync(query);
 
-            schedule.DepartmentId = departmentId;
+            schedule.StaffId = staffId;
             schedule.DateFrom = dateFrom;
             schedule.DateTo = dateTo;
             schedule.Code = code;

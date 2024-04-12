@@ -22,7 +22,7 @@ namespace FaceAPI.Schedules
             DateTime? dateToMin = null,
             DateTime? dateToMax = null,
             string? note = null,
-            Guid? departmentId = null,
+            Guid? staffId = null,
             Guid? scheduleDetailId = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
@@ -54,7 +54,7 @@ namespace FaceAPI.Schedules
             DateTime? dateToMin = null,
             DateTime? dateToMax = null,
             string? note = null,
-            Guid? departmentId = null,
+            Guid? staffId = null,
             Guid? scheduleDetailId = null,
             CancellationToken cancellationToken = default);
     }

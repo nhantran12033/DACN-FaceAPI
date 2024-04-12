@@ -1,4 +1,4 @@
-using FaceAPI.Departments;
+using FaceAPI.Staffs;
 using FaceAPI.ScheduleDetails;
 using FaceAPI.ScheduleDetails;
 using System;
@@ -30,7 +30,7 @@ namespace FaceAPI.Schedules
                 .Select(schedule => new ScheduleWithNavigationProperties
                 {
                     Schedule = schedule,
-                    Department = dbContext.Set<Department>().FirstOrDefault(c => c.Id == schedule.DepartmentId),
+                    Staff = dbContext.Set<Staff>().FirstOrDefault(c => c.Id == schedule.StaffId),
                     ScheduleDetails = (from scheduleScheduleDetails in schedule.ScheduleDetails
                                        join _scheduleDetail in dbContext.Set<ScheduleDetail>() on scheduleScheduleDetails.ScheduleDetailId equals _scheduleDetail.Id
                                        select _scheduleDetail).ToList()
@@ -46,7 +46,7 @@ namespace FaceAPI.Schedules
             DateTime? dateToMin = null,
             DateTime? dateToMax = null,
             string? note = null,
-            Guid? departmentId = null,
+            Guid? staffId = null,
             Guid? scheduleDetailId = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
@@ -54,7 +54,7 @@ namespace FaceAPI.Schedules
             CancellationToken cancellationToken = default)
         {
             var query = await GetQueryForNavigationPropertiesAsync();
-            query = ApplyFilter(query, filterText, code, name, dateFromMin, dateFromMax, dateToMin, dateToMax, note, departmentId, scheduleDetailId);
+            query = ApplyFilter(query, filterText, code, name, dateFromMin, dateFromMax, dateToMin, dateToMax, note, staffId, scheduleDetailId);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? ScheduleConsts.GetDefaultSorting(true) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
@@ -62,12 +62,12 @@ namespace FaceAPI.Schedules
         protected virtual async Task<IQueryable<ScheduleWithNavigationProperties>> GetQueryForNavigationPropertiesAsync()
         {
             return from schedule in (await GetDbSetAsync())
-                   join department in (await GetDbContextAsync()).Set<Department>() on schedule.DepartmentId equals department.Id into departments
-                   from department in departments.DefaultIfEmpty()
+                   join staff in (await GetDbContextAsync()).Set<Staff>() on schedule.StaffId equals staff.Id into staffs
+                   from staff in staffs.DefaultIfEmpty()
                    select new ScheduleWithNavigationProperties
                    {
                        Schedule = schedule,
-                       Department = department,
+                       Staff = staff,
                        ScheduleDetails = new List<ScheduleDetail>()
                    };
         }
@@ -82,7 +82,7 @@ namespace FaceAPI.Schedules
             DateTime? dateToMin = null,
             DateTime? dateToMax = null,
             string? note = null,
-            Guid? departmentId = null,
+            Guid? staffId = null,
             Guid? scheduleDetailId = null)
         {
             return query
@@ -94,7 +94,7 @@ namespace FaceAPI.Schedules
                     .WhereIf(dateToMin.HasValue, e => e.Schedule.DateTo >= dateToMin!.Value)
                     .WhereIf(dateToMax.HasValue, e => e.Schedule.DateTo <= dateToMax!.Value)
                     .WhereIf(!string.IsNullOrWhiteSpace(note), e => e.Schedule.Note.Contains(note))
-                    .WhereIf(departmentId != null && departmentId != Guid.Empty, e => e.Department != null && e.Department.Id == departmentId)
+                    .WhereIf(staffId != null && staffId != Guid.Empty, e => e.Staff != null && e.Staff.Id == staffId)
                     .WhereIf(scheduleDetailId != null && scheduleDetailId != Guid.Empty, e => e.Schedule.ScheduleDetails.Any(x => x.ScheduleDetailId == scheduleDetailId));
         }
 
@@ -126,12 +126,12 @@ namespace FaceAPI.Schedules
             DateTime? dateToMin = null,
             DateTime? dateToMax = null,
             string? note = null,
-            Guid? departmentId = null,
+            Guid? staffId = null,
             Guid? scheduleDetailId = null,
             CancellationToken cancellationToken = default)
         {
             var query = await GetQueryForNavigationPropertiesAsync();
-            query = ApplyFilter(query, filterText, code, name, dateFromMin, dateFromMax, dateToMin, dateToMax, note, departmentId, scheduleDetailId);
+            query = ApplyFilter(query, filterText, code, name, dateFromMin, dateFromMax, dateToMin, dateToMax, note, staffId, scheduleDetailId);
             return await query.LongCountAsync(GetCancellationToken(cancellationToken));
         }
 

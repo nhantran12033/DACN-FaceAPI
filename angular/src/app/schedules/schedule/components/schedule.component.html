@@ -1,10 +1,6 @@
 <abp-page [title]="title | abpLocalization">
   <abp-page-toolbar-container class="col">
-    <!--<suite-custom-code-block-0>-->
-    <!--</suite-custom-code-block-0>-->
     <div class="text-lg-end pt-2">
-      <!--<suite-custom-code-block-1>-->
-      <!--</suite-custom-code-block-1>-->
 
       <button
         class="btn btn-primary btn-sm mx-2"
@@ -24,16 +20,12 @@
         <i class="fa fa-plus me-1" aria-hidden="true"></i>
         {{ '::NewSchedule' | abpLocalization }}
       </button>
-      <!--<suite-custom-code-block-2>-->
-      <!--</suite-custom-code-block-2>-->
     </div>
   </abp-page-toolbar-container>
 
   <abp-advanced-entity-filters localizationSourceName="" [list]="list">
     <abp-advanced-entity-filters-form *ngIf="service.filters as filters">
       <form #filterForm (keyup.enter)="list.get()">
-        <!--<suite-custom-code-block-3>-->
-        <!--</suite-custom-code-block-3>-->
         <div class="row">
           <div class="col-12 col-sm-auto">
             <div class="mb-3">
@@ -227,13 +219,13 @@
           </div>
           <div class="col-12 col-sm-auto">
             <div class="mb-3">
-              <label class="form-label" for="departmentIdFilter">
-                {{ '::Department' | abpLocalization }}
+              <label class="form-label" for="staffIdFilter">
+                {{ '::Staff' | abpLocalization }}
               </label>
               <abp-lookup-select
-                cid="departmentIdFilter"
-                [getFn]="serviceDetail.getDepartmentLookup"
-                [(ngModel)]="filters.departmentId"
+                cid="staffIdFilter"
+                [getFn]="serviceDetail.getStaffLookup"
+                [(ngModel)]="filters.staffId"
                 [ngModelOptions]="{ standalone: true }"
               ></abp-lookup-select>
             </div>
@@ -268,59 +260,41 @@
             </div>
           </div>
         </div>
-        <!--<suite-custom-code-block-4>-->
-        <!--</suite-custom-code-block-4>-->
       </form>
     </abp-advanced-entity-filters-form>
   </abp-advanced-entity-filters>
-  <!--<suite-custom-code-block-5>-->
-  <!--</suite-custom-code-block-5>-->
   <div class="card">
-    <!--<suite-custom-code-block-6>-->
-    <!--</suite-custom-code-block-6>-->
     <div class="card-body">
-      <!--<suite-custom-code-block-7>-->
-      <!--</suite-custom-code-block-7>-->
-      <ngx-datatable
-        [rows]="service.data.items"
-        [count]="service.data.totalCount"
-        [list]="list"
-        default
-      >
-        <!--<suite-custom-code-block-8>-->
-        <!--</suite-custom-code-block-8>-->
-        <ngx-datatable-column
-          [name]="'AbpUi::Actions' | abpLocalization"
-          [maxWidth]="150"
-          [width]="150"
-          [sortable]="false"
-        >
+
+      <ngx-datatable [rows]="service.data.items"
+                     [count]="service.data.totalCount"
+                     [list]="list"
+                     default>
+
+        <ngx-datatable-column [name]="'AbpUi::Actions' | abpLocalization"
+                              [maxWidth]="150"
+                              [width]="150"
+                              [sortable]="false">
           <ng-template let-row="row" let-i="rowIndex" ngx-datatable-cell-template>
             <div ngbDropdown container="body" class="d-inline-block">
-              <button
-                class="btn btn-primary btn-sm dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                ngbDropdownToggle
-              >
+              <button class="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      ngbDropdownToggle>
                 <i class="fa fa-cog me-1" aria-hidden="true"></i>
                 {{ 'AbpUi::Actions' | abpLocalization }}
               </button>
 
               <div ngbDropdownMenu>
-                <button
-                  ngbDropdownItem
-                  *abpPermission="'FaceAPI.Schedules.Edit'"
-                  (click)="update(row)"
-                >
+                <button ngbDropdownItem
+                        *abpPermission="'FaceAPI.Schedules.Edit'"
+                        (click)="update(row)">
                   {{ 'AbpUi::Edit' | abpLocalization }}
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  *abpPermission="'FaceAPI.Schedules.Delete'"
-                  (click)="delete(row)"
-                >
+                <button ngbDropdownItem
+                        *abpPermission="'FaceAPI.Schedules.Delete'"
+                        (click)="delete(row)">
                   {{ 'AbpUi::Delete' | abpLocalization }}
                 </button>
               </div>
@@ -329,7 +303,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Code' | abpLocalization }}" prop="schedule.code">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.schedule.code }}
+            <a (click)="getData(row.schedule.id)" style="color: yellowgreen">{{ row.schedule.code }}</a>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="schedule.name">
@@ -347,27 +321,110 @@
             {{ row.schedule.dateTo | date }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Note' | abpLocalization }}" prop="schedule.note">
+        <ngx-datatable-column name="{{ '::Staff' | abpLocalization }}" prop="staff.code">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.schedule.note }}
+            {{ row.staff?.code }}
           </ng-template>
         </ngx-datatable-column>
-
-        <ngx-datatable-column name="{{ '::Department' | abpLocalization }}" prop="department.name">
+        <ngx-datatable-column name="{{ '::Active' | abpLocalization }}">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.department?.name }}
+            <div *ngIf="serviceDetail.isActive">
+              <i class="fas fa-check" style="color: yellow"></i>
+            </div>
+            
           </ng-template>
         </ngx-datatable-column>
-        <!--<suite-custom-code-block-9>-->
-        <!--</suite-custom-code-block-9>-->
       </ngx-datatable>
-      <!--<suite-custom-code-block-10>-->
-      <!--</suite-custom-code-block-10>-->
     </div>
   </div>
-  <!--<suite-custom-code-block-11>-->
-  <!--</suite-custom-code-block-11>-->
 </abp-page>
-<!--<suite-custom-code-block-12>-->
-<!--</suite-custom-code-block-12>-->
 <app-schedule-detail> </app-schedule-detail>
+<abp-modal [options]="{ size: 'xl' }" [(visible)]="serviceDetail.isOpenDetail">
+  <ng-template #abpHeader>
+    <div style="display: flex; width: 100%; justify-content: space-between; align-items: center">
+      <div>Code: {{serviceDetail.dataScheduleDto?.schedule.code}}</div>
+      <div>Name: {{serviceDetail.dataScheduleDto?.schedule.name}}</div>
+      <div>Staff Code: {{serviceDetail.dataScheduleDto?.staff.code}}</div>
+    </div>
+  </ng-template>
+  <ng-template #abpBody>
+    <div class="card" style="display: flex; justify-content: center; align-items: center">
+      <div class="card-body">
+        <ngx-datatable #myTable [rows]="serviceDetail.dataScheduleDto.scheduleDetails">
+
+          <ngx-datatable-row-detail [rowHeight]="250">
+            <ng-template let-row="row" ngx-datatable-row-detail-template>
+              <div style="padding-left:100px;padding-top: 20px; border: 1px solid white">
+
+                <ngx-datatable [rows]="service.dataDetailDto.scheduleFormats">
+                  <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="name">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.name }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="{{ '::From Hours' | abpLocalization }}" prop="fromHours">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.fromHours }}h
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="{{ '::To Hours' | abpLocalization }}" prop="toHours">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.toHours }}h
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                </ngx-datatable>
+              </div>
+            </ng-template>
+          </ngx-datatable-row-detail>
+
+          <ngx-datatable-column [width]="50"
+                                [resizeable]="false"
+                                [sortable]="false"
+                                [draggable]="false"
+                                [canAutoResize]="false"
+                                [frozenLeft]="true">
+            <ng-template let-row="row"
+                               let-rowIndex="rowIndex"
+                         ngx-datatable-cell-template>
+              <a href="javascript:void(0)" (click)="toggleExpandRow(row)">
+                <i class="fa" [ngClass]="openRows[row.id] ? 'fa-chevron-down' : 'fa-chevron-right'"></i> 
+              </a>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.name }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="{{ '::DateFrom' | abpLocalization }}" prop="fromDate">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.fromDate | date }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="{{ '::DateTo' | abpLocalization }}" prop="toDate">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.toDate | date }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="{{ '::Note' | abpLocalization }}" prop="note">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.note }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="{{ '::Active' | abpLocalization }}">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div *ngIf="serviceDetail.isActive">
+                <i class="fas fa-check" style="color: yellow"></i>
+              </div>
+
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+  </ng-template>
+</abp-modal>

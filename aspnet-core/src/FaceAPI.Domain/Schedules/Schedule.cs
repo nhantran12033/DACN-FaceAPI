@@ -1,4 +1,4 @@
-using FaceAPI.Departments;
+using FaceAPI.Staffs;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace FaceAPI.Schedules
 
         [CanBeNull]
         public virtual string? Note { get; set; }
-        public Guid? DepartmentId { get; set; }
+        public Guid StaffId { get; set; }
         public ICollection<ScheduleScheduleDetail> ScheduleDetails { get; private set; }
 
         protected ScheduleBase()
@@ -34,7 +34,7 @@ namespace FaceAPI.Schedules
 
         }
 
-        public ScheduleBase(Guid id, Guid? departmentId, DateTime dateFrom, DateTime dateTo, string? code = null, string? name = null, string? note = null)
+        public ScheduleBase(Guid id, Guid staffId, DateTime dateFrom, DateTime dateTo, string? code = null, string? name = null, string? note = null)
         {
 
             Id = id;
@@ -43,7 +43,7 @@ namespace FaceAPI.Schedules
             Code = code;
             Name = name;
             Note = note;
-            DepartmentId = departmentId;
+            StaffId = staffId;
             ScheduleDetails = new Collection<ScheduleScheduleDetail>();
         }
         public virtual void AddScheduleDetail(Guid scheduleDetailId)

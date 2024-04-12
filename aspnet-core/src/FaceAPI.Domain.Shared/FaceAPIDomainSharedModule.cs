@@ -17,6 +17,8 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.BlobStoring.Database;
 using Volo.Abp.Gdpr;
 using Volo.Abp.GlobalFeatures;
+using Volo.FileManagement;
+using Volo.Chat;
 
 namespace FaceAPI;
 
@@ -35,7 +37,9 @@ namespace FaceAPI;
     typeof(AbpGlobalFeaturesModule),
     typeof(BlobStoringDatabaseDomainSharedModule)
     )]
-public class FaceAPIDomainSharedModule : AbpModule
+[DependsOn(typeof(FileManagementDomainSharedModule))]
+    [DependsOn(typeof(ChatDomainSharedModule))]
+    public class FaceAPIDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

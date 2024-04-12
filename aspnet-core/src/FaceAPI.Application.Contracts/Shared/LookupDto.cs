@@ -1,5 +1,3 @@
-using System;
-
 namespace FaceAPI.Shared
 {
     public abstract class LookupDtoBase<TKey>

@@ -9,6 +9,8 @@ import { CommercialUiConfigModule } from '@volo/abp.commercial.ng.ui/config';
 import { AccountAdminConfigModule } from '@volo/abp.ng.account/admin/config';
 import { AccountPublicConfigModule } from '@volo/abp.ng.account/public/config';
 import { AuditLoggingConfigModule } from '@volo/abp.ng.audit-logging/config';
+import { ChatConfigModule } from '@volo/abp.ng.chat/config';
+import { FileManagementConfigModule } from '@volo/abp.ng.file-management/config';
 import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
 import { LanguageManagementConfigModule } from '@volo/abp.ng.language-management/config';
 import { registerLocale } from '@volo/abp.ng.language-management/locale';
@@ -27,6 +29,8 @@ import { AccountLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/account';
 import { DEPARTMENTS_DEPARTMENT_ROUTE_PROVIDER } from './departments/department/providers/department-route.provider';
 import { SALARIES_SALARY_ROUTE_PROVIDER } from './salaries/salary/providers/salary-route.provider';
 import { SCHEDULES_SCHEDULE_ROUTE_PROVIDER } from './schedules/schedule/providers/schedule-route.provider';
+import { TIMESHEETS_TIMESHEET_ROUTE_PROVIDER } from './timesheets/timesheet/providers/timesheet-route.provider';
+import { STAFFS_STAFF_ROUTE_PROVIDER } from './staffs/staff/providers/staff-route.provider';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -49,7 +53,8 @@ import { SCHEDULES_SCHEDULE_ROUTE_PROVIDER } from './schedules/schedule/provider
     }),
     AccountAdminConfigModule.forRoot(),
     AccountPublicConfigModule.forRoot(),
-
+    FileManagementConfigModule.forRoot(),
+    ChatConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),
     LanguageManagementConfigModule.forRoot(),
     SaasConfigModule.forRoot(),
@@ -73,6 +78,8 @@ import { SCHEDULES_SCHEDULE_ROUTE_PROVIDER } from './schedules/schedule/provider
     DEPARTMENTS_DEPARTMENT_ROUTE_PROVIDER,
     SALARIES_SALARY_ROUTE_PROVIDER,
     SCHEDULES_SCHEDULE_ROUTE_PROVIDER,
+    TIMESHEETS_TIMESHEET_ROUTE_PROVIDER,
+    STAFFS_STAFF_ROUTE_PROVIDER,
   ],
   bootstrap: [AppComponent],
 })

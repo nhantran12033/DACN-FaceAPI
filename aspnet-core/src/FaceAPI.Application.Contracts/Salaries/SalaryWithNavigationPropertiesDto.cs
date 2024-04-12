@@ -1,4 +1,5 @@
 using FaceAPI.Departments;
+using FaceAPI.Titles;
 
 using System;
 using Volo.Abp.Application.Dtos;
@@ -10,7 +11,8 @@ namespace FaceAPI.Salaries
     {
         public SalaryDto Salary { get; set; } = null!;
 
-        public List<DepartmentDto> Departments { get; set; } = new List<DepartmentDto>();
+        public DepartmentDto Department { get; set; } = null!;
+        public TitleDto Title { get; set; } = null!;
 
     }
 }

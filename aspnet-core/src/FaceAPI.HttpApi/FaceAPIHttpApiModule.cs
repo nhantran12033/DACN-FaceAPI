@@ -1,4 +1,4 @@
-﻿using Localization.Resources.AbpUi;
+using Localization.Resources.AbpUi;
 using FaceAPI.Localization;
 using Volo.Abp.Account;
 using Volo.Abp.AuditLogging;
@@ -13,6 +13,8 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TextTemplateManagement;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict;
+using Volo.FileManagement;
+using Volo.Chat;
 
 namespace FaceAPI;
 
@@ -30,7 +32,9 @@ namespace FaceAPI;
     typeof(AbpGdprHttpApiModule),
     typeof(TextTemplateManagementHttpApiModule)
     )]
-public class FaceAPIHttpApiModule : AbpModule
+[DependsOn(typeof(FileManagementHttpApiModule))]
+    [DependsOn(typeof(ChatHttpApiModule))]
+    public class FaceAPIHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

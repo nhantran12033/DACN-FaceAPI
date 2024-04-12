@@ -1,4 +1,4 @@
-using FaceAPI.Departments;
+using FaceAPI.Staffs;
 using FaceAPI.ScheduleDetails;
 
 using System;
@@ -11,7 +11,7 @@ namespace FaceAPI.Schedules
     {
         public ScheduleDto Schedule { get; set; } = null!;
 
-        public DepartmentDto Department { get; set; } = null!;
+        public StaffDto Staff { get; set; } = null!;
         public List<ScheduleDetailDto> ScheduleDetails { get; set; } = new List<ScheduleDetailDto>();
 
     }

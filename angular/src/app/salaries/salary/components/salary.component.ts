@@ -1,6 +1,6 @@
 import { ListService, CoreModule } from '@abp/ng.core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
-import { DateAdapter } from '@abp/ng.theme.shared/extensions';
+import { DateAdapter } from '@abp/ng.theme.shared';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   NgbDateAdapter,

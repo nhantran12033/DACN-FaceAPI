@@ -1,3 +1,5 @@
+using FaceAPI.Departments;
+using FaceAPI.Titles;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -23,64 +25,26 @@ namespace FaceAPI.Salaries
         public virtual double Bonus { get; set; }
 
         public virtual double Total { get; set; }
-
-        public ICollection<SalaryDepartment> Departments { get; private set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? TitleId { get; set; }
 
         protected SalaryBase()
         {
 
         }
 
-        public SalaryBase(Guid id, double allowance, double basic, double bonus, string? code = null)
+        public SalaryBase(Guid id, Guid? departmentId, Guid? titleId, double allowance, double basic, double bonus, string? code = null)
         {
 
             Id = id;
             Allowance = allowance;
             Basic = basic;
             Bonus = bonus;
-            Total = Basic + Bonus + Allowance;
+            Total = allowance + basic + bonus;
             Code = code;
-            Departments = new Collection<SalaryDepartment>();
-        }
-        public virtual void AddDepartment(Guid departmentId)
-        {
-            Check.NotNull(departmentId, nameof(departmentId));
-
-            if (IsInDepartments(departmentId))
-            {
-                return;
-            }
-
-            Departments.Add(new SalaryDepartment(Id, departmentId));
+            DepartmentId = departmentId;
+            TitleId = titleId;
         }
 
-        public virtual void RemoveDepartment(Guid departmentId)
-        {
-            Check.NotNull(departmentId, nameof(departmentId));
-
-            if (!IsInDepartments(departmentId))
-            {
-                return;
-            }
-
-            Departments.RemoveAll(x => x.DepartmentId == departmentId);
-        }
-
-        public virtual void RemoveAllDepartmentsExceptGivenIds(List<Guid> departmentIds)
-        {
-            Check.NotNullOrEmpty(departmentIds, nameof(departmentIds));
-
-            Departments.RemoveAll(x => !departmentIds.Contains(x.DepartmentId));
-        }
-
-        public virtual void RemoveAllDepartments()
-        {
-            Departments.RemoveAll(x => x.SalaryId == Id);
-        }
-
-        private bool IsInDepartments(Guid departmentId)
-        {
-            return Departments.Any(x => x.DepartmentId == departmentId);
-        }
     }
 }

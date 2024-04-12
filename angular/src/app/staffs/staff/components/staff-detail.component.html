@@ -1,0 +1,217 @@
+<abp-modal [busy]="service.isBusy" [(visible)]="service.isVisible">
+  <ng-template #abpHeader>
+    <!--<suite-custom-code-block-0>-->
+    <!--</suite-custom-code-block-0>-->
+    <h3>
+      <!--<suite-custom-code-block-1>-->
+      <!--</suite-custom-code-block-1>-->
+      {{ (service.selected ? 'AbpUi::Edit' : '::NewStaff') | abpLocalization }}
+      <!--<suite-custom-code-block-2>-->
+      <!--</suite-custom-code-block-2>-->
+    </h3>
+    <!--<suite-custom-code-block-3>-->
+    <!--</suite-custom-code-block-3>-->
+  </ng-template>
+
+  <ng-template #abpBody>
+    <!--<suite-custom-code-block-4>-->
+    <!--</suite-custom-code-block-4>-->
+    <form [formGroup]="service.form" id="staff" (ngSubmit)="service.submitForm()" validateOnSubmit>
+      <!--<suite-custom-code-block-5>-->
+      <!--</suite-custom-code-block-5>-->
+
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>
+            {{ 'Staff' | abpLocalization }}
+          </a>
+          <ng-template ngbNavContent>
+            <div class="mt-2 fade-in-top">
+              <div class="mb-3">
+                <label class="form-label" for="staff-image">
+                  {{ '::Image' | abpLocalization }}
+                </label>
+
+                <input type="file" id="staff-image" class="form-control" (change)="service.onImageSelected($event)" formControlName="image" />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="staff-code">
+                  {{ '::Code' | abpLocalization }}
+                </label>
+
+                <input id="staff-code" formControlName="code" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-name">
+                  {{ '::Name' | abpLocalization }}
+                </label>
+
+                <input id="staff-name" formControlName="name" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-sex">
+                  {{ '::Sex' | abpLocalization }}
+                </label>
+
+                <select id="staff-sex" formControlName="sex" class="form-control">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-birthday">
+                  {{ '::Birthday' | abpLocalization }}
+                </label>
+
+                <div class="input-group" validationTarget>
+                  <input readonly
+                         id="staff-birthday"
+                         formControlName="birthday"
+                         class="form-control"
+                         ngbDatepicker
+                         #birthdayInput
+                         #birthdayDatepicker="ngbDatepicker"
+                         (click)="birthdayDatepicker.open()"
+                         (keyup.space)="birthdayDatepicker.open()" />
+                  <div *ngIf="birthdayInput.value" class="input-group-append">
+                    <button class="btn btn-link px-2"
+                            type="button"
+                            [title]="'AbpUi::Clear' | abpLocalization"
+                            (click)="
+                        birthdayDatepicker.writeValue(null);
+                        birthdayDatepicker.manualDateChange(null, true)
+                      ">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-start-work">
+                  {{ '::StartWork' | abpLocalization }}
+                </label>
+
+                <div class="input-group" validationTarget>
+                  <input readonly
+                         id="staff-start-work"
+                         formControlName="startWork"
+                         class="form-control"
+                         ngbDatepicker
+                         #startWorkInput
+                         #startWorkDatepicker="ngbDatepicker"
+                         (click)="startWorkDatepicker.open()"
+                         (keyup.space)="startWorkDatepicker.open()" />
+                  <div *ngIf="startWorkInput.value" class="input-group-append">
+                    <button class="btn btn-link px-2"
+                            type="button"
+                            [title]="'AbpUi::Clear' | abpLocalization"
+                            (click)="
+                        startWorkDatepicker.writeValue(null);
+                        startWorkDatepicker.manualDateChange(null, true)
+                      ">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-phone">
+                  {{ '::Phone' | abpLocalization }}
+                </label>
+
+                <input id="staff-phone" formControlName="phone" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-email">
+                  {{ '::Email' | abpLocalization }}
+                </label>
+
+                <input id="staff-email" formControlName="email" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-address">
+                  {{ '::Address' | abpLocalization }}
+                </label>
+
+                <input id="staff-address" formControlName="address" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-note">
+                  {{ '::Note' | abpLocalization }}
+                </label>
+
+                <input id="staff-note" formControlName="note" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-department-id">
+                  {{ '::Department' | abpLocalization }}
+                </label>
+
+                <abp-lookup-select cid="staff-department-id"
+                                   formControlName="departmentId"
+                                   [getFn]="service.getDepartmentLookup"
+                                   (change)="service.getTitle()"></abp-lookup-select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-title-id">
+                  {{ '::Title' | abpLocalization }}
+                </label>
+
+                <select class="form-control" formControlName="titleId" (change)="service.getTotalSalary()">
+                  <option *ngFor="let title of service.titleDto" [value]="title.id">{{title.name}}</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="staff-debt">
+                  {{ '::Debt' | abpLocalization }}
+                </label>
+
+                <input value="{{service.salaryDto?.total | number:'1.0-0'}}" id="staff-debt" formControlName="debt" class="form-control" />
+              </div>
+            </div>
+          </ng-template>
+        </li>
+
+        <li ngbNavItem>
+          <a ngbNavLink>
+            {{ 'Timesheets' | abpLocalization }}
+            <span *ngIf="this.service.form.controls['timesheetIds']">
+              ({{ this.service.form.controls['timesheetIds'].value?.length }})
+            </span>
+          </a>
+          <ng-template ngbNavContent>
+            <abp-lookup-typeahead-mtm
+              cid="staff-timesheets"
+              formControlName="timesheetIds"
+              displayNameProp="code"
+              lookupNameProp="displayName"
+              [getFn]="service.getTimesheetLookup"
+              [editingData]="service.selected?.timesheets"
+            ></abp-lookup-typeahead-mtm>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+
+      <!--<suite-custom-code-block-6>-->
+      <!--</suite-custom-code-block-6>-->
+    </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <!--<suite-custom-code-block-7>-->
+    <!--</suite-custom-code-block-7>-->
+    <button type="button" class="btn btn-secondary" abpClose>
+      {{ 'AbpUi::Cancel' | abpLocalization }}
+    </button>
+    <!--<suite-custom-code-block-8>-->
+    <!--</suite-custom-code-block-8>-->
+    <abp-button iconClass="fa fa-check" buttonType="submit" formName="staff">
+      {{ 'AbpUi::Save' | abpLocalization }}
+    </abp-button>
+    <!--<suite-custom-code-block-9>-->
+    <!--</suite-custom-code-block-9>-->
+  </ng-template>
+</abp-modal>

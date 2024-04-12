@@ -4,24 +4,28 @@ import { ABP, downloadBlob, ListService, PagedResultDto } from '@abp/ng.core';
 import { filter, switchMap, finalize } from 'rxjs/operators';
 import type {
   GetSalariesInput,
+  SalaryDto,
   SalaryWithNavigationPropertiesDto,
 } from '../../../proxy/salaries/models';
 import { SalaryService } from '../../../proxy/salaries/salary.service';
+import { DepartmentDto, DepartmentService, DepartmentWithNavigationPropertiesDto } from '../../../proxy/departments';
+import { TitleDto, TitleService } from '../../../proxy/titles';
 
 export abstract class AbstractSalaryViewService {
   protected readonly proxyService = inject(SalaryService);
   protected readonly confirmationService = inject(ConfirmationService);
   protected readonly list = inject(ListService);
-
-  public readonly getWithNavigationProperties = this.proxyService.getWithNavigationProperties;
-
+  protected readonly proxyServiceDepartment = inject(DepartmentService);
+  protected readonly proxyServiceTitle = inject(TitleService);
   isExportToExcelBusy = false;
-
+  isOpenDetail = false;
   data: PagedResultDto<SalaryWithNavigationPropertiesDto> = {
     items: [],
     totalCount: 0,
   };
-
+  dataDto: SalaryDto;
+  dataDetailDepartment: DepartmentDto;
+  dataDetailTitle: TitleDto;
   filters = {} as GetSalariesInput;
 
   delete(record: SalaryWithNavigationPropertiesDto) {
@@ -68,5 +72,17 @@ export abstract class AbstractSalaryViewService {
       .subscribe(result => {
         downloadBlob(result, 'Salary.xlsx');
       });
+  }
+  getSalary(id: string) {
+    this.isOpenDetail = true;
+    this.proxyService.get(id).subscribe(result => {
+      this.dataDto = result
+      this.proxyServiceDepartment.get(this.dataDto.departmentId).subscribe(department => {
+        this.dataDetailDepartment = department;
+      })
+      this.proxyServiceTitle.get(this.dataDto.titleId).subscribe(title => {
+        this.dataDetailTitle = title;
+      })
+    })
   }
 }

@@ -51,6 +51,23 @@ public class FaceAPIPermissionDefinitionProvider : PermissionDefinitionProvider
         titlePermission.AddChild(FaceAPIPermissions.Titles.Create, L("Permission:Create"));
         titlePermission.AddChild(FaceAPIPermissions.Titles.Edit, L("Permission:Edit"));
         titlePermission.AddChild(FaceAPIPermissions.Titles.Delete, L("Permission:Delete"));
+
+        var timesheetPermission = myGroup.AddPermission(FaceAPIPermissions.Timesheets.Default, L("Permission:Timesheets"));
+        timesheetPermission.AddChild(FaceAPIPermissions.Timesheets.Create, L("Permission:Create"));
+        timesheetPermission.AddChild(FaceAPIPermissions.Timesheets.Edit, L("Permission:Edit"));
+        timesheetPermission.AddChild(FaceAPIPermissions.Timesheets.Delete, L("Permission:Delete"));
+
+        var staffPermission = myGroup.AddPermission(FaceAPIPermissions.Staffs.Default, L("Permission:Staffs"));
+        staffPermission.AddChild(FaceAPIPermissions.Staffs.Create, L("Permission:Create"));
+        staffPermission.AddChild(FaceAPIPermissions.Staffs.Edit, L("Permission:Edit"));
+        staffPermission.AddChild(FaceAPIPermissions.Staffs.Delete, L("Permission:Delete"));
+        staffPermission.AddChild(FaceAPIPermissions.Staffs.GetId, L("Permission:GetId"));
+        staffPermission.AddChild(FaceAPIPermissions.Staffs.Get, L("Permission:Get"));
+
+        var scheduleFormatPermission = myGroup.AddPermission(FaceAPIPermissions.ScheduleFormats.Default, L("Permission:ScheduleFormats"));
+        scheduleFormatPermission.AddChild(FaceAPIPermissions.ScheduleFormats.Create, L("Permission:Create"));
+        scheduleFormatPermission.AddChild(FaceAPIPermissions.ScheduleFormats.Edit, L("Permission:Edit"));
+        scheduleFormatPermission.AddChild(FaceAPIPermissions.ScheduleFormats.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

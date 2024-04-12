@@ -16,7 +16,7 @@ namespace FaceAPI.Schedules
 
         Task<ScheduleDto> GetAsync(Guid id);
 
-        Task<PagedResultDto<LookupDto<Guid>>> GetDepartmentLookupAsync(LookupRequestDto input);
+        Task<PagedResultDto<LookupDto<Guid>>> GetStaffLookupAsync(LookupRequestDto input);
 
         Task<PagedResultDto<LookupDto<Guid>>> GetScheduleDetailLookupAsync(LookupRequestDto input);
 

@@ -22,6 +22,12 @@ const routes: Routes = [
     path: 'gdpr',
     loadChildren: () => import('@volo/abp.ng.gdpr').then(m => m.GdprModule.forLazy()),
   },
+
+  {
+    path: 'file-management',
+    loadChildren: () =>
+      import('@volo/abp.ng.file-management').then(m => m.FileManagementModule.forLazy()),
+  },
   {
     path: 'identity',
     loadChildren: () => import('@volo/abp.ng.identity').then(m => m.IdentityModule.forLazy()),
@@ -76,6 +82,15 @@ const routes: Routes = [
   {
     path: 'schedules',
     loadChildren: () => import('./schedules/schedule/schedule.module').then(m => m.ScheduleModule),
+  },
+  {
+    path: 'timesheets',
+    loadChildren: () =>
+      import('./timesheets/timesheet/timesheet.module').then(m => m.TimesheetModule),
+  },
+  {
+    path: 'staffs',
+    loadChildren: () => import('./staffs/staff/staff.module').then(m => m.StaffModule),
   },
 ];
 

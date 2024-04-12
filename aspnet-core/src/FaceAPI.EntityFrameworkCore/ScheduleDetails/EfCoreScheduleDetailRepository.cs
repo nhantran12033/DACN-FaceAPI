@@ -1,3 +1,5 @@
+using FaceAPI.ScheduleFormats;
+using FaceAPI.ScheduleFormats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +21,87 @@ namespace FaceAPI.ScheduleDetails
 
         }
 
+        public virtual async Task<ScheduleDetailWithNavigationProperties> GetWithNavigationPropertiesAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var dbContext = await GetDbContextAsync();
+
+            return (await GetDbSetAsync()).Where(b => b.Id == id).Include(x => x.ScheduleFormats)
+                .Select(scheduleDetail => new ScheduleDetailWithNavigationProperties
+                {
+                    ScheduleDetail = scheduleDetail,
+                    ScheduleFormats = (from scheduleDetailScheduleFormats in scheduleDetail.ScheduleFormats
+                                       join _scheduleFormat in dbContext.Set<ScheduleFormat>() on scheduleDetailScheduleFormats.ScheduleFormatId equals _scheduleFormat.Id
+                                       select _scheduleFormat).ToList()
+                }).FirstOrDefault();
+        }
+
+        public virtual async Task<List<ScheduleDetailWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
+            string? filterText = null,
+            string? name = null,
+            DateTime? fromDateMin = null,
+            DateTime? fromDateMax = null,
+            DateTime? toDateMin = null,
+            DateTime? toDateMax = null,
+            string? note = null,
+            Guid? scheduleFormatId = null,
+            string? sorting = null,
+            int maxResultCount = int.MaxValue,
+            int skipCount = 0,
+            CancellationToken cancellationToken = default)
+        {
+            var query = await GetQueryForNavigationPropertiesAsync();
+            query = ApplyFilter(query, filterText, name, fromDateMin, fromDateMax, toDateMin, toDateMax, note, scheduleFormatId);
+            query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? ScheduleDetailConsts.GetDefaultSorting(true) : sorting);
+            return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
+        }
+
+        protected virtual async Task<IQueryable<ScheduleDetailWithNavigationProperties>> GetQueryForNavigationPropertiesAsync()
+        {
+            return from scheduleDetail in (await GetDbSetAsync())
+
+                   select new ScheduleDetailWithNavigationProperties
+                   {
+                       ScheduleDetail = scheduleDetail,
+                       ScheduleFormats = new List<ScheduleFormat>()
+                   };
+        }
+
+        protected virtual IQueryable<ScheduleDetailWithNavigationProperties> ApplyFilter(
+            IQueryable<ScheduleDetailWithNavigationProperties> query,
+            string? filterText,
+            string? name = null,
+            DateTime? fromDateMin = null,
+            DateTime? fromDateMax = null,
+            DateTime? toDateMin = null,
+            DateTime? toDateMax = null,
+            string? note = null,
+            Guid? scheduleFormatId = null)
+        {
+            return query
+                .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.ScheduleDetail.Name!.Contains(filterText!) || e.ScheduleDetail.Note!.Contains(filterText!))
+                    .WhereIf(!string.IsNullOrWhiteSpace(name), e => e.ScheduleDetail.Name.Contains(name))
+                    .WhereIf(fromDateMin.HasValue, e => e.ScheduleDetail.FromDate >= fromDateMin!.Value)
+                    .WhereIf(fromDateMax.HasValue, e => e.ScheduleDetail.FromDate <= fromDateMax!.Value)
+                    .WhereIf(toDateMin.HasValue, e => e.ScheduleDetail.ToDate >= toDateMin!.Value)
+                    .WhereIf(toDateMax.HasValue, e => e.ScheduleDetail.ToDate <= toDateMax!.Value)
+                    .WhereIf(!string.IsNullOrWhiteSpace(note), e => e.ScheduleDetail.Note.Contains(note))
+                    .WhereIf(scheduleFormatId != null && scheduleFormatId != Guid.Empty, e => e.ScheduleDetail.ScheduleFormats.Any(x => x.ScheduleFormatId == scheduleFormatId));
+        }
+
         public virtual async Task<List<ScheduleDetail>> GetListAsync(
             string? filterText = null,
             string? name = null,
-            DateTime? fromMin = null,
-            DateTime? fromMax = null,
-            DateTime? toMin = null,
-            DateTime? toMax = null,
+            DateTime? fromDateMin = null,
+            DateTime? fromDateMax = null,
+            DateTime? toDateMin = null,
+            DateTime? toDateMax = null,
             string? note = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetQueryableAsync()), filterText, name, fromMin, fromMax, toMin, toMax, note);
+            var query = ApplyFilter((await GetQueryableAsync()), filterText, name, fromDateMin, fromDateMax, toDateMin, toDateMax, note);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? ScheduleDetailConsts.GetDefaultSorting(false) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
@@ -40,14 +109,16 @@ namespace FaceAPI.ScheduleDetails
         public virtual async Task<long> GetCountAsync(
             string? filterText = null,
             string? name = null,
-            DateTime? fromMin = null,
-            DateTime? fromMax = null,
-            DateTime? toMin = null,
-            DateTime? toMax = null,
+            DateTime? fromDateMin = null,
+            DateTime? fromDateMax = null,
+            DateTime? toDateMin = null,
+            DateTime? toDateMax = null,
             string? note = null,
+            Guid? scheduleFormatId = null,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetDbSetAsync()), filterText, name, fromMin, fromMax, toMin, toMax, note);
+            var query = await GetQueryForNavigationPropertiesAsync();
+            query = ApplyFilter(query, filterText, name, fromDateMin, fromDateMax, toDateMin, toDateMax, note, scheduleFormatId);
             return await query.LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -55,19 +126,19 @@ namespace FaceAPI.ScheduleDetails
             IQueryable<ScheduleDetail> query,
             string? filterText = null,
             string? name = null,
-            DateTime? fromMin = null,
-            DateTime? fromMax = null,
-            DateTime? toMin = null,
-            DateTime? toMax = null,
+            DateTime? fromDateMin = null,
+            DateTime? fromDateMax = null,
+            DateTime? toDateMin = null,
+            DateTime? toDateMax = null,
             string? note = null)
         {
             return query
                     .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.Name!.Contains(filterText!) || e.Note!.Contains(filterText!))
                     .WhereIf(!string.IsNullOrWhiteSpace(name), e => e.Name.Contains(name))
-                    .WhereIf(fromMin.HasValue, e => e.From >= fromMin!.Value)
-                    .WhereIf(fromMax.HasValue, e => e.From <= fromMax!.Value)
-                    .WhereIf(toMin.HasValue, e => e.To >= toMin!.Value)
-                    .WhereIf(toMax.HasValue, e => e.To <= toMax!.Value)
+                    .WhereIf(fromDateMin.HasValue, e => e.FromDate >= fromDateMin!.Value)
+                    .WhereIf(fromDateMax.HasValue, e => e.FromDate <= fromDateMax!.Value)
+                    .WhereIf(toDateMin.HasValue, e => e.ToDate >= toDateMin!.Value)
+                    .WhereIf(toDateMax.HasValue, e => e.ToDate <= toDateMax!.Value)
                     .WhereIf(!string.IsNullOrWhiteSpace(note), e => e.Note.Contains(note));
         }
     }

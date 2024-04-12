@@ -32,10 +32,10 @@ namespace FaceAPI.Controllers.Salaries
         }
 
         [HttpGet]
-        [Route("with-navigation-properties/{id}")]
-        public virtual Task<SalaryWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
+        [Route("with-navigation-properties/{departmentId}/{titleId}")]
+        public virtual Task<SalaryWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid departmentId, Guid titleId)
         {
-            return _salariesAppService.GetWithNavigationPropertiesAsync(id);
+            return _salariesAppService.GetWithNavigationPropertiesAsync(departmentId, titleId);
         }
 
         [HttpGet]
@@ -50,6 +50,13 @@ namespace FaceAPI.Controllers.Salaries
         public virtual Task<PagedResultDto<LookupDto<Guid>>> GetDepartmentLookupAsync(LookupRequestDto input)
         {
             return _salariesAppService.GetDepartmentLookupAsync(input);
+        }
+
+        [HttpGet]
+        [Route("title-lookup")]
+        public virtual Task<PagedResultDto<LookupDto<Guid>>> GetTitleLookupAsync(LookupRequestDto input)
+        {
+            return _salariesAppService.GetTitleLookupAsync(input);
         }
 
         [HttpPost]

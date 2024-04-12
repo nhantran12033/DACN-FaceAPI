@@ -1,4 +1,4 @@
-namespace FaceAPI.Salaries
+﻿namespace FaceAPI.Salaries
 {
     public class SalaryExcelDto : SalaryExcelDtoBase
     {

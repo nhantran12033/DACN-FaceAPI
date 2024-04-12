@@ -1,3 +1,4 @@
+using FaceAPI.Shared;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -7,9 +8,13 @@ namespace FaceAPI.ScheduleDetails
 {
     public partial interface IScheduleDetailsAppService : IApplicationService
     {
-        Task<PagedResultDto<ScheduleDetailDto>> GetListAsync(GetScheduleDetailsInput input);
+        Task<PagedResultDto<ScheduleDetailWithNavigationPropertiesDto>> GetListAsync(GetScheduleDetailsInput input);
+
+        Task<ScheduleDetailWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
 
         Task<ScheduleDetailDto> GetAsync(Guid id);
+
+        Task<PagedResultDto<LookupDto<Guid>>> GetScheduleFormatLookupAsync(LookupRequestDto input);
 
         Task DeleteAsync(Guid id);
 

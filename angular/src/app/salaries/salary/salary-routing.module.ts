@@ -10,7 +10,6 @@ export const routes: Routes = [
     canActivate: mapToCanActivate([AuthGuard, PermissionGuard]),
   },
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

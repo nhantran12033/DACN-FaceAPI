@@ -1,4 +1,4 @@
-using FaceAPI.Departments;
+using FaceAPI.Titles;
 using FaceAPI.Departments;
 using System;
 using System.Collections.Generic;
@@ -21,17 +21,16 @@ namespace FaceAPI.Salaries
 
         }
 
-        public virtual async Task<SalaryWithNavigationProperties> GetWithNavigationPropertiesAsync(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<SalaryWithNavigationProperties> GetWithNavigationPropertiesAsync(Guid departmentId, Guid titleId, CancellationToken cancellationToken = default)
         {
             var dbContext = await GetDbContextAsync();
 
-            return (await GetDbSetAsync()).Where(b => b.Id == id).Include(x => x.Departments)
+            return (await GetDbSetAsync()).Where(b => b.DepartmentId == departmentId && b.TitleId == titleId)
                 .Select(salary => new SalaryWithNavigationProperties
                 {
                     Salary = salary,
-                    Departments = (from salaryDepartments in salary.Departments
-                                   join _department in dbContext.Set<Department>() on salaryDepartments.DepartmentId equals _department.Id
-                                   select _department).ToList()
+                    Department = dbContext.Set<Department>().FirstOrDefault(c => c.Id == salary.DepartmentId),
+                    Title = dbContext.Set<Title>().FirstOrDefault(c => c.Id == salary.TitleId)
                 }).FirstOrDefault();
         }
 
@@ -47,13 +46,14 @@ namespace FaceAPI.Salaries
             double? totalMin = null,
             double? totalMax = null,
             Guid? departmentId = null,
+            Guid? titleId = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             CancellationToken cancellationToken = default)
         {
             var query = await GetQueryForNavigationPropertiesAsync();
-            query = ApplyFilter(query, filterText, code, allowanceMin, allowanceMax, basicMin, basicMax, bonusMin, bonusMax, totalMin, totalMax, departmentId);
+            query = ApplyFilter(query, filterText, code, allowanceMin, allowanceMax, basicMin, basicMax, bonusMin, bonusMax, totalMin, totalMax, departmentId, titleId);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? SalaryConsts.GetDefaultSorting(true) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
@@ -61,11 +61,15 @@ namespace FaceAPI.Salaries
         protected virtual async Task<IQueryable<SalaryWithNavigationProperties>> GetQueryForNavigationPropertiesAsync()
         {
             return from salary in (await GetDbSetAsync())
-
+                   join department in (await GetDbContextAsync()).Set<Department>() on salary.DepartmentId equals department.Id into departments
+                   from department in departments.DefaultIfEmpty()
+                   join title in (await GetDbContextAsync()).Set<Title>() on salary.TitleId equals title.Id into titles
+                   from title in titles.DefaultIfEmpty()
                    select new SalaryWithNavigationProperties
                    {
                        Salary = salary,
-                       Departments = new List<Department>()
+                       Department = department,
+                       Title = title
                    };
         }
 
@@ -81,7 +85,8 @@ namespace FaceAPI.Salaries
             double? bonusMax = null,
             double? totalMin = null,
             double? totalMax = null,
-            Guid? departmentId = null)
+            Guid? departmentId = null,
+            Guid? titleId = null)
         {
             return query
                 .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.Salary.Code!.Contains(filterText!))
@@ -94,7 +99,8 @@ namespace FaceAPI.Salaries
                     .WhereIf(bonusMax.HasValue, e => e.Salary.Bonus <= bonusMax!.Value)
                     .WhereIf(totalMin.HasValue, e => e.Salary.Total >= totalMin!.Value)
                     .WhereIf(totalMax.HasValue, e => e.Salary.Total <= totalMax!.Value)
-                    .WhereIf(departmentId != null && departmentId != Guid.Empty, e => e.Salary.Departments.Any(x => x.DepartmentId == departmentId));
+                    .WhereIf(departmentId != null && departmentId != Guid.Empty, e => e.Department != null && e.Department.Id == departmentId)
+                    .WhereIf(titleId != null && titleId != Guid.Empty, e => e.Title != null && e.Title.Id == titleId);
         }
 
         public virtual async Task<List<Salary>> GetListAsync(
@@ -130,10 +136,11 @@ namespace FaceAPI.Salaries
             double? totalMin = null,
             double? totalMax = null,
             Guid? departmentId = null,
+            Guid? titleId = null,
             CancellationToken cancellationToken = default)
         {
             var query = await GetQueryForNavigationPropertiesAsync();
-            query = ApplyFilter(query, filterText, code, allowanceMin, allowanceMax, basicMin, basicMax, bonusMin, bonusMax, totalMin, totalMax, departmentId);
+            query = ApplyFilter(query, filterText, code, allowanceMin, allowanceMax, basicMin, basicMax, bonusMin, bonusMax, totalMin, totalMax, departmentId, titleId);
             return await query.LongCountAsync(GetCancellationToken(cancellationToken));
         }
 

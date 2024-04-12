@@ -20,7 +20,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44369',
+      url: 'https://localhost:44370',
       rootNamespace: 'FaceAPI',
     },
     AbpAccountPublic: {

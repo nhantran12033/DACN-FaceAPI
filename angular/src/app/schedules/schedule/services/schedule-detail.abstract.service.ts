@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ListService } from '@abp/ng.core';
 import { finalize, tap } from 'rxjs/operators';
@@ -9,18 +9,20 @@ export abstract class AbstractScheduleDetailViewService {
   protected readonly fb = inject(FormBuilder);
   public readonly proxyService = inject(ScheduleService);
   public readonly list = inject(ListService);
-
   public readonly getScheduleDetailLookup = this.proxyService.getScheduleDetailLookup;
 
-  public readonly getDepartmentLookup = this.proxyService.getDepartmentLookup;
-
+  public readonly getStaffLookup = this.proxyService.getStaffLookup;
+  isOpenDetail = false;
+  isOpenFormatDetail = false;
+  isActive = true;
   isBusy = false;
   isVisible = false;
   selected = {} as any;
   form: FormGroup | undefined;
-
+  dataScheduleDto: ScheduleWithNavigationPropertiesDto;
+    expandedRowId: any;
   buildForm() {
-    const { code, name, dateFrom, dateTo, note, departmentId } = this.selected?.schedule || {};
+    const { code, name, dateFrom, dateTo, note, staffId } = this.selected?.schedule || {};
 
     const { scheduleDetails = [] } = this.selected || {};
 
@@ -30,7 +32,7 @@ export abstract class AbstractScheduleDetailViewService {
       dateFrom: [dateFrom ? new Date(dateFrom) : null, []],
       dateTo: [dateTo ? new Date(dateTo) : null, []],
       note: [note ?? null, []],
-      departmentId: [departmentId ?? null, []],
+      staffId: [staffId ?? null, [Validators.required]],
       scheduleDetailIds: [scheduleDetails.map(({ id }) => id), []],
     });
   }
@@ -69,7 +71,14 @@ export abstract class AbstractScheduleDetailViewService {
 
     request.subscribe(this.list.get);
   }
-
+  getData(id) {
+    this.isOpenDetail = true;
+    this.proxyService.getWithNavigationProperties(id).subscribe(result => {
+      this.dataScheduleDto = result;
+      
+    })
+  }
+  
   private createRequest() {
     if (this.selected) {
       return this.proxyService.update(this.selected.schedule.id, {
@@ -83,4 +92,5 @@ export abstract class AbstractScheduleDetailViewService {
   changeVisible($event: boolean) {
     this.isVisible = $event;
   }
+
 }

@@ -14,9 +14,9 @@
   "ShouldCreateUserInterface": false,
   "ShouldCreateBackend": true,
   "ShouldExportExcel": false,
-  "ShouldAddMigration": true,
-  "ShouldUpdateDatabase": true,
-  "CreateTests": false,
+  "ShouldAddMigration": false,
+  "ShouldUpdateDatabase": false,
+  "CreateTests": true,
   "Properties": [
     {
       "Id": "e86eb908-0886-4d8a-8b3a-c2197a99b0eb",

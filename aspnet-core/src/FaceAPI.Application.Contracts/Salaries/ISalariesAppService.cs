@@ -12,11 +12,13 @@ namespace FaceAPI.Salaries
     {
         Task<PagedResultDto<SalaryWithNavigationPropertiesDto>> GetListAsync(GetSalariesInput input);
 
-        Task<SalaryWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
+        Task<SalaryWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid departmentId, Guid titleId);
 
         Task<SalaryDto> GetAsync(Guid id);
 
         Task<PagedResultDto<LookupDto<Guid>>> GetDepartmentLookupAsync(LookupRequestDto input);
+
+        Task<PagedResultDto<LookupDto<Guid>>> GetTitleLookupAsync(LookupRequestDto input);
 
         Task DeleteAsync(Guid id);
 

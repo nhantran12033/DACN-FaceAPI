@@ -1,6 +1,6 @@
 using FaceAPI.Shared;
 using FaceAPI.ScheduleDetails;
-using FaceAPI.Departments;
+using FaceAPI.Staffs;
 using System;
 using System.IO;
 using System.Linq;
@@ -30,21 +30,21 @@ namespace FaceAPI.Schedules
         protected IDistributedCache<ScheduleExcelDownloadTokenCacheItem, string> _excelDownloadTokenCache;
         protected IScheduleRepository _scheduleRepository;
         protected ScheduleManager _scheduleManager;
-        protected IRepository<Department, Guid> _departmentRepository;
+        protected IRepository<Staff, Guid> _staffRepository;
         protected IRepository<ScheduleDetail, Guid> _scheduleDetailRepository;
 
-        public SchedulesAppServiceBase(IScheduleRepository scheduleRepository, ScheduleManager scheduleManager, IDistributedCache<ScheduleExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IRepository<Department, Guid> departmentRepository, IRepository<ScheduleDetail, Guid> scheduleDetailRepository)
+        public SchedulesAppServiceBase(IScheduleRepository scheduleRepository, ScheduleManager scheduleManager, IDistributedCache<ScheduleExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IRepository<Staff, Guid> staffRepository, IRepository<ScheduleDetail, Guid> scheduleDetailRepository)
         {
             _excelDownloadTokenCache = excelDownloadTokenCache;
             _scheduleRepository = scheduleRepository;
-            _scheduleManager = scheduleManager; _departmentRepository = departmentRepository;
+            _scheduleManager = scheduleManager; _staffRepository = staffRepository;
             _scheduleDetailRepository = scheduleDetailRepository;
         }
 
         public virtual async Task<PagedResultDto<ScheduleWithNavigationPropertiesDto>> GetListAsync(GetSchedulesInput input)
         {
-            var totalCount = await _scheduleRepository.GetCountAsync(input.FilterText, input.Code, input.Name, input.DateFromMin, input.DateFromMax, input.DateToMin, input.DateToMax, input.Note, input.DepartmentId, input.ScheduleDetailId);
-            var items = await _scheduleRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Code, input.Name, input.DateFromMin, input.DateFromMax, input.DateToMin, input.DateToMax, input.Note, input.DepartmentId, input.ScheduleDetailId, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await _scheduleRepository.GetCountAsync(input.FilterText, input.Code, input.Name, input.DateFromMin, input.DateFromMax, input.DateToMin, input.DateToMax, input.Note, input.StaffId, input.ScheduleDetailId);
+            var items = await _scheduleRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Code, input.Name, input.DateFromMin, input.DateFromMax, input.DateToMin, input.DateToMax, input.Note, input.StaffId, input.ScheduleDetailId, input.Sorting, input.MaxResultCount, input.SkipCount);
 
             return new PagedResultDto<ScheduleWithNavigationPropertiesDto>
             {
@@ -64,19 +64,19 @@ namespace FaceAPI.Schedules
             return ObjectMapper.Map<Schedule, ScheduleDto>(await _scheduleRepository.GetAsync(id));
         }
 
-        public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetDepartmentLookupAsync(LookupRequestDto input)
+        public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetStaffLookupAsync(LookupRequestDto input)
         {
-            var query = (await _departmentRepository.GetQueryableAsync())
+            var query = (await _staffRepository.GetQueryableAsync())
                 .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-                    x => x.Name != null &&
-                         x.Name.Contains(input.Filter));
+                    x => x.Code != null &&
+                         x.Code.Contains(input.Filter));
 
-            var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Department>();
+            var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Staff>();
             var totalCount = query.Count();
             return new PagedResultDto<LookupDto<Guid>>
             {
                 TotalCount = totalCount,
-                Items = ObjectMapper.Map<List<Department>, List<LookupDto<Guid>>>(lookupData)
+                Items = ObjectMapper.Map<List<Staff>, List<LookupDto<Guid>>>(lookupData)
             };
         }
 
@@ -105,9 +105,13 @@ namespace FaceAPI.Schedules
         [Authorize(FaceAPIPermissions.Schedules.Create)]
         public virtual async Task<ScheduleDto> CreateAsync(ScheduleCreateDto input)
         {
+            if (input.StaffId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Staff"]]);
+            }
 
             var schedule = await _scheduleManager.CreateAsync(
-            input.ScheduleDetailIds, input.DepartmentId, input.DateFrom, input.DateTo, input.Code, input.Name, input.Note
+            input.ScheduleDetailIds, input.StaffId, input.DateFrom, input.DateTo, input.Code, input.Name, input.Note
             );
 
             return ObjectMapper.Map<Schedule, ScheduleDto>(schedule);
@@ -116,10 +120,14 @@ namespace FaceAPI.Schedules
         [Authorize(FaceAPIPermissions.Schedules.Edit)]
         public virtual async Task<ScheduleDto> UpdateAsync(Guid id, ScheduleUpdateDto input)
         {
+            if (input.StaffId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Staff"]]);
+            }
 
             var schedule = await _scheduleManager.UpdateAsync(
             id,
-            input.ScheduleDetailIds, input.DepartmentId, input.DateFrom, input.DateTo, input.Code, input.Name, input.Note, input.ConcurrencyStamp
+            input.ScheduleDetailIds, input.StaffId, input.DateFrom, input.DateTo, input.Code, input.Name, input.Note, input.ConcurrencyStamp
             );
 
             return ObjectMapper.Map<Schedule, ScheduleDto>(schedule);
@@ -143,7 +151,7 @@ namespace FaceAPI.Schedules
                 DateTo = item.Schedule.DateTo,
                 Note = item.Schedule.Note,
 
-                Department = item.Department?.Name,
+                Staff = item.Staff?.Code,
 
             });
 

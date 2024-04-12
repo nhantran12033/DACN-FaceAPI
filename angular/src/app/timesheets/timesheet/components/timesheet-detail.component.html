@@ -1,0 +1,171 @@
+<abp-modal [busy]="service.isBusy" [(visible)]="service.isVisible">
+  <ng-template #abpHeader>
+    <!--<suite-custom-code-block-0>-->
+    <!--</suite-custom-code-block-0>-->
+    <h3>
+      <!--<suite-custom-code-block-1>-->
+      <!--</suite-custom-code-block-1>-->
+      {{ (service.selected ? 'AbpUi::Edit' : '::NewTimesheet') | abpLocalization }}
+      <!--<suite-custom-code-block-2>-->
+      <!--</suite-custom-code-block-2>-->
+    </h3>
+    <!--<suite-custom-code-block-3>-->
+    <!--</suite-custom-code-block-3>-->
+  </ng-template>
+
+  <ng-template #abpBody>
+    <!--<suite-custom-code-block-4>-->
+    <!--</suite-custom-code-block-4>-->
+    <form
+      [formGroup]="service.form"
+      id="timesheet"
+      (ngSubmit)="service.submitForm()"
+      validateOnSubmit
+    >
+      <!--<suite-custom-code-block-5>-->
+      <!--</suite-custom-code-block-5>-->
+
+      <div class="mt-2 fade-in-top">
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-code">
+            {{ '::Code' | abpLocalization }}
+          </label>
+
+          <input id="timesheet-code" formControlName="code" class="form-control" autofocus />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-time-in">
+            {{ '::TimeIn' | abpLocalization }}
+          </label>
+
+          <div class="input-group" validationTarget>
+            <input
+              readonly
+              id="timesheet-time-in"
+              formControlName="timeIn"
+              class="form-control"
+              ngbDatepicker
+              #timeInInput
+              #timeInDatepicker="ngbDatepicker"
+              (click)="timeInDatepicker.open()"
+              (keyup.space)="timeInDatepicker.open()"
+            />
+            <div *ngIf="timeInInput.value" class="input-group-append">
+              <button
+                class="btn btn-link px-2"
+                type="button"
+                [title]="'AbpUi::Clear' | abpLocalization"
+                (click)="
+                  timeInDatepicker.writeValue(null); timeInDatepicker.manualDateChange(null, true)
+                "
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-time-out">
+            {{ '::TimeOut' | abpLocalization }}
+          </label>
+
+          <div class="input-group" validationTarget>
+            <input
+              readonly
+              id="timesheet-time-out"
+              formControlName="timeOut"
+              class="form-control"
+              ngbDatepicker
+              #timeOutInput
+              #timeOutDatepicker="ngbDatepicker"
+              (click)="timeOutDatepicker.open()"
+              (keyup.space)="timeOutDatepicker.open()"
+            />
+            <div *ngIf="timeOutInput.value" class="input-group-append">
+              <button
+                class="btn btn-link px-2"
+                type="button"
+                [title]="'AbpUi::Clear' | abpLocalization"
+                (click)="
+                  timeOutDatepicker.writeValue(null); timeOutDatepicker.manualDateChange(null, true)
+                "
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-hours-work">
+            {{ '::HoursWork' | abpLocalization }}
+          </label>
+
+          <input
+            type="number"
+            id="timesheet-hours-work"
+            formControlName="hoursWork"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-note">
+            {{ '::Note' | abpLocalization }}
+          </label>
+
+          <input id="timesheet-note" formControlName="note" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-schedule-id">
+            {{ '::Schedule' | abpLocalization }}
+          </label>
+
+          <abp-lookup-select
+            cid="timesheet-schedule-id"
+            formControlName="scheduleId"
+            [getFn]="service.getScheduleLookup"
+          ></abp-lookup-select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-schedule-detail-id">
+            {{ '::ScheduleDetail' | abpLocalization }}
+          </label>
+
+          <abp-lookup-select
+            cid="timesheet-schedule-detail-id"
+            formControlName="scheduleDetailId"
+            [getFn]="service.getScheduleDetailLookup"
+          ></abp-lookup-select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="timesheet-schedule-format-id">
+            {{ '::ScheduleFormat' | abpLocalization }}
+          </label>
+
+          <abp-lookup-select
+            cid="timesheet-schedule-format-id"
+            formControlName="scheduleFormatId"
+            [getFn]="service.getScheduleFormatLookup"
+          ></abp-lookup-select>
+        </div>
+      </div>
+
+      <!--<suite-custom-code-block-6>-->
+      <!--</suite-custom-code-block-6>-->
+    </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <!--<suite-custom-code-block-7>-->
+    <!--</suite-custom-code-block-7>-->
+    <button type="button" class="btn btn-secondary" abpClose>
+      {{ 'AbpUi::Cancel' | abpLocalization }}
+    </button>
+    <!--<suite-custom-code-block-8>-->
+    <!--</suite-custom-code-block-8>-->
+    <abp-button iconClass="fa fa-check" buttonType="submit" formName="timesheet">
+      {{ 'AbpUi::Save' | abpLocalization }}
+    </abp-button>
+    <!--<suite-custom-code-block-9>-->
+    <!--</suite-custom-code-block-9>-->
+  </ng-template>
+</abp-modal>

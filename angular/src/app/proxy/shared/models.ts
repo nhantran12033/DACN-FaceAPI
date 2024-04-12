@@ -1,23 +1,14 @@
 import type { PagedResultRequestDto } from '@abp/ng.core';
 
-export interface DownloadTokenResultDto extends DownloadTokenResultDtoBase {
-}
-
-export interface DownloadTokenResultDtoBase {
+export interface DownloadTokenResultDto {
   token?: string;
 }
 
-export interface LookupDto<TKey> extends LookupDtoBase<TKey> {
-}
-
-export interface LookupDtoBase<TKey> {
+export interface LookupDto<TKey> {
   id: TKey;
   displayName?: string;
 }
 
-export interface LookupRequestDto extends LookupRequestDtoBase {
-}
-
-export interface LookupRequestDtoBase extends PagedResultRequestDto {
+export interface LookupRequestDto extends PagedResultRequestDto {
   filter?: string;
 }

@@ -14,7 +14,7 @@ namespace FaceAPI.Schedules
         public DateTime? DateToMin { get; set; }
         public DateTime? DateToMax { get; set; }
         public string? Note { get; set; }
-        public Guid? DepartmentId { get; set; }
+        public Guid? StaffId { get; set; }
         public Guid? ScheduleDetailId { get; set; }
 
         public GetSchedulesInputBase()

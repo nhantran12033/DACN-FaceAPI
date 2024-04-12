@@ -1,4 +1,4 @@
-﻿using Volo.Abp.Account;
+using Volo.Abp.Account;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -10,6 +10,8 @@ using Volo.Abp.TextTemplateManagement;
 using Volo.Saas.Host;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict;
+using Volo.FileManagement;
+using Volo.Chat;
 
 namespace FaceAPI;
 
@@ -28,7 +30,9 @@ namespace FaceAPI;
     typeof(AbpGdprApplicationContractsModule),
     typeof(TextTemplateManagementApplicationContractsModule)
 )]
-public class FaceAPIApplicationContractsModule : AbpModule
+[DependsOn(typeof(FileManagementApplicationContractsModule))]
+    [DependsOn(typeof(ChatApplicationContractsModule))]
+    public class FaceAPIApplicationContractsModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

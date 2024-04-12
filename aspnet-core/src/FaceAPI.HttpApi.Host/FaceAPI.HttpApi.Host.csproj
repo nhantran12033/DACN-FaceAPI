@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="7.0.10" />
     <PackageReference Include="DistributedLock.Redis" Version="1.0.2" />
+    <PackageReference Include="Volo.Chat.SignalR" Version="7.4.2" />
   </ItemGroup>
 
   <ItemGroup>

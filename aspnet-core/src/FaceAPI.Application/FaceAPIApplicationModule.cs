@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Account;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Account;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -11,6 +12,8 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TextTemplateManagement;
 using Volo.Saas.Host;
+using Volo.FileManagement;
+using Volo.Chat;
 
 namespace FaceAPI;
 
@@ -30,10 +33,16 @@ namespace FaceAPI;
     typeof(AbpGdprApplicationModule),
     typeof(TextTemplateManagementApplicationModule)
     )]
-public class FaceAPIApplicationModule : AbpModule
+[DependsOn(typeof(FileManagementApplicationModule))]
+    [DependsOn(typeof(ChatApplicationModule))]
+    public class FaceAPIApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        context.Services.AddHttpClient("Face", client =>
+        {
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2NjZWZkMDItNTMwNi00ODY3LWFjN2YtZjdiYmVjNDVhOTcyIiwidHlwZSI6ImFwaV90b2tlbiJ9.qFPls3BE8ADKEcKKqyo7hjwbc14gxcca4iTC0Zu2jxE");
+        });
         Configure<AbpAutoMapperOptions>(options =>
         {
             options.AddMaps<FaceAPIApplicationModule>();

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, ViewChild, inject } from '@angular/core';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { ABP, downloadBlob, ListService, PagedResultDto } from '@abp/ng.core';
 import { filter, switchMap, finalize } from 'rxjs/operators';
@@ -7,16 +7,18 @@ import type {
   ScheduleWithNavigationPropertiesDto,
 } from '../../../proxy/schedules/models';
 import { ScheduleService } from '../../../proxy/schedules/schedule.service';
+import { ScheduleDetailService, ScheduleDetailWithNavigationPropertiesDto } from '../../../proxy/schedule-details';
 
 export abstract class AbstractScheduleViewService {
   protected readonly proxyService = inject(ScheduleService);
+  protected readonly proxyDetailService = inject(ScheduleDetailService);
   protected readonly confirmationService = inject(ConfirmationService);
   protected readonly list = inject(ListService);
 
   public readonly getWithNavigationProperties = this.proxyService.getWithNavigationProperties;
 
   isExportToExcelBusy = false;
-
+  dataDetailDto: ScheduleDetailWithNavigationPropertiesDto;
   data: PagedResultDto<ScheduleWithNavigationPropertiesDto> = {
     items: [],
     totalCount: 0,
@@ -33,7 +35,6 @@ export abstract class AbstractScheduleViewService {
       )
       .subscribe(this.list.get);
   }
-
   hookToQuery() {
     const getData = (query: ABP.PageQueryParams) =>
       this.proxyService.getList({
@@ -69,5 +70,10 @@ export abstract class AbstractScheduleViewService {
       .subscribe(result => {
         downloadBlob(result, 'Schedule.xlsx');
       });
+  }
+  getFormatDetail(id) {
+    this.proxyDetailService.getWithNavigationProperties(id).subscribe(result => {
+      this.dataDetailDto = result
+    })
   }
 }
