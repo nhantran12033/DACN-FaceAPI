@@ -3,7 +3,8 @@ import type { DepartmentDto } from '../departments/models';
 import type { TitleDto } from '../titles/models';
 import type { TimesheetDto } from '../timesheets/models';
 
-export interface GetStaffsInput extends GetStaffsInputBase {}
+export interface GetStaffsInput extends GetStaffsInputBase {
+}
 
 export interface GetStaffsInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -26,7 +27,8 @@ export interface GetStaffsInputBase extends PagedAndSortedResultRequestDto {
   timesheetId?: string;
 }
 
-export interface StaffCreateDto extends StaffCreateDtoBase {}
+export interface StaffCreateDto extends StaffCreateDtoBase {
+}
 
 export interface StaffCreateDtoBase {
   image?: string;
@@ -45,7 +47,8 @@ export interface StaffCreateDtoBase {
   timesheetIds: string[];
 }
 
-export interface StaffDto extends StaffDtoBase {}
+export interface StaffDto extends StaffDtoBase {
+}
 
 export interface StaffDtoBase extends FullAuditedEntityDto<string> {
   image?: string;
@@ -64,7 +67,8 @@ export interface StaffDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface StaffExcelDownloadDto extends StaffExcelDownloadDtoBase {}
+export interface StaffExcelDownloadDto extends StaffExcelDownloadDtoBase {
+}
 
 export interface StaffExcelDownloadDtoBase {
   downloadToken?: string;
@@ -88,7 +92,8 @@ export interface StaffExcelDownloadDtoBase {
   timesheetId?: string;
 }
 
-export interface StaffUpdateDto extends StaffUpdateDtoBase {}
+export interface StaffUpdateDto extends StaffUpdateDtoBase {
+}
 
 export interface StaffUpdateDtoBase {
   image?: string;
@@ -108,7 +113,8 @@ export interface StaffUpdateDtoBase {
   concurrencyStamp?: string;
 }
 
-export interface StaffWithNavigationPropertiesDto extends StaffWithNavigationPropertiesDtoBase {}
+export interface StaffWithNavigationPropertiesDto extends StaffWithNavigationPropertiesDtoBase {
+}
 
 export interface StaffWithNavigationPropertiesDtoBase {
   staff: StaffDto;

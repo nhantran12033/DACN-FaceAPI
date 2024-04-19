@@ -4,6 +4,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import type { TimesheetWithNavigationPropertiesDto } from '../../../proxy/timesheets/models';
 import { TimesheetViewService } from '../services/timesheet.service';
 import { TimesheetDetailViewService } from '../services/timesheet-detail.service';
+import { WebcamImage } from 'ngx-webcam';
 
 @Component({
   template: '',
@@ -18,7 +19,12 @@ export abstract class AbstractTimesheetComponent implements OnInit {
   ngOnInit() {
     this.service.hookToQuery();
   }
+  public webcamImage: WebcamImage = null;
 
+  handleImage(webcamImage: WebcamImage) {
+    this.webcamImage = webcamImage;
+    this.service.createDto(webcamImage.imageAsDataUrl);
+  }
   clearFilters() {
     this.service.clearFilters();
   }

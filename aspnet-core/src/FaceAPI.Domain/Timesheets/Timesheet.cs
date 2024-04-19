@@ -17,13 +17,12 @@ namespace FaceAPI.Timesheets
     public abstract class TimesheetBase : FullAuditedAggregateRoot<Guid>
     {
         [CanBeNull]
+        public virtual string? Image { get; set; }
+
+        [CanBeNull]
         public virtual string? Code { get; set; }
 
-        public virtual DateTime TimeIn { get; set; }
-
-        public virtual DateTime TimeOut { get; set; }
-
-        public virtual int HoursWork { get; set; }
+        public virtual DateTime Time { get; set; }
 
         [CanBeNull]
         public virtual string? Note { get; set; }
@@ -36,13 +35,12 @@ namespace FaceAPI.Timesheets
 
         }
 
-        public TimesheetBase(Guid id, Guid? scheduleId, Guid? scheduleDetailId, Guid? scheduleFormatId, DateTime timeIn, DateTime timeOut, int hoursWork, string? code = null, string? note = null)
+        public TimesheetBase(Guid id, Guid? scheduleId, Guid? scheduleDetailId, Guid? scheduleFormatId, DateTime time, string? image = null, string? code = null, string? note = null)
         {
 
             Id = id;
-            TimeIn = timeIn;
-            TimeOut = timeOut;
-            HoursWork = hoursWork;
+            Time = time;
+            Image = image;
             Code = code;
             Note = note;
             ScheduleId = scheduleId;

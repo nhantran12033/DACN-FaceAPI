@@ -2,21 +2,17 @@
   <abp-page-toolbar-container class="col">
     <div class="text-lg-end pt-2">
 
-      <button
-        class="btn btn-primary btn-sm mx-2"
-        type="button"
-        [disabled]="service.isExportToExcelBusy"
-        (click)="exportToExcel()"
-      >
+      <button class="btn btn-primary btn-sm mx-2"
+              type="button"
+              [disabled]="service.isExportToExcelBusy"
+              (click)="exportToExcel()">
         {{ '::ExportToExcel' | abpLocalization }}
       </button>
 
-      <button
-        *abpPermission="'FaceAPI.Schedules.Create'"
-        class="btn btn-primary btn-sm"
-        type="button"
-        (click)="create()"
-      >
+      <button *abpPermission="'FaceAPI.Schedules.Create'"
+              class="btn btn-primary btn-sm"
+              type="button"
+              (click)="create()">
         <i class="fa fa-plus me-1" aria-hidden="true"></i>
         {{ '::NewSchedule' | abpLocalization }}
       </button>
@@ -33,12 +29,10 @@
                 {{ '::Code' | abpLocalization }}
               </label>
 
-              <input
-                id="codeFilter"
-                class="form-control"
-                [(ngModel)]="filters.code"
-                [ngModelOptions]="{ standalone: true }"
-              />
+              <input id="codeFilter"
+                     class="form-control"
+                     [(ngModel)]="filters.code"
+                     [ngModelOptions]="{ standalone: true }" />
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -47,12 +41,10 @@
                 {{ '::Name' | abpLocalization }}
               </label>
 
-              <input
-                id="nameFilter"
-                class="form-control"
-                [(ngModel)]="filters.name"
-                [ngModelOptions]="{ standalone: true }"
-              />
+              <input id="nameFilter"
+                     class="form-control"
+                     [(ngModel)]="filters.name"
+                     [ngModelOptions]="{ standalone: true }" />
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -62,30 +54,26 @@
               </label>
 
               <div class="input-group" validationTarget>
-                <input
-                  id="minDateFrom"
-                  class="form-control"
-                  #minDateFromInput
-                  #minDateFromDatepicker="ngbDatepicker"
-                  name="minDateFrom"
-                  ngbDatepicker
-                  container="body"
-                  readonly
-                  (click)="minDateFromDatepicker.toggle()"
-                  (keyup.space)="minDateFromDatepicker.toggle()"
-                  [(ngModel)]="filters.dateFromMin"
-                  [ngModelOptions]="{ standalone: true }"
-                />
+                <input id="minDateFrom"
+                       class="form-control"
+                       #minDateFromInput
+                       #minDateFromDatepicker="ngbDatepicker"
+                       name="minDateFrom"
+                       ngbDatepicker
+                       container="body"
+                       readonly
+                       (click)="minDateFromDatepicker.toggle()"
+                       (keyup.space)="minDateFromDatepicker.toggle()"
+                       [(ngModel)]="filters.dateFromMin"
+                       [ngModelOptions]="{ standalone: true }" />
                 <div *ngIf="minDateFromInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
+                  <button class="btn btn-link px-2"
+                          type="button"
+                          [title]="'AbpUi::Clear' | abpLocalization"
+                          (click)="
                       minDateFromDatepicker.writeValue(null);
                       minDateFromDatepicker.manualDateChange(null, true)
-                    "
-                  >
+                    ">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -100,29 +88,25 @@
               </label>
 
               <div class="input-group" validationTarget>
-                <input
-                  id="maxDateFrom"
-                  class="form-control"
-                  #maxDateFromInput
-                  #maxDateFromDatepicker="ngbDatepicker"
-                  name="maxDateFrom"
-                  ngbDatepicker
-                  readonly
-                  (click)="maxDateFromDatepicker.toggle()"
-                  (keyup.space)="maxDateFromDatepicker.toggle()"
-                  [(ngModel)]="filters.dateFromMax"
-                  [ngModelOptions]="{ standalone: true }"
-                />
+                <input id="maxDateFrom"
+                       class="form-control"
+                       #maxDateFromInput
+                       #maxDateFromDatepicker="ngbDatepicker"
+                       name="maxDateFrom"
+                       ngbDatepicker
+                       readonly
+                       (click)="maxDateFromDatepicker.toggle()"
+                       (keyup.space)="maxDateFromDatepicker.toggle()"
+                       [(ngModel)]="filters.dateFromMax"
+                       [ngModelOptions]="{ standalone: true }" />
                 <div *ngIf="maxDateFromInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
+                  <button class="btn btn-link px-2"
+                          type="button"
+                          [title]="'AbpUi::Clear' | abpLocalization"
+                          (click)="
                       maxDateFromDatepicker.writeValue(null);
                       maxDateFromDatepicker.manualDateChange(null, true)
-                    "
-                  >
+                    ">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -136,30 +120,26 @@
               </label>
 
               <div class="input-group" validationTarget>
-                <input
-                  id="minDateTo"
-                  class="form-control"
-                  #minDateToInput
-                  #minDateToDatepicker="ngbDatepicker"
-                  name="minDateTo"
-                  ngbDatepicker
-                  container="body"
-                  readonly
-                  (click)="minDateToDatepicker.toggle()"
-                  (keyup.space)="minDateToDatepicker.toggle()"
-                  [(ngModel)]="filters.dateToMin"
-                  [ngModelOptions]="{ standalone: true }"
-                />
+                <input id="minDateTo"
+                       class="form-control"
+                       #minDateToInput
+                       #minDateToDatepicker="ngbDatepicker"
+                       name="minDateTo"
+                       ngbDatepicker
+                       container="body"
+                       readonly
+                       (click)="minDateToDatepicker.toggle()"
+                       (keyup.space)="minDateToDatepicker.toggle()"
+                       [(ngModel)]="filters.dateToMin"
+                       [ngModelOptions]="{ standalone: true }" />
                 <div *ngIf="minDateToInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
+                  <button class="btn btn-link px-2"
+                          type="button"
+                          [title]="'AbpUi::Clear' | abpLocalization"
+                          (click)="
                       minDateToDatepicker.writeValue(null);
                       minDateToDatepicker.manualDateChange(null, true)
-                    "
-                  >
+                    ">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -174,29 +154,25 @@
               </label>
 
               <div class="input-group" validationTarget>
-                <input
-                  id="maxDateTo"
-                  class="form-control"
-                  #maxDateToInput
-                  #maxDateToDatepicker="ngbDatepicker"
-                  name="maxDateTo"
-                  ngbDatepicker
-                  readonly
-                  (click)="maxDateToDatepicker.toggle()"
-                  (keyup.space)="maxDateToDatepicker.toggle()"
-                  [(ngModel)]="filters.dateToMax"
-                  [ngModelOptions]="{ standalone: true }"
-                />
+                <input id="maxDateTo"
+                       class="form-control"
+                       #maxDateToInput
+                       #maxDateToDatepicker="ngbDatepicker"
+                       name="maxDateTo"
+                       ngbDatepicker
+                       readonly
+                       (click)="maxDateToDatepicker.toggle()"
+                       (keyup.space)="maxDateToDatepicker.toggle()"
+                       [(ngModel)]="filters.dateToMax"
+                       [ngModelOptions]="{ standalone: true }" />
                 <div *ngIf="maxDateToInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
+                  <button class="btn btn-link px-2"
+                          type="button"
+                          [title]="'AbpUi::Clear' | abpLocalization"
+                          (click)="
                       maxDateToDatepicker.writeValue(null);
                       maxDateToDatepicker.manualDateChange(null, true)
-                    "
-                  >
+                    ">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -209,12 +185,10 @@
                 {{ '::Note' | abpLocalization }}
               </label>
 
-              <input
-                id="noteFilter"
-                class="form-control"
-                [(ngModel)]="filters.note"
-                [ngModelOptions]="{ standalone: true }"
-              />
+              <input id="noteFilter"
+                     class="form-control"
+                     [(ngModel)]="filters.note"
+                     [ngModelOptions]="{ standalone: true }" />
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -222,12 +196,10 @@
               <label class="form-label" for="staffIdFilter">
                 {{ '::Staff' | abpLocalization }}
               </label>
-              <abp-lookup-select
-                cid="staffIdFilter"
-                [getFn]="serviceDetail.getStaffLookup"
-                [(ngModel)]="filters.staffId"
-                [ngModelOptions]="{ standalone: true }"
-              ></abp-lookup-select>
+              <abp-lookup-select cid="staffIdFilter"
+                                 [getFn]="serviceDetail.getStaffLookup"
+                                 [(ngModel)]="filters.staffId"
+                                 [ngModelOptions]="{ standalone: true }"></abp-lookup-select>
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -235,13 +207,11 @@
               <label class="form-label" for="scheduleDetailsFilter">
                 {{ '::ScheduleDetail' | abpLocalization }}
               </label>
-              <abp-lookup-typeahead
-                cid="scheduleDetailsFilter"
-                displayNameProp="name"
-                [getFn]="serviceDetail.getScheduleDetailLookup"
-                [(ngModel)]="filters.scheduleDetailId"
-                [ngModelOptions]="{ standalone: true }"
-              ></abp-lookup-typeahead>
+              <abp-lookup-typeahead cid="scheduleDetailsFilter"
+                                    displayNameProp="name"
+                                    [getFn]="serviceDetail.getScheduleDetailLookup"
+                                    [(ngModel)]="filters.scheduleDetailId"
+                                    [ngModelOptions]="{ standalone: true }"></abp-lookup-typeahead>
             </div>
           </div>
 
@@ -316,6 +286,7 @@
             {{ row.schedule.dateFrom | date }}
           </ng-template>
         </ngx-datatable-column>
+
         <ngx-datatable-column name="{{ '::DateTo' | abpLocalization }}" prop="schedule.dateTo">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.schedule.dateTo | date }}
@@ -326,18 +297,11 @@
             {{ row.staff?.code }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Active' | abpLocalization }}">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div *ngIf="serviceDetail.isActive">
-              <i class="fas fa-check" style="color: yellow"></i>
-            </div>
-            
-          </ng-template>
-        </ngx-datatable-column>
       </ngx-datatable>
     </div>
   </div>
 </abp-page>
+
 <app-schedule-detail> </app-schedule-detail>
 <abp-modal [options]="{ size: 'xl' }" [(visible)]="serviceDetail.isOpenDetail">
   <ng-template #abpHeader>
@@ -350,16 +314,22 @@
   <ng-template #abpBody>
     <div class="card" style="display: flex; justify-content: center; align-items: center">
       <div class="card-body">
-        <ngx-datatable #myTable [rows]="serviceDetail.dataScheduleDto.scheduleDetails">
+        <ngx-datatable #myTable [rows]="serviceDetail.dataScheduleDto?.scheduleDetails">
 
           <ngx-datatable-row-detail [rowHeight]="250">
             <ng-template let-row="row" ngx-datatable-row-detail-template>
               <div style="padding-left:100px;padding-top: 20px; border: 1px solid white">
 
-                <ngx-datatable [rows]="service.dataDetailDto.scheduleFormats">
+                <ngx-datatable [rows]="service.dataDetailDto?.scheduleFormats">
                   <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="name">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                       {{ row.name }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="{{ '::Date' | abpLocalization }}" prop="date">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.date | date}}
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -375,6 +345,13 @@
                     </ng-template>
                   </ngx-datatable-column>
 
+                  <ngx-datatable-column name="{{ '::Active' | abpLocalization }}">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <div *ngIf="service.activeId.includes(row.id)">
+                        <i class="fas fa-check" style="color: yellow"></i>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
                 </ngx-datatable>
               </div>
             </ng-template>
@@ -413,14 +390,6 @@
           <ngx-datatable-column name="{{ '::Note' | abpLocalization }}" prop="note">
             <ng-template let-row="row" ngx-datatable-cell-template>
               {{ row.note }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="{{ '::Active' | abpLocalization }}">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <div *ngIf="serviceDetail.isActive">
-                <i class="fas fa-check" style="color: yellow"></i>
-              </div>
-
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>

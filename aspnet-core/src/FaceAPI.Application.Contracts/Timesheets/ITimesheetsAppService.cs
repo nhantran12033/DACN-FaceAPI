@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
 using FaceAPI.Shared;
+using System.Collections.Generic;
 
 namespace FaceAPI.Timesheets
 {
@@ -13,6 +14,7 @@ namespace FaceAPI.Timesheets
         Task<PagedResultDto<TimesheetWithNavigationPropertiesDto>> GetListAsync(GetTimesheetsInput input);
 
         Task<TimesheetWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
+        Task<List<TimesheetWithNavigationPropertiesDto>> GetWithNavigationActivePropertiesAsync(Guid scheduleDetailId);
 
         Task<TimesheetDto> GetAsync(Guid id);
 

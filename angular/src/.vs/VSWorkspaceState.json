@@ -2,16 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\app",
+    "\\app\\proxy",
+    "\\app\\proxy\\timesheets",
     "\\app\\schedules",
-    "\\app\\schedules\\schedule",
-    "\\app\\schedules\\schedule\\components",
     "\\app\\staffs",
-    "\\app\\staffs\\staff",
-    "\\app\\staffs\\staff\\components",
     "\\app\\timesheets",
     "\\app\\timesheets\\timesheet",
-    "\\app\\timesheets\\timesheet\\components"
+    "\\app\\timesheets\\timesheet\\components",
+    "\\app\\timesheets\\timesheet\\services"
   ],
-  "SelectedNode": "\\app\\timesheets\\timesheet\\components\\timesheet.component.ts",
+  "SelectedNode": "\\app\\proxy\\timesheets\\timesheet.service.ts",
   "PreviewInSolutionExplorer": false
 }

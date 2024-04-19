@@ -1,0 +1,163 @@
+<abp-modal [busy]="service.isBusy" [(visible)]="service.isVisible">
+  <ng-template #abpHeader>
+    <!--<suite-custom-code-block-0>-->
+    <!--</suite-custom-code-block-0>-->
+    <h3>
+      <!--<suite-custom-code-block-1>-->
+      <!--</suite-custom-code-block-1>-->
+      {{ (service.selected ? 'AbpUi::Edit' : '::NewScheduleDetail') | abpLocalization }}
+      <!--<suite-custom-code-block-2>-->
+      <!--</suite-custom-code-block-2>-->
+    </h3>
+    <!--<suite-custom-code-block-3>-->
+    <!--</suite-custom-code-block-3>-->
+  </ng-template>
+
+  <ng-template #abpBody>
+    <!--<suite-custom-code-block-4>-->
+    <!--</suite-custom-code-block-4>-->
+    <form
+      [formGroup]="service.form"
+      id="schedule-detail"
+      (ngSubmit)="service.submitForm()"
+      validateOnSubmit
+    >
+      <!--<suite-custom-code-block-5>-->
+      <!--</suite-custom-code-block-5>-->
+
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>
+            {{ 'ScheduleDetail' | abpLocalization }}
+          </a>
+          <ng-template ngbNavContent>
+            <div class="mt-2 fade-in-top">
+              <div class="mb-3">
+                <label class="form-label" for="schedule-detail-name">
+                  {{ '::Name' | abpLocalization }}
+                </label>
+
+                <input
+                  id="schedule-detail-name"
+                  formControlName="name"
+                  class="form-control"
+                  autofocus
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="schedule-detail-from-date">
+                  {{ '::FromDate' | abpLocalization }}
+                </label>
+
+                <div class="input-group" validationTarget>
+                  <input
+                    readonly
+                    id="schedule-detail-from-date"
+                    formControlName="fromDate"
+                    class="form-control"
+                    ngbDatepicker
+                    #fromDateInput
+                    #fromDateDatepicker="ngbDatepicker"
+                    (click)="fromDateDatepicker.open()"
+                    (keyup.space)="fromDateDatepicker.open()"
+                  />
+                  <div *ngIf="fromDateInput.value" class="input-group-append">
+                    <button
+                      class="btn btn-link px-2"
+                      type="button"
+                      [title]="'AbpUi::Clear' | abpLocalization"
+                      (click)="
+                        fromDateDatepicker.writeValue(null);
+                        fromDateDatepicker.manualDateChange(null, true)
+                      "
+                    >
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="schedule-detail-to-date">
+                  {{ '::ToDate' | abpLocalization }}
+                </label>
+
+                <div class="input-group" validationTarget>
+                  <input
+                    readonly
+                    id="schedule-detail-to-date"
+                    formControlName="toDate"
+                    class="form-control"
+                    ngbDatepicker
+                    #toDateInput
+                    #toDateDatepicker="ngbDatepicker"
+                    (click)="toDateDatepicker.open()"
+                    (keyup.space)="toDateDatepicker.open()"
+                  />
+                  <div *ngIf="toDateInput.value" class="input-group-append">
+                    <button
+                      class="btn btn-link px-2"
+                      type="button"
+                      [title]="'AbpUi::Clear' | abpLocalization"
+                      (click)="
+                        toDateDatepicker.writeValue(null);
+                        toDateDatepicker.manualDateChange(null, true)
+                      "
+                    >
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="schedule-detail-note">
+                  {{ '::Note' | abpLocalization }}
+                </label>
+
+                <textarea id="schedule-detail-note" formControlName="note" class="form-control">
+                </textarea>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+
+        <li ngbNavItem>
+          <a ngbNavLink>
+            {{ 'ScheduleFormats' | abpLocalization }}
+            <span *ngIf="this.service.form.controls['scheduleFormatIds']">
+              ({{ this.service.form.controls['scheduleFormatIds'].value?.length }})
+            </span>
+          </a>
+          <ng-template ngbNavContent>
+            <abp-lookup-typeahead-mtm
+              cid="schedule-detail-schedule-formats"
+              formControlName="scheduleFormatIds"
+              displayNameProp="name"
+              lookupNameProp="displayName"
+              [getFn]="service.getScheduleFormatLookup"
+              [editingData]="service.selected?.scheduleFormats"
+            ></abp-lookup-typeahead-mtm>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+
+      <!--<suite-custom-code-block-6>-->
+      <!--</suite-custom-code-block-6>-->
+    </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <!--<suite-custom-code-block-7>-->
+    <!--</suite-custom-code-block-7>-->
+    <button type="button" class="btn btn-secondary" abpClose>
+      {{ 'AbpUi::Cancel' | abpLocalization }}
+    </button>
+    <!--<suite-custom-code-block-8>-->
+    <!--</suite-custom-code-block-8>-->
+    <abp-button iconClass="fa fa-check" buttonType="submit" formName="schedule-detail">
+      {{ 'AbpUi::Save' | abpLocalization }}
+    </abp-button>
+    <!--<suite-custom-code-block-9>-->
+    <!--</suite-custom-code-block-9>-->
+  </ng-template>
+</abp-modal>

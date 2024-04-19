@@ -20,14 +20,13 @@ namespace FaceAPI.Timesheets
         }
 
         public virtual async Task<Timesheet> CreateAsync(
-        Guid? scheduleId, Guid? scheduleDetailId, Guid? scheduleFormatId, DateTime timeIn, DateTime timeOut, int hoursWork, string? code = null, string? note = null)
+        Guid? scheduleId, Guid? scheduleDetailId, Guid? scheduleFormatId, DateTime time, string? image = null, string? code = null, string? note = null)
         {
-            Check.NotNull(timeIn, nameof(timeIn));
-            Check.NotNull(timeOut, nameof(timeOut));
+            Check.NotNull(time, nameof(time));
 
             var timesheet = new Timesheet(
              GuidGenerator.Create(),
-             scheduleId, scheduleDetailId, scheduleFormatId, timeIn, timeOut, hoursWork, code, note
+             scheduleId, scheduleDetailId, scheduleFormatId, time, image, code, note
              );
 
             return await _timesheetRepository.InsertAsync(timesheet);
@@ -35,20 +34,18 @@ namespace FaceAPI.Timesheets
 
         public virtual async Task<Timesheet> UpdateAsync(
             Guid id,
-            Guid? scheduleId, Guid? scheduleDetailId, Guid? scheduleFormatId, DateTime timeIn, DateTime timeOut, int hoursWork, string? code = null, string? note = null, [CanBeNull] string? concurrencyStamp = null
+            Guid? scheduleId, Guid? scheduleDetailId, Guid? scheduleFormatId, DateTime time, string? image = null, string? code = null, string? note = null, [CanBeNull] string? concurrencyStamp = null
         )
         {
-            Check.NotNull(timeIn, nameof(timeIn));
-            Check.NotNull(timeOut, nameof(timeOut));
+            Check.NotNull(time, nameof(time));
 
             var timesheet = await _timesheetRepository.GetAsync(id);
 
             timesheet.ScheduleId = scheduleId;
             timesheet.ScheduleDetailId = scheduleDetailId;
             timesheet.ScheduleFormatId = scheduleFormatId;
-            timesheet.TimeIn = timeIn;
-            timesheet.TimeOut = timeOut;
-            timesheet.HoursWork = hoursWork;
+            timesheet.Time = time;
+            timesheet.Image = image;
             timesheet.Code = code;
             timesheet.Note = note;
 

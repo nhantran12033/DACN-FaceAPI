@@ -1,7 +1,8 @@
 import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { ScheduleFormatDto } from '../schedule-formats/models';
 
-export interface GetScheduleDetailsInput extends GetScheduleDetailsInputBase {}
+export interface GetScheduleDetailsInput extends GetScheduleDetailsInputBase {
+}
 
 export interface GetScheduleDetailsInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -14,7 +15,8 @@ export interface GetScheduleDetailsInputBase extends PagedAndSortedResultRequest
   scheduleFormatId?: string;
 }
 
-export interface ScheduleDetailCreateDto extends ScheduleDetailCreateDtoBase {}
+export interface ScheduleDetailCreateDto extends ScheduleDetailCreateDtoBase {
+}
 
 export interface ScheduleDetailCreateDtoBase {
   name?: string;
@@ -24,7 +26,8 @@ export interface ScheduleDetailCreateDtoBase {
   scheduleFormatIds: string[];
 }
 
-export interface ScheduleDetailDto extends ScheduleDetailDtoBase {}
+export interface ScheduleDetailDto extends ScheduleDetailDtoBase {
+}
 
 export interface ScheduleDetailDtoBase extends FullAuditedEntityDto<string> {
   name?: string;
@@ -34,7 +37,8 @@ export interface ScheduleDetailDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface ScheduleDetailUpdateDto extends ScheduleDetailUpdateDtoBase {}
+export interface ScheduleDetailUpdateDto extends ScheduleDetailUpdateDtoBase {
+}
 
 export interface ScheduleDetailUpdateDtoBase {
   name?: string;
@@ -45,8 +49,8 @@ export interface ScheduleDetailUpdateDtoBase {
   concurrencyStamp?: string;
 }
 
-export interface ScheduleDetailWithNavigationPropertiesDto
-  extends ScheduleDetailWithNavigationPropertiesDtoBase {}
+export interface ScheduleDetailWithNavigationPropertiesDto extends ScheduleDetailWithNavigationPropertiesDtoBase {
+}
 
 export interface ScheduleDetailWithNavigationPropertiesDtoBase {
   scheduleDetail: ScheduleDetailDto;

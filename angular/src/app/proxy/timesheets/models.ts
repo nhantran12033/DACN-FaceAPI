@@ -3,37 +3,42 @@ import type { ScheduleDto } from '../schedules/models';
 import type { ScheduleDetailDto } from '../schedule-details/models';
 import type { ScheduleFormatDto } from '../schedule-formats/models';
 
-export interface GetTimesheetsInput extends PagedAndSortedResultRequestDto {
+export interface GetTimesheetsInput extends GetTimesheetsInputBase {
+}
+
+export interface GetTimesheetsInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
+  image?: string;
   code?: string;
-  timeInMin?: string;
-  timeInMax?: string;
-  timeOutMin?: string;
-  timeOutMax?: string;
-  hoursWorkMin?: number;
-  hoursWorkMax?: number;
+  timeMin?: string;
+  timeMax?: string;
   note?: string;
   scheduleId?: string;
   scheduleDetailId?: string;
   scheduleFormatId?: string;
 }
 
-export interface TimesheetCreateDto {
+export interface TimesheetCreateDto extends TimesheetCreateDtoBase {
+}
+
+export interface TimesheetCreateDtoBase {
+  url?: string;
+  image?: string;
   code?: string;
-  timeIn?: string;
-  timeOut?: string;
-  hoursWork?: number;
+  time?: string;
   note?: string;
   scheduleId?: string;
   scheduleDetailId?: string;
   scheduleFormatId?: string;
 }
 
-export interface TimesheetDto extends FullAuditedEntityDto<string> {
+export interface TimesheetDto extends TimesheetDtoBase {
+}
+
+export interface TimesheetDtoBase extends FullAuditedEntityDto<string> {
+  image?: string;
   code?: string;
-  timeIn?: string;
-  timeOut?: string;
-  hoursWork?: number;
+  time?: string;
   note?: string;
   scheduleId?: string;
   scheduleDetailId?: string;
@@ -41,17 +46,29 @@ export interface TimesheetDto extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface TimesheetExcelDownloadDto {
+export interface TimesheetExcelDownloadDto extends TimesheetExcelDownloadDtoBase {
+}
+
+export interface TimesheetExcelDownloadDtoBase {
   downloadToken?: string;
   filterText?: string;
-  name?: string;
+  image?: string;
+  code?: string;
+  timeMin?: string;
+  timeMax?: string;
+  note?: string;
+  scheduleId?: string;
+  scheduleDetailId?: string;
+  scheduleFormatId?: string;
 }
 
-export interface TimesheetUpdateDto {
+export interface TimesheetUpdateDto extends TimesheetUpdateDtoBase {
+}
+
+export interface TimesheetUpdateDtoBase {
+  image?: string;
   code?: string;
-  timeIn?: string;
-  timeOut?: string;
-  hoursWork?: number;
+  time?: string;
   note?: string;
   scheduleId?: string;
   scheduleDetailId?: string;
@@ -59,7 +76,10 @@ export interface TimesheetUpdateDto {
   concurrencyStamp?: string;
 }
 
-export interface TimesheetWithNavigationPropertiesDto {
+export interface TimesheetWithNavigationPropertiesDto extends TimesheetWithNavigationPropertiesDtoBase {
+}
+
+export interface TimesheetWithNavigationPropertiesDtoBase {
   timesheet: TimesheetDto;
   schedule: ScheduleDto;
   scheduleDetail: ScheduleDetailDto;

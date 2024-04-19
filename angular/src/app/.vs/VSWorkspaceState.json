@@ -1,17 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\departments",
-    "\\departments\\department",
-    "\\departments\\department\\components",
-    "\\shared",
-    "\\staffs",
-    "\\staffs\\staff",
-    "\\staffs\\staff\\components",
-    "\\timesheets",
+    "\\salaries",
+    "\\salaries\\salary",
+    "\\salaries\\salary\\components",
+    "\\schedules",
+    "\\schedules\\schedule",
+    "\\schedules\\schedule\\components",
     "\\timesheets\\timesheet",
     "\\timesheets\\timesheet\\components",
     "\\timesheets\\timesheet\\providers"
   ],
+  "SelectedNode": "\\app-routing.module.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -16,6 +16,8 @@ import { TimesheetViewService } from '../services/timesheet.service';
 import { TimesheetDetailViewService } from '../services/timesheet-detail.service';
 import { TimesheetDetailComponent } from './timesheet-detail.component';
 import { AbstractTimesheetComponent } from './timesheet.abstract.component';
+import { WebcamComponent, WebcamModule } from 'ngx-webcam';
+import { CameraComponent } from '../../../camera/camera.component';
 
 @Component({
   selector: 'app-timesheet',
@@ -23,6 +25,7 @@ import { AbstractTimesheetComponent } from './timesheet.abstract.component';
   standalone: true,
   imports: [
     CoreModule,
+    CameraComponent,
     ThemeSharedModule,
     TimesheetDetailComponent,
     CommercialUiModule,
@@ -30,7 +33,7 @@ import { AbstractTimesheetComponent } from './timesheet.abstract.component';
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbDropdownModule,
-
+    WebcamModule,
     PageModule,
   ],
   providers: [

@@ -37,7 +37,12 @@ namespace FaceAPI.Controllers.Schedules
         {
             return _schedulesAppService.GetWithNavigationPropertiesAsync(id);
         }
-
+        [HttpGet]
+        [Route("with--code-navigation-properties/{id}")]
+        public virtual Task<ScheduleWithNavigationPropertiesDto> GetWithCodeNavigationPropertiesAsync(Guid id)
+        {
+            return _schedulesAppService.GetWithCodeNavigationPropertiesAsync(id);
+        }
         [HttpGet]
         [Route("{id}")]
         public virtual Task<ScheduleDto> GetAsync(Guid id)

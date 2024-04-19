@@ -13,6 +13,7 @@ namespace FaceAPI.Schedules
         Task<PagedResultDto<ScheduleWithNavigationPropertiesDto>> GetListAsync(GetSchedulesInput input);
 
         Task<ScheduleWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
+        Task<ScheduleWithNavigationPropertiesDto> GetWithCodeNavigationPropertiesAsync(Guid id);
 
         Task<ScheduleDto> GetAsync(Guid id);
 

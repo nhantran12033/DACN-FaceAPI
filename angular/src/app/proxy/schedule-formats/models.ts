@@ -1,6 +1,7 @@
 import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
-export interface GetScheduleFormatsInput extends GetScheduleFormatsInputBase {}
+export interface GetScheduleFormatsInput extends GetScheduleFormatsInputBase {
+}
 
 export interface GetScheduleFormatsInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -14,7 +15,8 @@ export interface GetScheduleFormatsInputBase extends PagedAndSortedResultRequest
   note?: string;
 }
 
-export interface ScheduleFormatCreateDto extends ScheduleFormatCreateDtoBase {}
+export interface ScheduleFormatCreateDto extends ScheduleFormatCreateDtoBase {
+}
 
 export interface ScheduleFormatCreateDtoBase {
   name?: string;
@@ -24,7 +26,8 @@ export interface ScheduleFormatCreateDtoBase {
   note?: string;
 }
 
-export interface ScheduleFormatDto extends ScheduleFormatDtoBase {}
+export interface ScheduleFormatDto extends ScheduleFormatDtoBase {
+}
 
 export interface ScheduleFormatDtoBase extends FullAuditedEntityDto<string> {
   name?: string;
@@ -35,7 +38,8 @@ export interface ScheduleFormatDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface ScheduleFormatUpdateDto extends ScheduleFormatUpdateDtoBase {}
+export interface ScheduleFormatUpdateDto extends ScheduleFormatUpdateDtoBase {
+}
 
 export interface ScheduleFormatUpdateDtoBase {
   name?: string;

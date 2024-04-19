@@ -8,6 +8,7 @@ using Volo.Abp.Application.Dtos;
 using FaceAPI.Timesheets;
 using Volo.Abp.Content;
 using FaceAPI.Shared;
+using System.Collections.Generic;
 
 namespace FaceAPI.Controllers.Timesheets
 {
@@ -36,6 +37,12 @@ namespace FaceAPI.Controllers.Timesheets
         public virtual Task<TimesheetWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
         {
             return _timesheetsAppService.GetWithNavigationPropertiesAsync(id);
+        }
+        [HttpGet]
+        [Route("with-navigation-active-properties/{scheduleDetailId}")]
+        public virtual Task<List<TimesheetWithNavigationPropertiesDto>> GetWithNavigationActivePropertiesAsync(Guid scheduleDetailId)
+        {
+            return _timesheetsAppService.GetWithNavigationActivePropertiesAsync(scheduleDetailId);
         }
 
         [HttpGet]

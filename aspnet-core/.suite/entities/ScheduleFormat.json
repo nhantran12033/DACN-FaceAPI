@@ -11,11 +11,11 @@
   "PreserveCustomCode": true,
   "IsMultiTenant": false,
   "CheckConcurrency": true,
-  "ShouldCreateUserInterface": false,
+  "ShouldCreateUserInterface": true,
   "ShouldCreateBackend": true,
   "ShouldExportExcel": false,
-  "ShouldAddMigration": true,
-  "ShouldUpdateDatabase": true,
+  "ShouldAddMigration": false,
+  "ShouldUpdateDatabase": false,
   "CreateTests": false,
   "Properties": [
     {

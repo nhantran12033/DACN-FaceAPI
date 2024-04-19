@@ -1,7 +1,8 @@
 import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { TitleDto } from '../titles/models';
 
-export interface DepartmentCreateDto extends DepartmentCreateDtoBase {}
+export interface DepartmentCreateDto extends DepartmentCreateDtoBase {
+}
 
 export interface DepartmentCreateDtoBase {
   code?: string;
@@ -11,7 +12,8 @@ export interface DepartmentCreateDtoBase {
   titleIds: string[];
 }
 
-export interface DepartmentDto extends DepartmentDtoBase {}
+export interface DepartmentDto extends DepartmentDtoBase {
+}
 
 export interface DepartmentDtoBase extends FullAuditedEntityDto<string> {
   code?: string;
@@ -21,7 +23,8 @@ export interface DepartmentDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface DepartmentUpdateDto extends DepartmentUpdateDtoBase {}
+export interface DepartmentUpdateDto extends DepartmentUpdateDtoBase {
+}
 
 export interface DepartmentUpdateDtoBase {
   code?: string;
@@ -32,15 +35,16 @@ export interface DepartmentUpdateDtoBase {
   concurrencyStamp?: string;
 }
 
-export interface DepartmentWithNavigationPropertiesDto
-  extends DepartmentWithNavigationPropertiesDtoBase {}
+export interface DepartmentWithNavigationPropertiesDto extends DepartmentWithNavigationPropertiesDtoBase {
+}
 
 export interface DepartmentWithNavigationPropertiesDtoBase {
   department: DepartmentDto;
   titles: TitleDto[];
 }
 
-export interface GetDepartmentsInput extends GetDepartmentsInputBase {}
+export interface GetDepartmentsInput extends GetDepartmentsInputBase {
+}
 
 export interface GetDepartmentsInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;

@@ -4,7 +4,6 @@ import { ListService } from '@abp/ng.core';
 import { finalize, tap } from 'rxjs/operators';
 import type { ScheduleWithNavigationPropertiesDto } from '../../../proxy/schedules/models';
 import { ScheduleService } from '../../../proxy/schedules/schedule.service';
-
 export abstract class AbstractScheduleDetailViewService {
   protected readonly fb = inject(FormBuilder);
   public readonly proxyService = inject(ScheduleService);
@@ -14,7 +13,6 @@ export abstract class AbstractScheduleDetailViewService {
   public readonly getStaffLookup = this.proxyService.getStaffLookup;
   isOpenDetail = false;
   isOpenFormatDetail = false;
-  isActive = true;
   isBusy = false;
   isVisible = false;
   selected = {} as any;
@@ -75,6 +73,7 @@ export abstract class AbstractScheduleDetailViewService {
     this.isOpenDetail = true;
     this.proxyService.getWithNavigationProperties(id).subscribe(result => {
       this.dataScheduleDto = result;
+
       
     })
   }

@@ -34,6 +34,7 @@ namespace FaceAPI;
     )]
 [DependsOn(typeof(FileManagementHttpApiModule))]
     [DependsOn(typeof(ChatHttpApiModule))]
+    [DependsOn(typeof(AbpAccountPublicHttpApiModule))]
     public class FaceAPIHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

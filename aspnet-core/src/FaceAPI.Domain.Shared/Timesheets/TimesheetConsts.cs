@@ -2,7 +2,7 @@ namespace FaceAPI.Timesheets
 {
     public static class TimesheetConsts
     {
-        private const string DefaultSorting = "{0}Code asc";
+        private const string DefaultSorting = "{0}Image asc";
 
         public static string GetDefaultSorting(bool withEntityName)
         {

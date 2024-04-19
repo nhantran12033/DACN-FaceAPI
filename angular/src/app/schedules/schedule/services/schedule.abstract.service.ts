@@ -8,17 +8,23 @@ import type {
 } from '../../../proxy/schedules/models';
 import { ScheduleService } from '../../../proxy/schedules/schedule.service';
 import { ScheduleDetailService, ScheduleDetailWithNavigationPropertiesDto } from '../../../proxy/schedule-details';
+import { GetTimesheetsInput, TimesheetService } from '../../../proxy/timesheets';
 
 export abstract class AbstractScheduleViewService {
   protected readonly proxyService = inject(ScheduleService);
   protected readonly proxyDetailService = inject(ScheduleDetailService);
+  protected readonly proxySheetService = inject(TimesheetService);
   protected readonly confirmationService = inject(ConfirmationService);
   protected readonly list = inject(ListService);
 
   public readonly getWithNavigationProperties = this.proxyService.getWithNavigationProperties;
-
+  activeId = [];
+  activeDetailId = [];
+  isActive: boolean;
+  filter: GetTimesheetsInput;
   isExportToExcelBusy = false;
   dataDetailDto: ScheduleDetailWithNavigationPropertiesDto;
+  dataTimeSheetDto: ScheduleDetailWithNavigationPropertiesDto;
   data: PagedResultDto<ScheduleWithNavigationPropertiesDto> = {
     items: [],
     totalCount: 0,
@@ -74,6 +80,20 @@ export abstract class AbstractScheduleViewService {
   getFormatDetail(id) {
     this.proxyDetailService.getWithNavigationProperties(id).subscribe(result => {
       this.dataDetailDto = result
+      this.proxySheetService.getWithNavigationActiveProperties(id).subscribe(timeSheet => {
+        if (!timeSheet) {
+          return;
+        }
+        else {
+          for (var i in this.dataDetailDto.scheduleFormats) {
+            for (var t in timeSheet) {
+              if (timeSheet[t].timesheet.scheduleFormatId == this.dataDetailDto.scheduleFormats[i].id) {
+                this.activeId.push(this.dataDetailDto.scheduleFormats[i].id);
+              }
+            }
+          }
+        }
+      })
     })
   }
 }

@@ -36,7 +36,20 @@ namespace FaceAPI.Schedules
                                        select _scheduleDetail).ToList()
                 }).FirstOrDefault();
         }
+        public virtual async Task<ScheduleWithNavigationProperties> GetWithCodeNavigationPropertiesAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var dbContext = await GetDbContextAsync();
 
+            return (await GetDbSetAsync()).Where(b => b.StaffId == id).Include(x => x.ScheduleDetails)
+                .Select(schedule => new ScheduleWithNavigationProperties
+                {
+                    Schedule = schedule,
+                    Staff = dbContext.Set<Staff>().FirstOrDefault(c => c.Id == schedule.StaffId),
+                    ScheduleDetails = (from scheduleScheduleDetails in schedule.ScheduleDetails
+                                       join _scheduleDetail in dbContext.Set<ScheduleDetail>() on scheduleScheduleDetails.ScheduleDetailId equals _scheduleDetail.Id
+                                       select _scheduleDetail).ToList()
+                }).FirstOrDefault();
+        }
         public virtual async Task<List<ScheduleWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
             string? filterText = null,
             string? code = null,

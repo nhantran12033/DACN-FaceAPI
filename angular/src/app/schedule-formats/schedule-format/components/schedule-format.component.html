@@ -1,0 +1,305 @@
+<abp-page [title]="title | abpLocalization">
+  <abp-page-toolbar-container class="col">
+    <!--<suite-custom-code-block-0>-->
+    <!--</suite-custom-code-block-0>-->
+    <div class="text-lg-end pt-2">
+      <!--<suite-custom-code-block-1>-->
+      <!--</suite-custom-code-block-1>-->
+
+      <button
+        *abpPermission="'FaceAPI.ScheduleFormats.Create'"
+        class="btn btn-primary btn-sm"
+        type="button"
+        (click)="create()"
+      >
+        <i class="fa fa-plus me-1" aria-hidden="true"></i>
+        {{ '::NewScheduleFormat' | abpLocalization }}
+      </button>
+      <!--<suite-custom-code-block-2>-->
+      <!--</suite-custom-code-block-2>-->
+    </div>
+  </abp-page-toolbar-container>
+
+  <abp-advanced-entity-filters localizationSourceName="" [list]="list">
+    <abp-advanced-entity-filters-form *ngIf="service.filters as filters">
+      <form #filterForm (keyup.enter)="list.get()">
+        <!--<suite-custom-code-block-3>-->
+        <!--</suite-custom-code-block-3>-->
+        <div class="row">
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="nameFilter">
+                {{ '::Name' | abpLocalization }}
+              </label>
+
+              <input
+                id="nameFilter"
+                class="form-control"
+                [(ngModel)]="filters.name"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="minDate">
+                {{ '::MinDate' | abpLocalization }}
+              </label>
+
+              <div class="input-group" validationTarget>
+                <input
+                  id="minDate"
+                  class="form-control"
+                  #minDateInput
+                  #minDateDatepicker="ngbDatepicker"
+                  name="minDate"
+                  ngbDatepicker
+                  container="body"
+                  readonly
+                  (click)="minDateDatepicker.toggle()"
+                  (keyup.space)="minDateDatepicker.toggle()"
+                  [(ngModel)]="filters.dateMin"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <div *ngIf="minDateInput.value" class="input-group-append">
+                  <button
+                    class="btn btn-link px-2"
+                    type="button"
+                    [title]="'AbpUi::Clear' | abpLocalization"
+                    (click)="
+                      minDateDatepicker.writeValue(null);
+                      minDateDatepicker.manualDateChange(null, true)
+                    "
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="maxDate">
+                {{ '::MaxDate' | abpLocalization }}
+              </label>
+
+              <div class="input-group" validationTarget>
+                <input
+                  id="maxDate"
+                  class="form-control"
+                  #maxDateInput
+                  #maxDateDatepicker="ngbDatepicker"
+                  name="maxDate"
+                  ngbDatepicker
+                  readonly
+                  (click)="maxDateDatepicker.toggle()"
+                  (keyup.space)="maxDateDatepicker.toggle()"
+                  [(ngModel)]="filters.dateMax"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <div *ngIf="maxDateInput.value" class="input-group-append">
+                  <button
+                    class="btn btn-link px-2"
+                    type="button"
+                    [title]="'AbpUi::Clear' | abpLocalization"
+                    (click)="
+                      maxDateDatepicker.writeValue(null);
+                      maxDateDatepicker.manualDateChange(null, true)
+                    "
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="minFromHours">
+                {{ '::MinFromHours' | abpLocalization }}
+              </label>
+
+              <input
+                id="minFromHours"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.fromHoursMin"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="maxFromHours">
+                {{ '::MaxFromHours' | abpLocalization }}
+              </label>
+
+              <input
+                id="maxFromHours"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.fromHoursMax"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="minToHours">
+                {{ '::MinToHours' | abpLocalization }}
+              </label>
+
+              <input
+                id="minToHours"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.toHoursMin"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="maxToHours">
+                {{ '::MaxToHours' | abpLocalization }}
+              </label>
+
+              <input
+                id="maxToHours"
+                type="number"
+                class="form-control"
+                [(ngModel)]="filters.toHoursMax"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
+              <label class="form-label" for="noteFilter">
+                {{ '::Note' | abpLocalization }}
+              </label>
+
+              <input
+                id="noteFilter"
+                class="form-control"
+                [(ngModel)]="filters.note"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-auto align-self-end mb-3">
+            <div class="row">
+              <div class="col-6 col-sm-auto d-grid">
+                <button type="button" class="btn btn-outline-primary" (click)="clearFilters()">
+                  <span>{{ 'AbpUi::Clear' | abpLocalization }}</span>
+                </button>
+              </div>
+              <div class="col-6 col-sm-auto d-grid">
+                <button type="button" class="btn btn-primary" (click)="list.get()">
+                  <span>{{ 'AbpUi::Refresh' | abpLocalization }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<suite-custom-code-block-4>-->
+        <!--</suite-custom-code-block-4>-->
+      </form>
+    </abp-advanced-entity-filters-form>
+  </abp-advanced-entity-filters>
+  <!--<suite-custom-code-block-5>-->
+  <!--</suite-custom-code-block-5>-->
+  <div class="card">
+    <!--<suite-custom-code-block-6>-->
+    <!--</suite-custom-code-block-6>-->
+    <div class="card-body">
+      <!--<suite-custom-code-block-7>-->
+      <!--</suite-custom-code-block-7>-->
+      <ngx-datatable
+        [rows]="service.data.items"
+        [count]="service.data.totalCount"
+        [list]="list"
+        default
+      >
+        <!--<suite-custom-code-block-8>-->
+        <!--</suite-custom-code-block-8>-->
+        <ngx-datatable-column
+          [name]="'AbpUi::Actions' | abpLocalization"
+          [maxWidth]="150"
+          [width]="150"
+          [sortable]="false"
+        >
+          <ng-template let-row="row" let-i="rowIndex" ngx-datatable-cell-template>
+            <div ngbDropdown container="body" class="d-inline-block">
+              <button
+                class="btn btn-primary btn-sm dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                ngbDropdownToggle
+              >
+                <i class="fa fa-cog me-1" aria-hidden="true"></i>
+                {{ 'AbpUi::Actions' | abpLocalization }}
+              </button>
+
+              <div ngbDropdownMenu>
+                <button
+                  ngbDropdownItem
+                  *abpPermission="'FaceAPI.ScheduleFormats.Edit'"
+                  (click)="update(row)"
+                >
+                  {{ 'AbpUi::Edit' | abpLocalization }}
+                </button>
+
+                <button
+                  ngbDropdownItem
+                  *abpPermission="'FaceAPI.ScheduleFormats.Delete'"
+                  (click)="delete(row)"
+                >
+                  {{ 'AbpUi::Delete' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="name">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.name }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Date' | abpLocalization }}" prop="date">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.date | date }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::FromHours' | abpLocalization }}" prop="fromHours">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.fromHours }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::ToHours' | abpLocalization }}" prop="toHours">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.toHours }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Note' | abpLocalization }}" prop="note">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.note }}
+          </ng-template>
+        </ngx-datatable-column>
+        <!--<suite-custom-code-block-9>-->
+        <!--</suite-custom-code-block-9>-->
+      </ngx-datatable>
+      <!--<suite-custom-code-block-10>-->
+      <!--</suite-custom-code-block-10>-->
+    </div>
+  </div>
+  <!--<suite-custom-code-block-11>-->
+  <!--</suite-custom-code-block-11>-->
+</abp-page>
+<!--<suite-custom-code-block-12>-->
+<!--</suite-custom-code-block-12>-->
+<app-schedule-format-detail> </app-schedule-format-detail>

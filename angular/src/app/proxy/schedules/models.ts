@@ -2,7 +2,8 @@ import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/
 import type { StaffDto } from '../staffs/models';
 import type { ScheduleDetailDto } from '../schedule-details/models';
 
-export interface GetSchedulesInput extends GetSchedulesInputBase {}
+export interface GetSchedulesInput extends GetSchedulesInputBase {
+}
 
 export interface GetSchedulesInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -17,7 +18,8 @@ export interface GetSchedulesInputBase extends PagedAndSortedResultRequestDto {
   scheduleDetailId?: string;
 }
 
-export interface ScheduleCreateDto extends ScheduleCreateDtoBase {}
+export interface ScheduleCreateDto extends ScheduleCreateDtoBase {
+}
 
 export interface ScheduleCreateDtoBase {
   code?: string;
@@ -29,7 +31,8 @@ export interface ScheduleCreateDtoBase {
   scheduleDetailIds: string[];
 }
 
-export interface ScheduleDto extends ScheduleDtoBase {}
+export interface ScheduleDto extends ScheduleDtoBase {
+}
 
 export interface ScheduleDtoBase extends FullAuditedEntityDto<string> {
   code?: string;
@@ -41,7 +44,8 @@ export interface ScheduleDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface ScheduleExcelDownloadDto extends ScheduleExcelDownloadDtoBase {}
+export interface ScheduleExcelDownloadDto extends ScheduleExcelDownloadDtoBase {
+}
 
 export interface ScheduleExcelDownloadDtoBase {
   downloadToken?: string;
@@ -57,7 +61,8 @@ export interface ScheduleExcelDownloadDtoBase {
   scheduleDetailId?: string;
 }
 
-export interface ScheduleUpdateDto extends ScheduleUpdateDtoBase {}
+export interface ScheduleUpdateDto extends ScheduleUpdateDtoBase {
+}
 
 export interface ScheduleUpdateDtoBase {
   code?: string;
@@ -70,8 +75,8 @@ export interface ScheduleUpdateDtoBase {
   concurrencyStamp?: string;
 }
 
-export interface ScheduleWithNavigationPropertiesDto
-  extends ScheduleWithNavigationPropertiesDtoBase {}
+export interface ScheduleWithNavigationPropertiesDto extends ScheduleWithNavigationPropertiesDtoBase {
+}
 
 export interface ScheduleWithNavigationPropertiesDtoBase {
   schedule: ScheduleDto;

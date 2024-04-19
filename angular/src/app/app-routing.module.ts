@@ -4,14 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'chat',
-    loadChildren: () => import('@volo/abp.ng.chat').then(m => m.ChatModule.forLazy()),
-  },
-  {
-    path: 'filemanagement',
-    loadChildren: () => import('@volo/abp.ng.file-management').then(m => m.FileManagementModule.forLazy()),
-  },
-  {
     path: '',
     pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
@@ -29,12 +21,6 @@ const routes: Routes = [
   {
     path: 'gdpr',
     loadChildren: () => import('@volo/abp.ng.gdpr').then(m => m.GdprModule.forLazy()),
-  },
-
-  {
-    path: 'file-management',
-    loadChildren: () =>
-      import('@volo/abp.ng.file-management').then(m => m.FileManagementModule.forLazy()),
   },
   {
     path: 'identity',
@@ -100,6 +86,21 @@ const routes: Routes = [
     path: 'staffs',
     loadChildren: () => import('./staffs/staff/staff.module').then(m => m.StaffModule),
   },
+  {
+    path: 'schedule-details',
+    loadChildren: () =>
+      import('./schedule-details/schedule-detail/schedule-detail.module').then(
+        m => m.ScheduleDetailModule
+      ),
+  },
+  {
+    path: 'schedule-formats',
+    loadChildren: () =>
+      import('./schedule-formats/schedule-format/schedule-format.module').then(
+        m => m.ScheduleFormatModule
+      ),
+  },
+  { path: 'camera', loadChildren: () => import('./camera/camera.module').then(m => m.CameraModule) },
 ];
 
 @NgModule({

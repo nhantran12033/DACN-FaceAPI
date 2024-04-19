@@ -463,6 +463,81 @@ public class FaceAPIDbContext :
         }
         if (builder.IsHostDatabase())
         {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        builder.ConfigureChat();
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<ScheduleFormat>(b =>
+{
+    b.ToTable(FaceAPIConsts.DbTablePrefix + "ScheduleFormats", FaceAPIConsts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.Name).HasColumnName(nameof(ScheduleFormat.Name));
+    b.Property(x => x.Date).HasColumnName(nameof(ScheduleFormat.Date));
+    b.Property(x => x.FromHours).HasColumnName(nameof(ScheduleFormat.FromHours));
+    b.Property(x => x.ToHours).HasColumnName(nameof(ScheduleFormat.ToHours));
+    b.Property(x => x.Note).HasColumnName(nameof(ScheduleFormat.Note));
+});
+
+        }
+        if (builder.IsHostDatabase())
+        {
             builder.Entity<ScheduleDetail>(b =>
 {
     b.ToTable(FaceAPIConsts.DbTablePrefix + "ScheduleDetails", FaceAPIConsts.DbSchema);
@@ -493,35 +568,8 @@ public class FaceAPIDbContext :
         }
         if (builder.IsHostDatabase())
         {
-            builder.Entity<ScheduleFormat>(b =>
-{
-    b.ToTable(FaceAPIConsts.DbTablePrefix + "ScheduleFormats", FaceAPIConsts.DbSchema);
-    b.ConfigureByConvention();
-    b.Property(x => x.Name).HasColumnName(nameof(ScheduleFormat.Name));
-    b.Property(x => x.Date).HasColumnName(nameof(ScheduleFormat.Date));
-    b.Property(x => x.FromHours).HasColumnName(nameof(ScheduleFormat.FromHours));
-    b.Property(x => x.ToHours).HasColumnName(nameof(ScheduleFormat.ToHours));
-    b.Property(x => x.Note).HasColumnName(nameof(ScheduleFormat.Note));
-});
 
         }
-        if (builder.IsHostDatabase())
-        {
-
-        }
-        if (builder.IsHostDatabase())
-        {
-
-        }
-        if (builder.IsHostDatabase())
-        {
-
-        }
-        if (builder.IsHostDatabase())
-        {
-
-        }
-        builder.ConfigureChat();
         if (builder.IsHostDatabase())
         {
 
@@ -532,10 +580,9 @@ public class FaceAPIDbContext :
 {
     b.ToTable(FaceAPIConsts.DbTablePrefix + "Timesheets", FaceAPIConsts.DbSchema);
     b.ConfigureByConvention();
+    b.Property(x => x.Image).HasColumnName(nameof(Timesheet.Image));
     b.Property(x => x.Code).HasColumnName(nameof(Timesheet.Code));
-    b.Property(x => x.TimeIn).HasColumnName(nameof(Timesheet.TimeIn));
-    b.Property(x => x.TimeOut).HasColumnName(nameof(Timesheet.TimeOut));
-    b.Property(x => x.HoursWork).HasColumnName(nameof(Timesheet.HoursWork));
+    b.Property(x => x.Time).HasColumnName(nameof(Timesheet.Time));
     b.Property(x => x.Note).HasColumnName(nameof(Timesheet.Note));
     b.HasOne<Schedule>().WithMany().HasForeignKey(x => x.ScheduleId).OnDelete(DeleteBehavior.NoAction);
     b.HasOne<ScheduleDetail>().WithMany().HasForeignKey(x => x.ScheduleDetailId).OnDelete(DeleteBehavior.NoAction);

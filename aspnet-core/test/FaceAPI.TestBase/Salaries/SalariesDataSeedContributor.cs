@@ -42,23 +42,11 @@ namespace FaceAPI.Salaries
                 allowance: 1778975207,
                 basic: 4390915,
                 bonus: 1346047789,
-                total: 249693475,
                 departmentId: null,
                 titleId: null
             ));
 
-            await _salaryRepository.InsertAsync(new Salary
-            (
-                id: Guid.Parse("f1d9fe0b-75b2-46af-bf89-984f26334dbd"),
-                code: "e41aa84ed745461684dc1b1220",
-                allowance: 694415281,
-                basic: 162410709,
-                bonus: 1416260502,
-                total: 555093155,
-                departmentId: null,
-                titleId: null
-            ));
-
+            
             await _unitOfWorkManager!.Current!.SaveChangesAsync();
 
             IsSeeded = true;

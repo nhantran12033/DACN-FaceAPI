@@ -671,9 +671,9 @@ namespace FaceAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<int>("HoursWork")
-                        .HasColumnType("int")
-                        .HasColumnName("HoursWork");
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Image");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -702,13 +702,9 @@ namespace FaceAPI.Migrations
                     b.Property<Guid?>("ScheduleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("TimeIn")
+                    b.Property<DateTime>("Time")
                         .HasColumnType("datetime2")
-                        .HasColumnName("TimeIn");
-
-                    b.Property<DateTime>("TimeOut")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("TimeOut");
+                        .HasColumnName("Time");
 
                     b.HasKey("Id");
 

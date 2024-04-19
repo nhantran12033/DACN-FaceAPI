@@ -32,6 +32,7 @@ namespace FaceAPI;
 )]
 [DependsOn(typeof(FileManagementApplicationContractsModule))]
     [DependsOn(typeof(ChatApplicationContractsModule))]
+    [DependsOn(typeof(AbpAccountSharedApplicationContractsModule))]
     public class FaceAPIApplicationContractsModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

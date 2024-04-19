@@ -27,85 +27,49 @@
 
       <div class="mt-2 fade-in-top">
         <div class="mb-3">
+          <label class="form-label" for="timesheet-image">
+            {{ '::Image' | abpLocalization }}
+          </label>
+
+          <input id="timesheet-image" formControlName="image" class="form-control" autofocus />
+        </div>
+        <div class="mb-3">
           <label class="form-label" for="timesheet-code">
             {{ '::Code' | abpLocalization }}
           </label>
 
-          <input id="timesheet-code" formControlName="code" class="form-control" autofocus />
+          <input id="timesheet-code" formControlName="code" class="form-control" />
         </div>
         <div class="mb-3">
-          <label class="form-label" for="timesheet-time-in">
-            {{ '::TimeIn' | abpLocalization }}
+          <label class="form-label" for="timesheet-time">
+            {{ '::Time' | abpLocalization }}
           </label>
 
           <div class="input-group" validationTarget>
             <input
               readonly
-              id="timesheet-time-in"
-              formControlName="timeIn"
+              id="timesheet-time"
+              formControlName="time"
               class="form-control"
               ngbDatepicker
-              #timeInInput
-              #timeInDatepicker="ngbDatepicker"
-              (click)="timeInDatepicker.open()"
-              (keyup.space)="timeInDatepicker.open()"
+              #timeInput
+              #timeDatepicker="ngbDatepicker"
+              (click)="timeDatepicker.open()"
+              (keyup.space)="timeDatepicker.open()"
             />
-            <div *ngIf="timeInInput.value" class="input-group-append">
+            <div *ngIf="timeInput.value" class="input-group-append">
               <button
                 class="btn btn-link px-2"
                 type="button"
                 [title]="'AbpUi::Clear' | abpLocalization"
                 (click)="
-                  timeInDatepicker.writeValue(null); timeInDatepicker.manualDateChange(null, true)
+                  timeDatepicker.writeValue(null); timeDatepicker.manualDateChange(null, true)
                 "
               >
                 <i class="fa fa-times" aria-hidden="true"></i>
               </button>
             </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="timesheet-time-out">
-            {{ '::TimeOut' | abpLocalization }}
-          </label>
-
-          <div class="input-group" validationTarget>
-            <input
-              readonly
-              id="timesheet-time-out"
-              formControlName="timeOut"
-              class="form-control"
-              ngbDatepicker
-              #timeOutInput
-              #timeOutDatepicker="ngbDatepicker"
-              (click)="timeOutDatepicker.open()"
-              (keyup.space)="timeOutDatepicker.open()"
-            />
-            <div *ngIf="timeOutInput.value" class="input-group-append">
-              <button
-                class="btn btn-link px-2"
-                type="button"
-                [title]="'AbpUi::Clear' | abpLocalization"
-                (click)="
-                  timeOutDatepicker.writeValue(null); timeOutDatepicker.manualDateChange(null, true)
-                "
-              >
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="timesheet-hours-work">
-            {{ '::HoursWork' | abpLocalization }}
-          </label>
-
-          <input
-            type="number"
-            id="timesheet-hours-work"
-            formControlName="hoursWork"
-            class="form-control"
-          />
         </div>
         <div class="mb-3">
           <label class="form-label" for="timesheet-note">

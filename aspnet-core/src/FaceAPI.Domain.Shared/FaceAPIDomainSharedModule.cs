@@ -19,6 +19,7 @@ using Volo.Abp.Gdpr;
 using Volo.Abp.GlobalFeatures;
 using Volo.FileManagement;
 using Volo.Chat;
+using Volo.Abp.Sms;
 
 namespace FaceAPI;
 
@@ -39,6 +40,7 @@ namespace FaceAPI;
     )]
 [DependsOn(typeof(FileManagementDomainSharedModule))]
     [DependsOn(typeof(ChatDomainSharedModule))]
+    [DependsOn(typeof(AbpSmsModule))]
     public class FaceAPIDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

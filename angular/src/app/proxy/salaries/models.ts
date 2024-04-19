@@ -2,7 +2,8 @@ import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/
 import type { DepartmentDto } from '../departments/models';
 import type { TitleDto } from '../titles/models';
 
-export interface GetSalariesInput extends GetSalariesInputBase {}
+export interface GetSalariesInput extends GetSalariesInputBase {
+}
 
 export interface GetSalariesInputBase extends PagedAndSortedResultRequestDto {
   filterText?: string;
@@ -19,7 +20,8 @@ export interface GetSalariesInputBase extends PagedAndSortedResultRequestDto {
   titleId?: string;
 }
 
-export interface SalaryCreateDto extends SalaryCreateDtoBase {}
+export interface SalaryCreateDto extends SalaryCreateDtoBase {
+}
 
 export interface SalaryCreateDtoBase {
   code?: string;
@@ -31,7 +33,8 @@ export interface SalaryCreateDtoBase {
   titleId?: string;
 }
 
-export interface SalaryDto extends SalaryDtoBase {}
+export interface SalaryDto extends SalaryDtoBase {
+}
 
 export interface SalaryDtoBase extends FullAuditedEntityDto<string> {
   code?: string;
@@ -44,7 +47,8 @@ export interface SalaryDtoBase extends FullAuditedEntityDto<string> {
   concurrencyStamp?: string;
 }
 
-export interface SalaryExcelDownloadDto extends SalaryExcelDownloadDtoBase {}
+export interface SalaryExcelDownloadDto extends SalaryExcelDownloadDtoBase {
+}
 
 export interface SalaryExcelDownloadDtoBase {
   downloadToken?: string;
@@ -62,7 +66,8 @@ export interface SalaryExcelDownloadDtoBase {
   titleId?: string;
 }
 
-export interface SalaryUpdateDto extends SalaryUpdateDtoBase {}
+export interface SalaryUpdateDto extends SalaryUpdateDtoBase {
+}
 
 export interface SalaryUpdateDtoBase {
   code?: string;
@@ -75,7 +80,8 @@ export interface SalaryUpdateDtoBase {
   concurrencyStamp?: string;
 }
 
-export interface SalaryWithNavigationPropertiesDto extends SalaryWithNavigationPropertiesDtoBase {}
+export interface SalaryWithNavigationPropertiesDto extends SalaryWithNavigationPropertiesDtoBase {
+}
 
 export interface SalaryWithNavigationPropertiesDtoBase {
   salary: SalaryDto;

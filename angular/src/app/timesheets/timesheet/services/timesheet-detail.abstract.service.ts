@@ -22,22 +22,13 @@ export abstract class AbstractTimesheetDetailViewService {
   form: FormGroup | undefined;
 
   buildForm() {
-    const {
-      code,
-      timeIn,
-      timeOut,
-      hoursWork,
-      note,
-      scheduleId,
-      scheduleDetailId,
-      scheduleFormatId,
-    } = this.selected?.timesheet || {};
+    const { image, code, time, note, scheduleId, scheduleDetailId, scheduleFormatId } =
+      this.selected?.timesheet || {};
 
     this.form = this.fb.group({
+      image: [image ?? null, []],
       code: [code ?? null, []],
-      timeIn: [timeIn ? new Date(timeIn) : null, []],
-      timeOut: [timeOut ? new Date(timeOut) : null, []],
-      hoursWork: [hoursWork ?? null, []],
+      time: [time ? new Date(time) : null, []],
       note: [note ?? null, []],
       scheduleId: [scheduleId ?? null, []],
       scheduleDetailId: [scheduleDetailId ?? null, []],

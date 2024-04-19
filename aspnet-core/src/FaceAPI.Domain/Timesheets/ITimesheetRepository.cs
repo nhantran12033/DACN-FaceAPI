@@ -12,16 +12,17 @@ namespace FaceAPI.Timesheets
     Guid id,
     CancellationToken cancellationToken = default
 );
-
+        Task<List<TimesheetWithNavigationProperties>> GetWithNavigationActivePropertiesAsync(
+    Guid scheduleDetailId,
+    CancellationToken cancellationToken = default
+);
+        Task<string> GenerateNextCode();
         Task<List<TimesheetWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
             string? filterText = null,
+            string? image = null,
             string? code = null,
-            DateTime? timeInMin = null,
-            DateTime? timeInMax = null,
-            DateTime? timeOutMin = null,
-            DateTime? timeOutMax = null,
-            int? hoursWorkMin = null,
-            int? hoursWorkMax = null,
+            DateTime? timeMin = null,
+            DateTime? timeMax = null,
             string? note = null,
             Guid? scheduleId = null,
             Guid? scheduleDetailId = null,
@@ -34,13 +35,10 @@ namespace FaceAPI.Timesheets
 
         Task<List<Timesheet>> GetListAsync(
                     string? filterText = null,
+                    string? image = null,
                     string? code = null,
-                    DateTime? timeInMin = null,
-                    DateTime? timeInMax = null,
-                    DateTime? timeOutMin = null,
-                    DateTime? timeOutMax = null,
-                    int? hoursWorkMin = null,
-                    int? hoursWorkMax = null,
+                    DateTime? timeMin = null,
+                    DateTime? timeMax = null,
                     string? note = null,
                     string? sorting = null,
                     int maxResultCount = int.MaxValue,
@@ -50,13 +48,10 @@ namespace FaceAPI.Timesheets
 
         Task<long> GetCountAsync(
             string? filterText = null,
+            string? image = null,
             string? code = null,
-            DateTime? timeInMin = null,
-            DateTime? timeInMax = null,
-            DateTime? timeOutMin = null,
-            DateTime? timeOutMax = null,
-            int? hoursWorkMin = null,
-            int? hoursWorkMax = null,
+            DateTime? timeMin = null,
+            DateTime? timeMax = null,
             string? note = null,
             Guid? scheduleId = null,
             Guid? scheduleDetailId = null,

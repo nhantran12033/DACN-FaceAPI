@@ -4,10 +4,9 @@ namespace FaceAPI.Timesheets
 {
     public abstract class TimesheetExcelDtoBase
     {
+        public string? Image { get; set; }
         public string? Code { get; set; }
-        public DateTime TimeIn { get; set; }
-        public DateTime TimeOut { get; set; }
-        public int HoursWork { get; set; }
+        public DateTime Time { get; set; }
         public string? Note { get; set; }
     }
 }

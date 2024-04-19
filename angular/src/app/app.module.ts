@@ -1,5 +1,3 @@
-import { ChatConfigModule } from '@volo/abp.ng.chat/config';
-import { FileManagementConfigModule } from '@volo/abp.ng.file-management/config';
 import { CoreModule } from '@abp/ng.core';
 import { GdprConfigModule } from '@volo/abp.ng.gdpr/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
@@ -11,8 +9,6 @@ import { CommercialUiConfigModule } from '@volo/abp.commercial.ng.ui/config';
 import { AccountAdminConfigModule } from '@volo/abp.ng.account/admin/config';
 import { AccountPublicConfigModule } from '@volo/abp.ng.account/public/config';
 import { AuditLoggingConfigModule } from '@volo/abp.ng.audit-logging/config';
-import { ChatConfigModule } from '@volo/abp.ng.chat/config';
-import { FileManagementConfigModule } from '@volo/abp.ng.file-management/config';
 import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
 import { LanguageManagementConfigModule } from '@volo/abp.ng.language-management/config';
 import { registerLocale } from '@volo/abp.ng.language-management/locale';
@@ -33,11 +29,13 @@ import { SALARIES_SALARY_ROUTE_PROVIDER } from './salaries/salary/providers/sala
 import { SCHEDULES_SCHEDULE_ROUTE_PROVIDER } from './schedules/schedule/providers/schedule-route.provider';
 import { TIMESHEETS_TIMESHEET_ROUTE_PROVIDER } from './timesheets/timesheet/providers/timesheet-route.provider';
 import { STAFFS_STAFF_ROUTE_PROVIDER } from './staffs/staff/providers/staff-route.provider';
+import { SCHEDULE_DETAILS_SCHEDULE_DETAIL_ROUTE_PROVIDER } from './schedule-details/schedule-detail/providers/schedule-detail-route.provider';
+import { SCHEDULE_FORMATS_SCHEDULE_FORMAT_ROUTE_PROVIDER } from './schedule-formats/schedule-format/providers/schedule-format-route.provider';
+import { CameraComponent } from './camera/camera.component';
+import { WebcamComponent, WebcamModule } from 'ngx-webcam';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    ChatConfigModule.forRoot(),
-    FileManagementConfigModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -57,8 +55,6 @@ import { STAFFS_STAFF_ROUTE_PROVIDER } from './staffs/staff/providers/staff-rout
     }),
     AccountAdminConfigModule.forRoot(),
     AccountPublicConfigModule.forRoot(),
-    FileManagementConfigModule.forRoot(),
-    ChatConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),
     LanguageManagementConfigModule.forRoot(),
     SaasConfigModule.forRoot(),
@@ -84,6 +80,9 @@ import { STAFFS_STAFF_ROUTE_PROVIDER } from './staffs/staff/providers/staff-rout
     SCHEDULES_SCHEDULE_ROUTE_PROVIDER,
     TIMESHEETS_TIMESHEET_ROUTE_PROVIDER,
     STAFFS_STAFF_ROUTE_PROVIDER,
+    SCHEDULE_DETAILS_SCHEDULE_DETAIL_ROUTE_PROVIDER,
+    SCHEDULE_FORMATS_SCHEDULE_FORMAT_ROUTE_PROVIDER,
+
   ],
   bootstrap: [AppComponent],
 })

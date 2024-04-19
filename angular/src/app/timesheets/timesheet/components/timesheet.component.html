@@ -1,4 +1,8 @@
-<abp-page [title]="title | abpLocalization">
+ <abp-page [title]="title | abpLocalization">
+  <app-camera (pictureTaken)="handleImage($event)"></app-camera>
+  <div class="snapshot" *ngIf="webcamImage">
+    <img [src]="webcamImage.imageAsDataUrl" />
+  </div>
   <abp-page-toolbar-container class="col">
     <!--<suite-custom-code-block-0>-->
     <!--</suite-custom-code-block-0>-->
@@ -6,21 +10,17 @@
       <!--<suite-custom-code-block-1>-->
       <!--</suite-custom-code-block-1>-->
 
-      <button
-        class="btn btn-primary btn-sm mx-2"
-        type="button"
-        [disabled]="service.isExportToExcelBusy"
-        (click)="exportToExcel()"
-      >
+      <button class="btn btn-primary btn-sm mx-2"
+              type="button"
+              [disabled]="service.isExportToExcelBusy"
+              (click)="exportToExcel()">
         {{ '::ExportToExcel' | abpLocalization }}
       </button>
 
-      <button
-        *abpPermission="'FaceAPI.Timesheets.Create'"
-        class="btn btn-primary btn-sm"
-        type="button"
-        (click)="create()"
-      >
+      <button *abpPermission="'FaceAPI.Timesheets.Create'"
+              class="btn btn-primary btn-sm"
+              type="button"
+              (click)="create()">
         <i class="fa fa-plus me-1" aria-hidden="true"></i>
         {{ '::NewTimesheet' | abpLocalization }}
       </button>
@@ -37,49 +37,55 @@
         <div class="row">
           <div class="col-12 col-sm-auto">
             <div class="mb-3">
+              <label class="form-label" for="imageFilter">
+                {{ '::Image' | abpLocalization }}
+              </label>
+
+              <input id="imageFilter"
+                     class="form-control"
+                     [(ngModel)]="filters.image"
+                     [ngModelOptions]="{ standalone: true }" />
+            </div>
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="mb-3">
               <label class="form-label" for="codeFilter">
                 {{ '::Code' | abpLocalization }}
               </label>
 
-              <input
-                id="codeFilter"
-                class="form-control"
-                [(ngModel)]="filters.code"
-                [ngModelOptions]="{ standalone: true }"
-              />
+              <input id="codeFilter"
+                     class="form-control"
+                     [(ngModel)]="filters.code"
+                     [ngModelOptions]="{ standalone: true }" />
             </div>
           </div>
           <div class="col-12 col-sm-auto">
             <div class="mb-3">
-              <label class="form-label" for="minTimeIn">
-                {{ '::MinTimeIn' | abpLocalization }}
+              <label class="form-label" for="minTime">
+                {{ '::MinTime' | abpLocalization }}
               </label>
 
               <div class="input-group" validationTarget>
-                <input
-                  id="minTimeIn"
-                  class="form-control"
-                  #minTimeInInput
-                  #minTimeInDatepicker="ngbDatepicker"
-                  name="minTimeIn"
-                  ngbDatepicker
-                  container="body"
-                  readonly
-                  (click)="minTimeInDatepicker.toggle()"
-                  (keyup.space)="minTimeInDatepicker.toggle()"
-                  [(ngModel)]="filters.timeInMin"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-                <div *ngIf="minTimeInInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
-                      minTimeInDatepicker.writeValue(null);
-                      minTimeInDatepicker.manualDateChange(null, true)
-                    "
-                  >
+                <input id="minTime"
+                       class="form-control"
+                       #minTimeInput
+                       #minTimeDatepicker="ngbDatepicker"
+                       name="minTime"
+                       ngbDatepicker
+                       container="body"
+                       readonly
+                       (click)="minTimeDatepicker.toggle()"
+                       (keyup.space)="minTimeDatepicker.toggle()"
+                       [(ngModel)]="filters.timeMin"
+                       [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="minTimeInput.value" class="input-group-append">
+                  <button class="btn btn-link px-2"
+                          type="button"
+                          [title]="'AbpUi::Clear' | abpLocalization"
+                          (click)="
+                      minTimeDatepicker.writeValue(null);
+                      minTimeDatepicker.manualDateChange(null, true)
+                    ">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -89,143 +95,34 @@
 
           <div class="col-12 col-sm-auto">
             <div class="mb-3">
-              <label class="form-label" for="maxTimeIn">
-                {{ '::MaxTimeIn' | abpLocalization }}
+              <label class="form-label" for="maxTime">
+                {{ '::MaxTime' | abpLocalization }}
               </label>
 
               <div class="input-group" validationTarget>
-                <input
-                  id="maxTimeIn"
-                  class="form-control"
-                  #maxTimeInInput
-                  #maxTimeInDatepicker="ngbDatepicker"
-                  name="maxTimeIn"
-                  ngbDatepicker
-                  readonly
-                  (click)="maxTimeInDatepicker.toggle()"
-                  (keyup.space)="maxTimeInDatepicker.toggle()"
-                  [(ngModel)]="filters.timeInMax"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-                <div *ngIf="maxTimeInInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
-                      maxTimeInDatepicker.writeValue(null);
-                      maxTimeInDatepicker.manualDateChange(null, true)
-                    "
-                  >
+                <input id="maxTime"
+                       class="form-control"
+                       #maxTimeInput
+                       #maxTimeDatepicker="ngbDatepicker"
+                       name="maxTime"
+                       ngbDatepicker
+                       readonly
+                       (click)="maxTimeDatepicker.toggle()"
+                       (keyup.space)="maxTimeDatepicker.toggle()"
+                       [(ngModel)]="filters.timeMax"
+                       [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="maxTimeInput.value" class="input-group-append">
+                  <button class="btn btn-link px-2"
+                          type="button"
+                          [title]="'AbpUi::Clear' | abpLocalization"
+                          (click)="
+                      maxTimeDatepicker.writeValue(null);
+                      maxTimeDatepicker.manualDateChange(null, true)
+                    ">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm-auto">
-            <div class="mb-3">
-              <label class="form-label" for="minTimeOut">
-                {{ '::MinTimeOut' | abpLocalization }}
-              </label>
-
-              <div class="input-group" validationTarget>
-                <input
-                  id="minTimeOut"
-                  class="form-control"
-                  #minTimeOutInput
-                  #minTimeOutDatepicker="ngbDatepicker"
-                  name="minTimeOut"
-                  ngbDatepicker
-                  container="body"
-                  readonly
-                  (click)="minTimeOutDatepicker.toggle()"
-                  (keyup.space)="minTimeOutDatepicker.toggle()"
-                  [(ngModel)]="filters.timeOutMin"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-                <div *ngIf="minTimeOutInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
-                      minTimeOutDatepicker.writeValue(null);
-                      minTimeOutDatepicker.manualDateChange(null, true)
-                    "
-                  >
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-sm-auto">
-            <div class="mb-3">
-              <label class="form-label" for="maxTimeOut">
-                {{ '::MaxTimeOut' | abpLocalization }}
-              </label>
-
-              <div class="input-group" validationTarget>
-                <input
-                  id="maxTimeOut"
-                  class="form-control"
-                  #maxTimeOutInput
-                  #maxTimeOutDatepicker="ngbDatepicker"
-                  name="maxTimeOut"
-                  ngbDatepicker
-                  readonly
-                  (click)="maxTimeOutDatepicker.toggle()"
-                  (keyup.space)="maxTimeOutDatepicker.toggle()"
-                  [(ngModel)]="filters.timeOutMax"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-                <div *ngIf="maxTimeOutInput.value" class="input-group-append">
-                  <button
-                    class="btn btn-link px-2"
-                    type="button"
-                    [title]="'AbpUi::Clear' | abpLocalization"
-                    (click)="
-                      maxTimeOutDatepicker.writeValue(null);
-                      maxTimeOutDatepicker.manualDateChange(null, true)
-                    "
-                  >
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm-auto">
-            <div class="mb-3">
-              <label class="form-label" for="minHoursWork">
-                {{ '::MinHoursWork' | abpLocalization }}
-              </label>
-
-              <input
-                id="minHoursWork"
-                type="number"
-                class="form-control"
-                [(ngModel)]="filters.hoursWorkMin"
-                [ngModelOptions]="{ standalone: true }"
-              />
-            </div>
-          </div>
-
-          <div class="col-12 col-sm-auto">
-            <div class="mb-3">
-              <label class="form-label" for="maxHoursWork">
-                {{ '::MaxHoursWork' | abpLocalization }}
-              </label>
-
-              <input
-                id="maxHoursWork"
-                type="number"
-                class="form-control"
-                [(ngModel)]="filters.hoursWorkMax"
-                [ngModelOptions]="{ standalone: true }"
-              />
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -234,12 +131,10 @@
                 {{ '::Note' | abpLocalization }}
               </label>
 
-              <input
-                id="noteFilter"
-                class="form-control"
-                [(ngModel)]="filters.note"
-                [ngModelOptions]="{ standalone: true }"
-              />
+              <input id="noteFilter"
+                     class="form-control"
+                     [(ngModel)]="filters.note"
+                     [ngModelOptions]="{ standalone: true }" />
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -247,12 +142,10 @@
               <label class="form-label" for="scheduleIdFilter">
                 {{ '::Schedule' | abpLocalization }}
               </label>
-              <abp-lookup-select
-                cid="scheduleIdFilter"
-                [getFn]="serviceDetail.getScheduleLookup"
-                [(ngModel)]="filters.scheduleId"
-                [ngModelOptions]="{ standalone: true }"
-              ></abp-lookup-select>
+              <abp-lookup-select cid="scheduleIdFilter"
+                                 [getFn]="serviceDetail.getScheduleLookup"
+                                 [(ngModel)]="filters.scheduleId"
+                                 [ngModelOptions]="{ standalone: true }"></abp-lookup-select>
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -260,12 +153,10 @@
               <label class="form-label" for="scheduleDetailIdFilter">
                 {{ '::ScheduleDetail' | abpLocalization }}
               </label>
-              <abp-lookup-select
-                cid="scheduleDetailIdFilter"
-                [getFn]="serviceDetail.getScheduleDetailLookup"
-                [(ngModel)]="filters.scheduleDetailId"
-                [ngModelOptions]="{ standalone: true }"
-              ></abp-lookup-select>
+              <abp-lookup-select cid="scheduleDetailIdFilter"
+                                 [getFn]="serviceDetail.getScheduleDetailLookup"
+                                 [(ngModel)]="filters.scheduleDetailId"
+                                 [ngModelOptions]="{ standalone: true }"></abp-lookup-select>
             </div>
           </div>
           <div class="col-12 col-sm-auto">
@@ -273,12 +164,10 @@
               <label class="form-label" for="scheduleFormatIdFilter">
                 {{ '::ScheduleFormat' | abpLocalization }}
               </label>
-              <abp-lookup-select
-                cid="scheduleFormatIdFilter"
-                [getFn]="serviceDetail.getScheduleFormatLookup"
-                [(ngModel)]="filters.scheduleFormatId"
-                [ngModelOptions]="{ standalone: true }"
-              ></abp-lookup-select>
+              <abp-lookup-select cid="scheduleFormatIdFilter"
+                                 [getFn]="serviceDetail.getScheduleFormatLookup"
+                                 [(ngModel)]="filters.scheduleFormatId"
+                                 [ngModelOptions]="{ standalone: true }"></abp-lookup-select>
             </div>
           </div>
 
@@ -310,50 +199,45 @@
     <div class="card-body">
       <!--<suite-custom-code-block-7>-->
       <!--</suite-custom-code-block-7>-->
-      <ngx-datatable
-        [rows]="service.data.items"
-        [count]="service.data.totalCount"
-        [list]="list"
-        default
-      >
+      <ngx-datatable [rows]="service.data.items"
+                     [count]="service.data.totalCount"
+                     [list]="list"
+                     default>
         <!--<suite-custom-code-block-8>-->
         <!--</suite-custom-code-block-8>-->
-        <ngx-datatable-column
-          [name]="'AbpUi::Actions' | abpLocalization"
-          [maxWidth]="150"
-          [width]="150"
-          [sortable]="false"
-        >
+        <ngx-datatable-column [name]="'AbpUi::Actions' | abpLocalization"
+                              [maxWidth]="150"
+                              [width]="150"
+                              [sortable]="false">
           <ng-template let-row="row" let-i="rowIndex" ngx-datatable-cell-template>
             <div ngbDropdown container="body" class="d-inline-block">
-              <button
-                class="btn btn-primary btn-sm dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                ngbDropdownToggle
-              >
+              <button class="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      ngbDropdownToggle>
                 <i class="fa fa-cog me-1" aria-hidden="true"></i>
                 {{ 'AbpUi::Actions' | abpLocalization }}
               </button>
 
               <div ngbDropdownMenu>
-                <button
-                  ngbDropdownItem
-                  *abpPermission="'FaceAPI.Timesheets.Edit'"
-                  (click)="update(row)"
-                >
+                <button ngbDropdownItem
+                        *abpPermission="'FaceAPI.Timesheets.Edit'"
+                        (click)="update(row)">
                   {{ 'AbpUi::Edit' | abpLocalization }}
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  *abpPermission="'FaceAPI.Timesheets.Delete'"
-                  (click)="delete(row)"
-                >
+                <button ngbDropdownItem
+                        *abpPermission="'FaceAPI.Timesheets.Delete'"
+                        (click)="delete(row)">
                   {{ 'AbpUi::Delete' | abpLocalization }}
                 </button>
               </div>
             </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Image' | abpLocalization }}" prop="timesheet.image">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.timesheet.image }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Code' | abpLocalization }}" prop="timesheet.code">
@@ -361,22 +245,9 @@
             {{ row.timesheet.code }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::TimeIn' | abpLocalization }}" prop="timesheet.timeIn">
+        <ngx-datatable-column name="{{ '::Time' | abpLocalization }}" prop="timesheet.time">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.timesheet.timeIn | date }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::TimeOut' | abpLocalization }}" prop="timesheet.timeOut">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.timesheet.timeOut | date }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          name="{{ '::HoursWork' | abpLocalization }}"
-          prop="timesheet.hoursWork"
-        >
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.timesheet.hoursWork }}
+            {{ row.timesheet.time | date: 'short' }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Note' | abpLocalization }}" prop="timesheet.note">
@@ -391,19 +262,15 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column
-          name="{{ '::ScheduleDetail' | abpLocalization }}"
-          prop="scheduleDetail.name"
-        >
+        <ngx-datatable-column name="{{ '::ScheduleDetail' | abpLocalization }}"
+                              prop="scheduleDetail.name">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.scheduleDetail?.name }}
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column
-          name="{{ '::ScheduleFormat' | abpLocalization }}"
-          prop="scheduleFormat.name"
-        >
+        <ngx-datatable-column name="{{ '::ScheduleFormat' | abpLocalization }}"
+                              prop="scheduleFormat.name">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.scheduleFormat?.name }}
           </ng-template>

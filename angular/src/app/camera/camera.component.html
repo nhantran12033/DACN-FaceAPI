@@ -1,0 +1,12 @@
+<div style="text-align:center">
+  <div>
+    <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"></webcam>
+    <br />
+    <div style="display: flex; justify-content:center">
+      <button class="btn btn-primary btn-sm" type="button" (click)="triggerSnapshot();">Submit</button>
+      <button style="margin-left: 20px"class="btn btn-primary btn-sm" type="button" (click)="showNextWebcam(true);">Switch camera</button>
+    </div>
+  </div>
+</div>

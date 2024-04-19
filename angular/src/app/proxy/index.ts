@@ -8,15 +8,4 @@ import * as Shared from './shared';
 import * as Staffs from './staffs';
 import * as Timesheets from './timesheets';
 import * as Titles from './titles';
-export {
-  Departments,
-  Positions,
-  Salaries,
-  ScheduleDetails,
-  ScheduleFormats,
-  Schedules,
-  Shared,
-  Staffs,
-  Timesheets,
-  Titles,
-};
+export { Departments, Positions, Salaries, ScheduleDetails, ScheduleFormats, Schedules, Shared, Staffs, Timesheets, Titles };

@@ -38,12 +38,12 @@ public class FaceAPIApplicationAutoMapperProfile : Profile
 
         CreateMap<ScheduleDetail, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src =>
                 $"{src.Name
+
             
 } - {src.FromDate.ToString("yyyy-MM-dd")} - {src.ToDate.ToString("yyyy-MM-dd")}"));
-
         CreateMap<ScheduleDetailWithNavigationProperties, ScheduleDetailWithNavigationPropertiesDto>();
         CreateMap<ScheduleFormat, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src =>
-                $"{src.Name} - {src.FromHours.ToString("yyyy-MM-dd")} - {src.ToHours.ToString("yyyy-MM-dd")}"));
+                $"{src.Name} - {src.Date}"));
         CreateMap<ScheduleFormat, ScheduleFormatDto>();
         CreateMap<SalaryWithNavigationProperties, SalaryWithNavigationPropertiesDto>();
         CreateMap<Department, LookupDto<Guid>>().ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Name));

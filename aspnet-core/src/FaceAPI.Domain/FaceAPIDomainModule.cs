@@ -23,6 +23,8 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.FileManagement;
 using Volo.Chat;
+using Volo.Abp.Emailing.Smtp;
+using Volo.Abp.Sms;
 
 namespace FaceAPI;
 
@@ -47,7 +49,8 @@ namespace FaceAPI;
     )]
 [DependsOn(typeof(FileManagementDomainModule))]
     [DependsOn(typeof(ChatDomainModule))]
-    public class FaceAPIDomainModule : AbpModule
+[DependsOn(typeof(AbpSmsModule))]
+public class FaceAPIDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -78,8 +81,7 @@ namespace FaceAPI;
         });
 
 
-#if DEBUG
-        context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
-#endif
+
+        context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, SmtpEmailSender>());
     }
 }

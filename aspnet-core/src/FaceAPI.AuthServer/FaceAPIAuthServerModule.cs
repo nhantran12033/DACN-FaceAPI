@@ -66,7 +66,9 @@ namespace FaceAPI;
     typeof(SaasHostApplicationContractsModule),
     typeof(FaceAPIEntityFrameworkCoreModule)
     )]
-public class FaceAPIAuthServerModule : AbpModule
+[DependsOn(typeof(AbpAccountPublicWebModule))]
+    [DependsOn(typeof(AbpAccountPublicWebIdentityServerModule))]
+    public class FaceAPIAuthServerModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
