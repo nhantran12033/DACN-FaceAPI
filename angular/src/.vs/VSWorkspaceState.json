@@ -3,14 +3,16 @@
     "",
     "\\app",
     "\\app\\proxy",
-    "\\app\\proxy\\timesheets",
+    "\\app\\proxy\\positions",
+    "\\app\\proxy\\schedules",
     "\\app\\schedules",
+    "\\app\\schedules\\schedule",
+    "\\app\\schedules\\schedule\\components",
+    "\\app\\schedules\\schedule\\services",
     "\\app\\staffs",
-    "\\app\\timesheets",
-    "\\app\\timesheets\\timesheet",
-    "\\app\\timesheets\\timesheet\\components",
-    "\\app\\timesheets\\timesheet\\services"
+    "\\app\\staffs\\staff",
+    "\\app\\staffs\\staff\\services"
   ],
-  "SelectedNode": "\\app\\proxy\\timesheets\\timesheet.service.ts",
+  "SelectedNode": "\\app\\staffs\\staff\\services\\staff-detail.abstract.service.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -68,6 +68,11 @@ namespace FaceAPI.Timesheets
             return ObjectMapper.Map<TimesheetWithNavigationProperties, TimesheetWithNavigationPropertiesDto>
                 (await _timesheetRepository.GetWithNavigationPropertiesAsync(id));
         }
+        public virtual async Task<List<TimesheetWithNavigationPropertiesDto>> GetWithCodeNavigationPropertiesAsync(string code)
+        {
+            return ObjectMapper.Map<List<TimesheetWithNavigationProperties>, List<TimesheetWithNavigationPropertiesDto>>
+                (await _timesheetRepository.GetWithCodeNavigationPropertiesAsync(code));
+        }
         public virtual async Task<List<TimesheetWithNavigationPropertiesDto>> GetWithNavigationActivePropertiesAsync(Guid scheduleDetailId)
         {
             return ObjectMapper.Map<List<TimesheetWithNavigationProperties>, List<TimesheetWithNavigationPropertiesDto>>
@@ -167,6 +172,7 @@ namespace FaceAPI.Timesheets
                 var dto = JsonConvert.DeserializeObject<ApiResponse>(responseDto);
                 if (dto.Amazon.Items.Any())
                 {
+                    
                     var timesheet = await _timesheetManager.CreateAsync(
                 input.ScheduleId, input.ScheduleDetailId, input.ScheduleFormatId, DateTime.Now, ImguploadResult.SecureUri.ToString(), input.Code, input.Note);
 

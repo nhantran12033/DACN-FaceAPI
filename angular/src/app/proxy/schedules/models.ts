@@ -18,6 +18,22 @@ export interface GetSchedulesInputBase extends PagedAndSortedResultRequestDto {
   scheduleDetailId?: string;
 }
 
+export interface GetSchedulesStaffIdInput extends GetSchedulesStaffInputBase {
+  staffId?: string;
+}
+export interface GetSchedulesStaffInputBase extends PagedAndSortedResultRequestDto {
+  filterText?: string;
+  code?: string;
+  name?: string;
+  dateFromMin?: string;
+  dateFromMax?: string;
+  dateToMin?: string;
+  dateToMax?: string;
+  note?: string;
+  scheduleDetailId?: string;
+}
+
+
 export interface ScheduleCreateDto extends ScheduleCreateDtoBase {
 }
 

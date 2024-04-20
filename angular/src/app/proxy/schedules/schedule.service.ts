@@ -81,6 +81,14 @@ export class ScheduleService {
     { apiName: this.apiName,...config });
   
 
+  getWithCodeNavigationProperties = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ScheduleWithNavigationPropertiesDto[]>({
+      method: 'GET',
+      url: `/api/app/schedules/with-code-navigation-properties/${id}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   getWithNavigationProperties = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ScheduleWithNavigationPropertiesDto>({
       method: 'GET',

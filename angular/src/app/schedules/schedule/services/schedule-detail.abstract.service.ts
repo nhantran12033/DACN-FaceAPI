@@ -77,7 +77,9 @@ export abstract class AbstractScheduleDetailViewService {
       
     })
   }
-  
+  getSchedule() {
+    return this.dataScheduleDto;
+  }
   private createRequest() {
     if (this.selected) {
       return this.proxyService.update(this.selected.schedule.id, {

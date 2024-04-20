@@ -58,7 +58,11 @@ namespace FaceAPI.Schedules
             return ObjectMapper.Map<ScheduleWithNavigationProperties, ScheduleWithNavigationPropertiesDto>
                 (await _scheduleRepository.GetWithNavigationPropertiesAsync(id));
         }
-
+        public virtual async Task<List<ScheduleWithNavigationPropertiesDto>> GetWithCodeNavigationPropertiesAsync(Guid id)
+        {
+            return ObjectMapper.Map<List<ScheduleWithNavigationProperties>, List<ScheduleWithNavigationPropertiesDto>>
+                (await _scheduleRepository.GetWithCodeNavigationPropertiesAsync(id));
+        }
         public virtual async Task<ScheduleDto> GetAsync(Guid id)
         {
             return ObjectMapper.Map<Schedule, ScheduleDto>(await _scheduleRepository.GetAsync(id));

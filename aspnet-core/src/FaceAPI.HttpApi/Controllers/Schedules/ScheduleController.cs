@@ -8,6 +8,7 @@ using Volo.Abp.Application.Dtos;
 using FaceAPI.Schedules;
 using Volo.Abp.Content;
 using FaceAPI.Shared;
+using System.Collections.Generic;
 
 namespace FaceAPI.Controllers.Schedules
 {
@@ -38,8 +39,8 @@ namespace FaceAPI.Controllers.Schedules
             return _schedulesAppService.GetWithNavigationPropertiesAsync(id);
         }
         [HttpGet]
-        [Route("with--code-navigation-properties/{id}")]
-        public virtual Task<ScheduleWithNavigationPropertiesDto> GetWithCodeNavigationPropertiesAsync(Guid id)
+        [Route("with-code-navigation-properties/{id}")]
+        public virtual Task<List<ScheduleWithNavigationPropertiesDto>> GetWithCodeNavigationPropertiesAsync(Guid id)
         {
             return _schedulesAppService.GetWithCodeNavigationPropertiesAsync(id);
         }

@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
 using FaceAPI.Shared;
+using System.Collections.Generic;
 
 namespace FaceAPI.Schedules
 {
@@ -13,7 +14,7 @@ namespace FaceAPI.Schedules
         Task<PagedResultDto<ScheduleWithNavigationPropertiesDto>> GetListAsync(GetSchedulesInput input);
 
         Task<ScheduleWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
-        Task<ScheduleWithNavigationPropertiesDto> GetWithCodeNavigationPropertiesAsync(Guid id);
+        Task<List<ScheduleWithNavigationPropertiesDto>> GetWithCodeNavigationPropertiesAsync(Guid id);
 
         Task<ScheduleDto> GetAsync(Guid id);
 

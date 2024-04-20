@@ -44,6 +44,8 @@ public static class FaceAPIPermissions
         public const string Edit = Default + ".Edit";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
+        public const string Get = Default + ".Get";
+        public const string GetId = Default + ".GetId";
     }
 
     public static class ScheduleDetails
@@ -52,6 +54,7 @@ public static class FaceAPIPermissions
         public const string Edit = Default + ".Edit";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
+        public const string Get = Default + ".Get";
     }
 
     public static class Positionss
@@ -60,6 +63,7 @@ public static class FaceAPIPermissions
         public const string Edit = Default + ".Edit";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
+
     }
 
     public static class Titles
@@ -76,6 +80,8 @@ public static class FaceAPIPermissions
         public const string Edit = Default + ".Edit";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
+        public const string Get = Default + ".Get";
+        public const string GetId = Default + ".GetId";
     }
 
     public static class Staffs
@@ -94,5 +100,6 @@ public static class FaceAPIPermissions
         public const string Edit = Default + ".Edit";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";
+        public const string Get = Default + ".Get";
     }
 }

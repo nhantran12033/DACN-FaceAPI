@@ -12,7 +12,7 @@ namespace FaceAPI.Schedules
     Guid id,
     CancellationToken cancellationToken = default
 );
-        Task<ScheduleWithNavigationProperties> GetWithCodeNavigationPropertiesAsync(
+        Task<List<ScheduleWithNavigationProperties>> GetWithCodeNavigationPropertiesAsync(
     Guid id,
     CancellationToken cancellationToken = default
 );

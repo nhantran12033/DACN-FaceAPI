@@ -1,4 +1,4 @@
-<abp-page [title]="title | abpLocalization">
+<abp-page [title]="title | abpLocalization" *abpPermission="'FaceAPI.ScheduleDetails.Get'">
   <abp-page-toolbar-container class="col">
     <!--<suite-custom-code-block-0>-->
     <!--</suite-custom-code-block-0>-->
@@ -330,3 +330,6 @@
 <!--<suite-custom-code-block-12>-->
 <!--</suite-custom-code-block-12>-->
 <app-schedule-detail-detail> </app-schedule-detail-detail>
+<div *ngIf="canPermission == false" style="font-size:large; color: yellow; display: flex; justify-content:center; align-items:center">
+  Sorry you don't have permission, please contact admin
+</div>

@@ -16,6 +16,10 @@ namespace FaceAPI.Timesheets
     Guid scheduleDetailId,
     CancellationToken cancellationToken = default
 );
+        Task<List<TimesheetWithNavigationProperties>> GetWithCodeNavigationPropertiesAsync(
+    string code,
+    CancellationToken cancellationToken = default
+);
         Task<string> GenerateNextCode();
         Task<List<TimesheetWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
             string? filterText = null,

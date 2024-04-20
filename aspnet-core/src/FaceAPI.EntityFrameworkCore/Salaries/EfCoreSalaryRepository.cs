@@ -33,7 +33,6 @@ namespace FaceAPI.Salaries
                     Title = dbContext.Set<Title>().FirstOrDefault(c => c.Id == salary.TitleId)
                 }).FirstOrDefault();
         }
-
         public virtual async Task<List<SalaryWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
             string? filterText = null,
             string? code = null,

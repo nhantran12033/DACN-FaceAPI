@@ -174,24 +174,7 @@
           </ng-template>
         </li>
 
-        <li ngbNavItem>
-          <a ngbNavLink>
-            {{ 'Timesheets' | abpLocalization }}
-            <span *ngIf="this.service.form.controls['timesheetIds']">
-              ({{ this.service.form.controls['timesheetIds'].value?.length }})
-            </span>
-          </a>
-          <ng-template ngbNavContent>
-            <abp-lookup-typeahead-mtm
-              cid="staff-timesheets"
-              formControlName="timesheetIds"
-              displayNameProp="code"
-              lookupNameProp="displayName"
-              [getFn]="service.getTimesheetLookup"
-              [editingData]="service.selected?.timesheets"
-            ></abp-lookup-typeahead-mtm>
-          </ng-template>
-        </li>
+        
       </ul>
       <div [ngbNavOutlet]="nav"></div>
 

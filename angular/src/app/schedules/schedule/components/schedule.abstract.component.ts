@@ -1,4 +1,4 @@
-import { ListService, TrackByService } from '@abp/ng.core';
+import { ConfigStateService, ListService, TrackByService } from '@abp/ng.core';
 import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import type { ScheduleWithNavigationPropertiesDto } from '../../../proxy/schedules/models';
@@ -17,6 +17,7 @@ export abstract class AbstractScheduleComponent implements OnInit, AfterViewInit
   public readonly list = inject(ListService);
   public readonly track = inject(TrackByService);
   public readonly service = inject(ScheduleViewService);
+  public readonly configState = inject(ConfigStateService);
   public readonly serviceDetail = inject(ScheduleDetailViewService);
   protected title = '::Schedules';
   public dataCreate: TimesheetCreateDto;
@@ -25,7 +26,15 @@ export abstract class AbstractScheduleComponent implements OnInit, AfterViewInit
 
   }
   ngOnInit() {
-    this.service.hookToQuery();
+    this.configState.getOne$("currentUser").subscribe(currentUser => {
+      if (currentUser.userName == 'admin') {
+        this.service.hookToQuery();
+      }
+      else {
+        this.service.hookToQueryStaffId();
+      }
+    })
+
   }
   private currentlyOpenedRowId: any = null;
   private currentlyOpenedName: any = null;

@@ -49,6 +49,19 @@ namespace FaceAPI.Timesheets
                 return $"TM{counter.Code:000}";  // Format as TM001, TM002, etc.
             }
         }
+        public virtual async Task<List<TimesheetWithNavigationProperties>> GetWithCodeNavigationPropertiesAsync(string code, CancellationToken cancellationToken = default)
+        {
+            var dbContext = await GetDbContextAsync();
+
+            return (await GetDbSetAsync()).Where(b => b.Code == code)
+                .Select(timesheet => new TimesheetWithNavigationProperties
+                {
+                    Timesheet = timesheet,
+                    Schedule = dbContext.Set<Schedule>().FirstOrDefault(c => c.Id == timesheet.ScheduleId),
+                    ScheduleDetail = dbContext.Set<ScheduleDetail>().FirstOrDefault(c => c.Id == timesheet.ScheduleDetailId),
+                    ScheduleFormat = dbContext.Set<ScheduleFormat>().FirstOrDefault(c => c.Id == timesheet.ScheduleFormatId)
+                }).ToList();
+        }
         public virtual async Task<List<TimesheetWithNavigationProperties>> GetWithNavigationActivePropertiesAsync(Guid scheduleDetailId, CancellationToken cancellationToken = default)
         {
             var dbContext = await GetDbContextAsync();

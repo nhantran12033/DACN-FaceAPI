@@ -18,6 +18,8 @@ export abstract class AbstractTimesheetComponent implements OnInit {
 
   ngOnInit() {
     this.service.hookToQuery();
+    this.getScheduleData();
+
   }
   public webcamImage: WebcamImage = null;
 
@@ -25,6 +27,7 @@ export abstract class AbstractTimesheetComponent implements OnInit {
     this.webcamImage = webcamImage;
     this.service.createDto(webcamImage.imageAsDataUrl);
   }
+
   clearFilters() {
     this.service.clearFilters();
   }
@@ -49,4 +52,8 @@ export abstract class AbstractTimesheetComponent implements OnInit {
   exportToExcel() {
     this.service.exportToExcel();
   }
+  getScheduleData() {
+    this.service.getScheduleData();
+  }
+
 }

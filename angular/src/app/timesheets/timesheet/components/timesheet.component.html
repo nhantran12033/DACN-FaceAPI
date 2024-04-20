@@ -1,8 +1,4 @@
- <abp-page [title]="title | abpLocalization">
-  <app-camera (pictureTaken)="handleImage($event)"></app-camera>
-  <div class="snapshot" *ngIf="webcamImage">
-    <img [src]="webcamImage.imageAsDataUrl" />
-  </div>
+<abp-page [title]="title | abpLocalization" *abpPermission="'FaceAPI.Timesheets.Get'">
   <abp-page-toolbar-container class="col">
     <!--<suite-custom-code-block-0>-->
     <!--</suite-custom-code-block-0>-->
@@ -15,14 +11,6 @@
               [disabled]="service.isExportToExcelBusy"
               (click)="exportToExcel()">
         {{ '::ExportToExcel' | abpLocalization }}
-      </button>
-
-      <button *abpPermission="'FaceAPI.Timesheets.Create'"
-              class="btn btn-primary btn-sm"
-              type="button"
-              (click)="create()">
-        <i class="fa fa-plus me-1" aria-hidden="true"></i>
-        {{ '::NewTimesheet' | abpLocalization }}
       </button>
       <!--<suite-custom-code-block-2>-->
       <!--</suite-custom-code-block-2>-->
@@ -235,14 +223,9 @@
             </div>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="{{ '::Image' | abpLocalization }}" prop="timesheet.image">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.timesheet.image }}
-          </ng-template>
-        </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Code' | abpLocalization }}" prop="timesheet.code">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.timesheet.code }}
+            <a (click)="service.getData(row.timesheet.id)" style="color: yellowgreen">{{ row.timesheet.code }}</a>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="{{ '::Time' | abpLocalization }}" prop="timesheet.time">
@@ -253,26 +236,6 @@
         <ngx-datatable-column name="{{ '::Note' | abpLocalization }}" prop="timesheet.note">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.timesheet.note }}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="{{ '::Schedule' | abpLocalization }}" prop="schedule.code">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.schedule?.code }}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="{{ '::ScheduleDetail' | abpLocalization }}"
-                              prop="scheduleDetail.name">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.scheduleDetail?.name }}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="{{ '::ScheduleFormat' | abpLocalization }}"
-                              prop="scheduleFormat.name">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.scheduleFormat?.name }}
           </ng-template>
         </ngx-datatable-column>
         <!--<suite-custom-code-block-9>-->
@@ -288,3 +251,77 @@
 <!--<suite-custom-code-block-12>-->
 <!--</suite-custom-code-block-12>-->
 <app-timesheet-detail> </app-timesheet-detail>
+<div class="card" *abpPermission="'FaceAPI.Timesheets.GetId'">
+  <div class="card-body">
+    <div class="row" style="justify-content:center">
+      <div class="col-12 col-sm-4">
+        <div class="mb-3">
+          <label class="form-label" for="scheduleSelect">
+            {{ '::Schedule' | abpLocalization }}
+          </label>
+          <select class="form-control" id="scheduleSelect" [(ngModel)]="service.dataSchedule" (ngModelChange)="service.getScheduleData()">
+            <option *ngFor="let dto of service.dataScheduleDto || []" [ngValue]="dto.schedule.id">{{dto.schedule.name}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <div class="mb-3">
+          <label class="form-label" for="">
+            {{ '::ScheduleDetail' | abpLocalization }}
+          </label>
+          <select class="form-control" [(ngModel)]="service.dataScheduleDetail" (ngModelChange)="service.getScheduleDetailData()">
+            <option *ngFor="let dto of service.dataScheduleDetailDto || []" [ngValue]="dto.id">{{dto.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4">
+        <div class="mb-3">
+          <label class="form-label">
+            {{ '::ScheduleFormat' | abpLocalization }}
+          </label>
+          <select class="form-control" [(ngModel)]="service.dataScheduleFormat" (ngModelChange)="service.getScheduleFormatData()">
+            <option *ngFor="let dto of service.dataScheduleFormatDto || []" [ngValue]="dto.id">{{dto.date | date}}</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+    <!--<suite-custom-code-block-4>-->
+    <!--</suite-custom-code-block-4>-->
+    <div *ngIf="service.dataScheduleFormat != null && service.dataScheduleDetail != null && service.dataSchedule != null">
+      <app-camera (pictureTaken)="handleImage($event)"></app-camera>
+    </div>
+
+  </div>
+
+</div>
+
+
+<abp-modal [options]="{ size: 'xl' }" [(visible)]="service.isOpenDetail">
+  <ng-template #abpHeader>
+    <div style="display: flex; width: 100%; justify-content: space-between; align-items: center">
+      <div>Code: {{service.dataDto?.timesheet.code}}</div>
+      <div>Schedule Name: {{service.dataDto?.schedule.name}}</div>
+      <div>Schedule Detail: {{service.dataDto?.scheduleDetail.name}}</div>
+      <div>Date: {{ service.dataDto?.scheduleFormat.date | date }}</div>
+    </div>
+  </ng-template>
+  <ng-template #abpBody>
+    <div class="card" style="display: flex; justify-content: center; align-items: center">
+      <div class="card-body" style="display: flex">
+        <div style="display: block">
+          <div class="mb-3" style="display:flex; justify-content:center">
+            <img [src]="service.dataDto?.timesheet.image" class="form-control" style="width: 300px; height: 300px;" />
+          </div>
+        </div>
+        <div style="display: block">
+          <div class="mb-3" style="display:flex; justify-content:center">
+            <img [src]="'assets/' + service.dataStaffDto?.image" class="form-control" style="width: 300px; height: 300px;" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</abp-modal>
+

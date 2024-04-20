@@ -15,7 +15,7 @@ namespace FaceAPI.Timesheets
 
         Task<TimesheetWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
         Task<List<TimesheetWithNavigationPropertiesDto>> GetWithNavigationActivePropertiesAsync(Guid scheduleDetailId);
-
+        Task<List<TimesheetWithNavigationPropertiesDto>> GetWithCodeNavigationPropertiesAsync(string code);
         Task<TimesheetDto> GetAsync(Guid id);
 
         Task<PagedResultDto<LookupDto<Guid>>> GetScheduleLookupAsync(LookupRequestDto input);

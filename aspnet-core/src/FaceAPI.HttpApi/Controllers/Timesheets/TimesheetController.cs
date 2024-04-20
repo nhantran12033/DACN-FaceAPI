@@ -44,7 +44,12 @@ namespace FaceAPI.Controllers.Timesheets
         {
             return _timesheetsAppService.GetWithNavigationActivePropertiesAsync(scheduleDetailId);
         }
-
+        [HttpGet]
+        [Route("with-navigation-code-properties/{code}")]
+        public virtual Task<List<TimesheetWithNavigationPropertiesDto>> GetWithCodeNavigationPropertiesAsync(string code)
+        {
+            return _timesheetsAppService.GetWithCodeNavigationPropertiesAsync(code);
+        }
         [HttpGet]
         [Route("{id}")]
         public virtual Task<TimesheetDto> GetAsync(Guid id)

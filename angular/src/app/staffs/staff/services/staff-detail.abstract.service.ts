@@ -140,7 +140,7 @@ export abstract class AbstractStaffDetailViewService {
     
   }
   getTotalSalary() {
-    if (this.form.get('departmentId').value != null && this.form.get('titleId').value != null) {
+    if (this.form.get('departmentId').value == null && this.form.get('titleId').value == null) {
       return;
     }
     else if (this.form.get('departmentId').value != null && this.form.get('titleId').value != null) {

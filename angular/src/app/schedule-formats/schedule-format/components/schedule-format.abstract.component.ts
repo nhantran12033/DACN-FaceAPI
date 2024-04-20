@@ -1,4 +1,4 @@
-import { ListService, TrackByService } from '@abp/ng.core';
+import { ListService, PermissionService, TrackByService } from '@abp/ng.core';
 import { Component, OnInit, inject } from '@angular/core';
 
 import type { ScheduleFormatDto } from '../../../proxy/schedule-formats/models';
@@ -10,13 +10,16 @@ import { ScheduleFormatDetailViewService } from '../services/schedule-format-det
 })
 export abstract class AbstractScheduleFormatComponent implements OnInit {
   public readonly list = inject(ListService);
+  public readonly listStaff = inject(ListService);
   public readonly track = inject(TrackByService);
   public readonly service = inject(ScheduleFormatViewService);
   public readonly serviceDetail = inject(ScheduleFormatDetailViewService);
+  public permission = inject(PermissionService);
   protected title = '::ScheduleFormats';
-
+  canPermission: boolean;
   ngOnInit() {
     this.service.hookToQuery();
+    this.canPermission = this.permission.getGrantedPolicy('FaceAPI.ScheduleFormats.Get');
   }
 
   clearFilters() {

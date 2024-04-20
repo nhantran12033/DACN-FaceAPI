@@ -1,4 +1,4 @@
-<abp-page [title]="title | abpLocalization">
+<abp-page [title]="title | abpLocalization" *abpPermission="'FaceAPI.Schedules.Get'">
   <abp-page-toolbar-container class="col">
     <div class="text-lg-end pt-2">
 
@@ -244,7 +244,8 @@
         <ngx-datatable-column [name]="'AbpUi::Actions' | abpLocalization"
                               [maxWidth]="150"
                               [width]="150"
-                              [sortable]="false">
+                              [sortable]="false"
+                              *abpPermission="'FaceAPI.Schedules.Edit' && 'FaceAPI.Schedules.Delete'">
           <ng-template let-row="row" let-i="rowIndex" ngx-datatable-cell-template>
             <div ngbDropdown container="body" class="d-inline-block">
               <button class="btn btn-primary btn-sm dropdown-toggle"
@@ -257,13 +258,13 @@
 
               <div ngbDropdownMenu>
                 <button ngbDropdownItem
-                        *abpPermission="'FaceAPI.Schedules.Edit'"
+                        
                         (click)="update(row)">
                   {{ 'AbpUi::Edit' | abpLocalization }}
                 </button>
 
                 <button ngbDropdownItem
-                        *abpPermission="'FaceAPI.Schedules.Delete'"
+
                         (click)="delete(row)">
                   {{ 'AbpUi::Delete' | abpLocalization }}
                 </button>
@@ -301,7 +302,49 @@
     </div>
   </div>
 </abp-page>
+<abp-page [title]="title | abpLocalization" *abpPermission="'FaceAPI.Schedules.GetId'">
+  
+  
 
+  <div class="card">
+    <div class="card-body">
+
+      <ngx-datatable [rows]="service.data.items"
+                     [count]="service.data.totalCount"
+                     [list]="list"
+                     default>
+
+       
+        <ngx-datatable-column name="{{ '::Code' | abpLocalization }}" prop="schedule.code">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <a (click)="getData(row.schedule.id)" style="color: yellowgreen">{{ row.schedule.code }}</a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Name' | abpLocalization }}" prop="schedule.name">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.schedule.name }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::DateFrom' | abpLocalization }}" prop="schedule.dateFrom">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.schedule.dateFrom | date }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="{{ '::DateTo' | abpLocalization }}" prop="schedule.dateTo">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.schedule.dateTo | date }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ '::Staff' | abpLocalization }}" prop="staff.code">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.staff?.code }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</abp-page>
 <app-schedule-detail> </app-schedule-detail>
 <abp-modal [options]="{ size: 'xl' }" [(visible)]="serviceDetail.isOpenDetail">
   <ng-template #abpHeader>
@@ -345,13 +388,7 @@
                     </ng-template>
                   </ngx-datatable-column>
 
-                  <ngx-datatable-column name="{{ '::Active' | abpLocalization }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <div *ngIf="service.activeId.includes(row.id)">
-                        <i class="fas fa-check" style="color: yellow"></i>
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
+                  
                 </ngx-datatable>
               </div>
             </ng-template>

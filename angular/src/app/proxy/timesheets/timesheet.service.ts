@@ -17,7 +17,7 @@ export class TimesheetService {
       url: '/api/app/timesheets',
       body: input,
     },
-      { apiName: this.apiName, ...config });
+    { apiName: this.apiName,...config });
   
 
   delete = (id: string, config?: Partial<Rest.Config>) =>
@@ -86,6 +86,14 @@ export class TimesheetService {
       method: 'GET',
       url: '/api/app/timesheets/schedule-lookup',
       params: { filter: input.filter, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getWithCodeNavigationProperties = (code: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, TimesheetWithNavigationPropertiesDto[]>({
+      method: 'GET',
+      url: `/api/app/timesheets/with-navigation-code-properties/${code}`,
     },
     { apiName: this.apiName,...config });
   

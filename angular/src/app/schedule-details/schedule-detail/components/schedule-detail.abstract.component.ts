@@ -1,4 +1,4 @@
-import { ListService, TrackByService } from '@abp/ng.core';
+import { ListService, PermissionService, TrackByService } from '@abp/ng.core';
 import { Component, OnInit, inject } from '@angular/core';
 
 import type { ScheduleDetailWithNavigationPropertiesDto } from '../../../proxy/schedule-details/models';
@@ -13,12 +13,14 @@ export abstract class AbstractScheduleDetailComponent implements OnInit {
   public readonly track = inject(TrackByService);
   public readonly service = inject(ScheduleDetailViewService);
   public readonly serviceDetail = inject(ScheduleDetailDetailViewService);
+  public permission = inject(PermissionService);
   protected title = '::ScheduleDetails';
-
+  canPermission: boolean;
   ngOnInit() {
     this.service.hookToQuery();
+    this.canPermission = this.permission.getGrantedPolicy('FaceAPI.ScheduleDetails.Get');
   }
-
+  
   clearFilters() {
     this.service.clearFilters();
   }
